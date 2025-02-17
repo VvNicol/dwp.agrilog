@@ -1,0 +1,139 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&family=Poppins:wght@400;600&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
+.contenedor {
+  height: 85%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.formulario {
+  z-index: 10;
+  max-width: 500px;
+}
+
+.enlaces{
+  cursor: pointer;
+}
+
+h2 {
+  font-family: 'Raleway', sans-serif;
+  color: #4CAF50 !important;
+  font-weight: 600;
+  font-size: 26px;
+  text-align: center;
+}
+
+label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  font-family: "Roboto", sans-serif ;
+  color: #4CAF50;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+p {
+  font-size: 15px;
+  font-family: "Roboto", sans-serif ;
+}	
+
+.mensaje-exito{
+  font-family: "Roboto", sans-serif !important;;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.imagen-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  margin: 0px;
+  padding: 0px;
+}
+
+input.form-control {
+  font-size: 15px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+button.btn-primary {
+  background-color: #4CAF50!important;
+  color: white;
+  padding: 12px 0;
+  font-size: 1rem;
+  border-radius: 8px;
+  border-color: #4CAF50 !important;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #39933d;
+}
+
+.col-12 img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.8);
+}
+
+.carrusel-contenedor {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.carrusel-imagen {
+  width: 100%;
+  height: 100%;
+}
+
+.carrusel-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .contenedor {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (min-width: 769px) {
+  .row {
+    display: flex;
+  }
+
+  .col-4,
+  .col-8 {
+    padding: 20px;
+  }
+
+  .col-8 img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}

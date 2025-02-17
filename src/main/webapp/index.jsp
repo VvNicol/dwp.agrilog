@@ -9,7 +9,9 @@
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="..../estilos/nav.css">
+
+<link rel="stylesheet" href="estilos/nav.css">
+<link rel="stylesheet" href="estilos/contenidoIndex.css">
 
 <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
@@ -20,22 +22,34 @@
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="../img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" /> <span
+			<img src="img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" /> <span
 				class="logo-text">Agrilog</span>
 		</div>
 
-
 		<div class="buttons-container">
-			<a href="index.jsp" class="btn btn-transparent btnNav"> Inicio </a>
 
-			<a href="html/inicio/iniciarSesion.jsp"
-				class="btn btn-transparent btnNav"> Iniciar Sesión </a> 
-			
-			<a href="html/inicio/registrarse.jsp"
+			<a href="index.jsp" class="btn btn-transparent btnNav"> Inicio </a> <a
+				href="html/inicio/iniciarSesion.jsp"
+				class="btn btn-transparent btnNav"> Iniciar Sesión </a> <a
+				href="html/inicio/registrarse.jsp"
 				class="btn btn-transparent btnNav"> Registrarse </a>
 
 		</div>
 	</nav>
+	<main>
+		<div class="landing-container">
+			<div class="overlay">
+				<h1 class="text-white text-center">"El cultivo de hoy es la
+					cosecha del mañana."</h1>
+				<p class="text-white text-center">Descubre cómo mejorar tu
+					producción agrícola con tecnología.</p>
+				<a href="html/inicio/iniciarSesion.jsp"
+					class="btn btn-success btn-lg">Comenzar</a>
+			</div>
+		</div>
+	</main>
+
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
