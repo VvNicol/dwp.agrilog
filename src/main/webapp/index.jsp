@@ -9,7 +9,7 @@
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="estilos/nav.css">
+<link rel="stylesheet" href="..../estilos/nav.css">
 
 <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
@@ -20,7 +20,7 @@
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" /> <span
+			<img src="../img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" /> <span
 				class="logo-text">Agrilog</span>
 		</div>
 
