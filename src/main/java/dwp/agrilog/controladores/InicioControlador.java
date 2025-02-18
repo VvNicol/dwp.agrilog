@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.servicios.InicioServicio;
 
+@CrossOrigin(origins = "http://localhost:8081")
 @Controller
 @RequestMapping("/inicio")
 public class InicioControlador {
@@ -34,6 +36,10 @@ public class InicioControlador {
 	@GetMapping("/verificar-correo")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> verificarCorreo(@RequestParam("token") String token) {
+		
+	    System.out.println("🔍 Se recibió solicitud para verificar correo con token: " + token);
+
+		
 	    Map<String, String> response = new HashMap<>();
 	    try {
 	        boolean verificado = inicioServicio.verificarCorreo(token);

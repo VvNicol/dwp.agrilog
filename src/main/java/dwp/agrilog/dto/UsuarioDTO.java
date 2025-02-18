@@ -24,6 +24,8 @@ private Long usuarioId;
 	
 	private Boolean autenticacionExterna = false;
 	
+	private boolean correoValidado = false;
+	
 	private String proveedor;
 	
 	private String externoId;
@@ -175,6 +177,20 @@ private Long usuarioId;
 	 */
 	public void setAutenticacionExterna(Boolean autenticacionExterna) {
 		this.autenticacionExterna = autenticacionExterna;
+	}
+
+	/**
+	 * @return the correoValidado
+	 */
+	public boolean isCorreoValidado() {
+		return correoValidado;
+	}
+
+	/**
+	 * @param correoValidado the correoValidado to set
+	 */
+	public void setCorreoValidado(boolean correoValidado) {
+		this.correoValidado = correoValidado;
 	}
 
 	/**

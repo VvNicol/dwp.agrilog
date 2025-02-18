@@ -29,14 +29,12 @@ public class CorreoServicio implements CorreoInterfaz {
 
 	@Override
 	public void correoDeVerificacion(String correo, String token) {
-
 	    String asunto = "Verificación de correo :D";
-	    
 	    String contenido = "<h1>Verifica tu correo electrónico</h1>"
 	            + "<p>Haz clic en el siguiente botón para verificar tu cuenta:</p>"
 	            + "<a href=\"http://localhost:8081/proyectoAgricola/html/inicio/verificarCorreo.jsp?token=" + token + "\" "
-	            + "style=\"display: inline-block; padding: 10px 20px; color: white; background-color: #007bff; "
-	            + "text-decoration: none; border-radius: 5px;\">Verificar correo</a>"
+	            + "style=\"padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px; display: inline-block;\">"
+	            + "Verificar correo</a>"
 	            + "<p>Si no reconoces esta acción, ignora este mensaje.</p>";
 
 	    try {
@@ -45,6 +43,7 @@ public class CorreoServicio implements CorreoInterfaz {
 	        e.printStackTrace();
 	    }
 	}
+
 
 
 	@Override
