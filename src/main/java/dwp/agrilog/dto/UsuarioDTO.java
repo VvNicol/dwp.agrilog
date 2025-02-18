@@ -27,6 +27,8 @@ private Long usuarioId;
 	private String proveedor;
 	
 	private String externoId;
+	
+	private LocalDateTime tokenExpiracionFecha;
 
 	/**
 	 * 
@@ -202,7 +204,14 @@ private Long usuarioId;
 	public void setExternoId(String externoId) {
 		this.externoId = externoId;
 	}
-	
+
+	public LocalDateTime getTokenExpiracionFecha() {
+		return tokenExpiracionFecha;
+	}
+
+	public void setTokenExpiracionFecha(LocalDateTime tokenExpiracionFecha) {
+		this.tokenExpiracionFecha = tokenExpiracionFecha;
+	}
 	
 	
 }
