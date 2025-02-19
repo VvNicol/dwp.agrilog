@@ -8,13 +8,13 @@ $(document).ready(function() {
             dataType: "json", // Espera JSON
             success: function(data) {
                 if (data.mensaje) {
-                    $("#alert-container").html(
+                    $("#alerta-contenedor").html(
                         '<div class="alert alert-success mt-3" role="alert">' + data.mensaje + '</div>'
                     );
                     // Borra los campos del formulario
                     $("#registroForm")[0].reset();
                 } else if (data.error) {
-                    $("#alert-container").html(
+                    $("#alerta-contenedor").html(
                         '<div class="alert alert-danger mt-3" role="alert">' + data.error + '</div>'
                     );
                 }
@@ -27,7 +27,7 @@ $(document).ready(function() {
                 } catch (e) {
                     errorMsg = "Error en la solicitud.";
                 }
-                $("#alert-container").html(
+                $("#alerta-contenedor").html(
                     '<div class="alert alert-danger mt-3" role="alert">' + errorMsg + '</div>'
                 );
             }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,8 @@
 
 		<div class="row contenedor">
 			<!-- Imagen de fondo -->
-			<img src="../../img/fotos/Agricultura7.jpg" alt="Fondo" class="imagen-fondo">
+			<img src="../../img/fotos/Agricultura7.jpg" alt="Fondo"
+				class="imagen-fondo">
 
 			<!-- Columna para el formulario de inicio de sesión -->
 			<div
@@ -48,7 +50,7 @@
 					<h2 class="text-center mb-4">Iniciar Sesión</h2>
 
 					<!-- Formulario de inicio de sesión -->
-					<form action="tuAccionDeLogin" method="POST" novalidate>
+					<form id="iniciarSesionForm" action="${pageContext.request.contextPath}/../../index.jsp" method="POST" novalidate>
 						<!-- Correo Electrónico -->
 						<div class="mb-4">
 							<label for="correo" class="form-label">Correo Electrónico</label>
@@ -76,18 +78,25 @@
 					<div class="mt-3 text-center enlaces">
 						<a href="recuperarContrasenia.html"
 							class="text-decoration-none d-block mb-2"> ¿Olvidaste tu
-							contraseña? </a> <a href="registrarse.html"
+							contraseña? </a> <a href="./../html/inicio/registrarse.html"
 							class="text-decoration-none"> ¿No tienes cuenta? Regístrate </a>
 					</div>
+					<div id="alerta-contenedor"></div>
 				</div>
 			</div>
 		</div>
 
 	</main>
 
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+	<script
+		src="<%=request.getContextPath()%>/js/inicio/iniciarSesion.js"></script>
+
 </body>
 </html>

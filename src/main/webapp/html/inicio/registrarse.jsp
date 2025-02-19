@@ -68,7 +68,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100 mt-4">Registrarse</button>
                         <!-- Contenedor para mensajes -->
-                        <div id="alert-container"></div>
+                        <div id="alerta-contenedor"></div>
                     </form>
                 </div>
             </div>

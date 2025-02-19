@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -70,6 +71,25 @@ public class InicioControlador {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	    }
 	}
+
+	@PostMapping("/iniciar-sesion")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> iniciarSesion(@RequestBody UsuarioDTO usuario) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            boolean autenticado = inicioServicio.iniciarSesionUsuario(usuario);
+            if (autenticado) {
+                response.put("mensaje", "Has iniciado sesión con éxito.");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("error", "Correo o contraseña incorrectos.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+        } catch (Exception e) {
+            response.put("error", "Error al iniciar sesión: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
 
 	
