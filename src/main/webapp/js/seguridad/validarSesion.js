@@ -1,3 +1,4 @@
+//validarSesion.js
 $(document).ready(function () {
     var token = localStorage.getItem("jwtToken");
 

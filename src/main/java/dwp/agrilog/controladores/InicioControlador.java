@@ -38,9 +38,6 @@ public class InicioControlador {
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> verificarCorreo(@RequestParam("token") String token) {
 		
-	    System.out.println("🔍 Se recibió solicitud para verificar correo con token: " + token);
-
-		
 	    Map<String, String> response = new HashMap<>();
 	    try {
 	        boolean verificado = inicioServicio.verificarCorreo(token);

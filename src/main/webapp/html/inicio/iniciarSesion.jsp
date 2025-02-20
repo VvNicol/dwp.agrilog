@@ -81,9 +81,9 @@
 
 					<!-- Enlaces adicionales -->
 					<div class="mt-3 text-center enlaces">
-						<a href="recuperarContrasenia.html"
+						<a href="<%=request.getContextPath()%>/html/inicio/recuperarContrasenia.jsp"
 							class="text-decoration-none d-block mb-2"> ¿Olvidaste tu
-							contraseña? </a> <a href="<%=request.getContextPath()%>/html/inicio/registrarse.html"
+							contraseña? </a> <a href="<%=request.getContextPath()%>/html/inicio/registrarse.jsp"
 							class="text-decoration-none"> ¿No tienes cuenta? Regístrate </a>
 					</div>
 					<div id="alerta-contenedor"></div>

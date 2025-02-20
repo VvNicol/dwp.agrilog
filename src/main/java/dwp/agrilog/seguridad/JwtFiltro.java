@@ -23,14 +23,35 @@ public class JwtFiltro extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 
-		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		String requestURI = request.getRequestURI();
 
-		if (token == null || !token.startsWith("Bearer ")) {
+		if (requestURI.startsWith("/proyectoAgricola/html/inicio/iniciarSesion")
+			|| requestURI.startsWith("/proyectoAgricola/html/inicio/registrarse")
+			|| requestURI.startsWith("/proyectoAgricola/html/inicio/favicon")
+			|| requestURI.startsWith("/proyectoAgricola/html/inicio/verificarCorreo")
+			|| requestURI.startsWith("/proyectoAgricola/html")
+			|| requestURI.startsWith("/proyectoAgricola/estilos")
+			|| requestURI.startsWith("/proyectoAgricola/index")
+			|| requestURI.startsWith("/proyectoAgricola/img")
+			|| requestURI.startsWith("/proyectoAgricola/js")
+			
+			|| requestURI.startsWith("/proyectoAgricola/inicio/iniciar-sesion")
+			|| requestURI.startsWith("/proyectoAgricola/inicio/registrarse")
+			|| requestURI.startsWith("/proyectoAgricola/inicio/verificar-correo")
+			) {
 			chain.doFilter(request, response);
 			return;
 		}
 
-		token = token.substring(7); // Remover "Bearer " del token
+		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+		if (token == null || !token.startsWith("Bearer ")) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.getWriter().write("Acceso denegado: Token no encontrado.");
+			return;
+		}
+
+		token = token.substring(7);
 
 		try {
 			Claims claims = JwtUtil.obtenerClaimsDesdeToken(token);
@@ -38,10 +59,7 @@ public class JwtFiltro extends OncePerRequestFilter {
 			String rol = claims.get("rol", String.class);
 
 			if (correo != null && rol != null) {
-
-				// Crear lista de autoridades (Spring Security requiere
-				// Collection<GrantedAuthority>)
-				List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(rol));
+				List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + rol));
 
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(correo,
 						null, authorities);
@@ -49,7 +67,7 @@ public class JwtFiltro extends OncePerRequestFilter {
 			}
 		} catch (Exception e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getWriter().write("Token inválido o expirado");
+			response.getWriter().write("Token inválido o expirado.");
 			return;
 		}
 

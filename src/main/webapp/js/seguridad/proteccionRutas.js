@@ -1,3 +1,4 @@
+//proteccionRutas.js
 $(document).ready(function() {
     var token = localStorage.getItem("jwtToken");
     var rol = localStorage.getItem("rolUsuario");
@@ -10,12 +11,12 @@ $(document).ready(function() {
 
         // Verificar si está intentando entrar a admin
         if (pagina.includes("adminPanel.jsp") && rol !== "ROLE_ADMIN") {
-            window.location.href = "../errores/errorAcceso.jsp"; // Redirigir a error
+            window.location.href = "../errores/error403.jsp"; // Redirigir a error
         }
 
         // Verificar si está intentando entrar a usuario
         if (pagina.includes("usuarioPanel.jsp") && rol !== "ROLE_USUARIO") {
-            window.location.href = "../errores/errorAcceso.jsp"; // Redirigir a error
+            window.location.href = "../errores/error403.jsp"; // Redirigir a error
         }
     }
 

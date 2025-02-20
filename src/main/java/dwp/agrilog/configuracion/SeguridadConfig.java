@@ -15,19 +15,25 @@ import dwp.agrilog.seguridad.JwtFiltro;
 @Configuration
 @EnableWebSecurity
 public class SeguridadConfig {
-	
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    http.csrf(csrf -> csrf.disable()) // Desactivar CSRF porque usamos JWT
-	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sin sesiones
-	            .authorizeHttpRequests(auth -> auth
-	                    .requestMatchers("/admin/**").hasRole("ADMIN") // Solo ADMIN puede acceder a /admin/**
-	                    .requestMatchers("/usuario/**").hasRole("USUARIO") // Solo USUARIO puede acceder a /usuario/**
-	                    .anyRequest().permitAll() // 🚀 Cualquier otra ruta es pública
-	            )
-	            .addFilterBefore(new JwtFiltro(), UsernamePasswordAuthenticationFilter.class); // Agregar filtro de JWT
+		http.csrf(csrf -> csrf.disable())
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(
+						auth -> auth
+						
+						.requestMatchers("/proyectoAgricola/inicio/iniciar-sesion").permitAll()
+			            .requestMatchers("/proyectoAgricola/inicio/registrarse").permitAll()
+			            .requestMatchers("/proyectoAgricola/inicio/verificar-correo").permitAll()
 
-	    return http.build();
+						.requestMatchers("/proyectoAgricola/admin/**").hasAuthority("ROLE_ADMIN")
+						.requestMatchers("/proyectoAgricola/usuario/**").hasAuthority("ROLE_USUARIO")
+
+						.anyRequest().permitAll() // Permite el acceso a cualquier otra ruta sin token
+				).addFilterBefore(new JwtFiltro(), UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
 	}
 
 	@Bean
