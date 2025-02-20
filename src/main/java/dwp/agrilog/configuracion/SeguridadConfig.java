@@ -1,6 +1,5 @@
 package dwp.agrilog.configuracion;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,8 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import dwp.agrilog.seguridad.JspAutenticacionFiltro;
 import dwp.agrilog.seguridad.JwtFiltro;
 
 @Configuration
@@ -23,11 +24,11 @@ public class SeguridadConfig {
 	    http.csrf(csrf -> csrf.disable())
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/proyectoAgricola/inicio/iniciar-sesion").permitAll()
-	            .requestMatchers("/proyectoAgricola/inicio/registrarse").permitAll()
-	            .requestMatchers("/proyectoAgricola/inicio/verificar-correo").permitAll()
-	            .requestMatchers("/proyectoAgricola/admin/**").hasAuthority("ROLE_ADMIN")
-	            .requestMatchers("/proyectoAgricola/usuario/**").hasAuthority("ROLE_USUARIO")
+	            .requestMatchers("/inicio/iniciar-sesion").permitAll()
+	            .requestMatchers("/inicio/registrarse").permitAll()
+	            .requestMatchers("/inicio/verificar-correo").permitAll()
+	            .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+	            .requestMatchers("/usuario/**").hasAuthority("ROLE_USUARIO")
 	            .anyRequest().permitAll()
 	        )
 	        .addFilterBefore(new JwtFiltro(), UsernamePasswordAuthenticationFilter.class);
@@ -43,11 +44,18 @@ public class SeguridadConfig {
 	}
 	
 	@Bean
-	public FilterRegistrationBean<JspAutenticacionFiltro> jspAutenticacionFilter() {
-	    FilterRegistrationBean<JspAutenticacionFiltro> registrationBean = new FilterRegistrationBean<>();
-	    registrationBean.setFilter(new JspAutenticacionFiltro());
-	    registrationBean.addUrlPatterns("/html/usuario/*", "/html/admin/*"); // Bloquea vistas no autenticadas
-	    return registrationBean;
+	public InternalResourceViewResolver viewResolver() {
+	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+	    resolver.setPrefix("/WEB-INF/html/");
+	    resolver.setSuffix(".jsp");
+	    return resolver;
 	}
+
+	@Bean
+    public HttpFirewall permitirBarrasDuplicadas() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedDoubleSlash(true); // ✅ Permite "//" en las URLs
+        return firewall;
+    }
 
 }

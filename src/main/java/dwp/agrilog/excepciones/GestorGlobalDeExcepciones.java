@@ -14,7 +14,7 @@ public class GestorGlobalDeExcepciones {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ModelAndView manejarAccesoDenegado(AccessDeniedException ex) {
-        ModelAndView modelAndView = new ModelAndView("/html/errores/error403");
+        ModelAndView modelAndView = new ModelAndView("/errores/error403");
         modelAndView.addObject("mensaje", "No tienes permisos para acceder a esta página.");
         return modelAndView;
     }
@@ -22,7 +22,7 @@ public class GestorGlobalDeExcepciones {
     @ExceptionHandler(org.springframework.web.servlet.NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView manejarError404(Exception ex) {
-        ModelAndView modelAndView = new ModelAndView("/html/errores/error404");
+        ModelAndView modelAndView = new ModelAndView("/errores/error404");
         modelAndView.addObject("mensaje", "La página que buscas no existe.");
         return modelAndView;
     }
@@ -30,7 +30,7 @@ public class GestorGlobalDeExcepciones {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView manejarError500(Exception ex) {
-        ModelAndView modelAndView = new ModelAndView("/html/errores/error500");
+        ModelAndView modelAndView = new ModelAndView("/errores/error500");
         modelAndView.addObject("mensaje", "Ocurrió un error inesperado. Inténtalo más tarde.");
         return modelAndView;
     }

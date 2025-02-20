@@ -27,25 +27,25 @@ public class InicioControlador {
 	@Autowired
 	private InicioServicio inicioServicio;
 
-	@GetMapping("/")
+	@GetMapping("/principal")
 	public ModelAndView mostrarIndex() {
-		return new ModelAndView("inicio/index");
+		return new ModelAndView("index");
 	}
 
 	@GetMapping("/inicio/iniciar-sesion")
-	public ModelAndView mostrarLogin() {
-		return new ModelAndView("inicio/iniciarSesion");
+	public ModelAndView mostrarInicioSesion() {
+		return new ModelAndView("html/inicio/iniciarSesion");
 	}
 
 	@GetMapping("/inicio/registrarse")
 	public ModelAndView mostrarRegistro() {
-		return new ModelAndView("inicio/registrarse");
+		return new ModelAndView("html/inicio/registrarse");
 	}
 
 	@GetMapping("/cerrar-sesion")
 	public ModelAndView cerrarSesion(HttpSession session) {
-		session.invalidate();
-		return new ModelAndView("redirect:/html/inicio/iniciarSesion.jsp");
+	    session.invalidate();
+	    return new ModelAndView("redirect:/inicio/iniciar-sesion"); // ✅ Redirección correcta
 	}
 
 	@GetMapping("/verificar-correo")
@@ -83,33 +83,32 @@ public class InicioControlador {
 	}
 
 	@PostMapping("/iniciar-sesion")
-	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia,
-			HttpSession session) {
-		try {
-			UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
-			Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
+	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia, HttpSession session) {
+	    try {
+	        UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
+	        Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
-			if (resultado.containsKey("token")) {
-				// Guardar información del usuario en la sesión
-				session.setAttribute("usuario", correo);
-				session.setAttribute("rol", resultado.get("rol"));
-				session.setAttribute("token", resultado.get("token")); // ✅ Guardamos el token en la sesión
+	        if (resultado.containsKey("token")) {
+	            session.setAttribute("usuario", correo);
+	            session.setAttribute("rol", resultado.get("rol"));
+	            session.setAttribute("token", resultado.get("token"));
 
-				if ("ROLE_ADMIN".equals(resultado.get("rol"))) {
-					return new ModelAndView("redirect:/html/admin/adminPanel.jsp");
-				} else {
-					return new ModelAndView("redirect:/html/usuario/usuarioPanel.jsp");
-				}
-			} else {
-				ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
-				mav.addObject("error", "Correo o contraseña incorrectos.");
-				return mav;
-			}
-		} catch (Exception e) {
-			ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
-			mav.addObject("error", "Error al iniciar sesión: " + e.getMessage());
-			return mav;
-		}
+	            if ("ROLE_ADMIN".equals(resultado.get("rol"))) {
+	                return new ModelAndView("redirect:/admin/panel"); // ✅ Usar ruta servida por Spring
+	            } else {
+	                return new ModelAndView("redirect:/usuario/panel"); // ✅ Usar ruta servida por Spring
+	            }
+	        } else {
+	            ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
+	            mav.addObject("error", "Correo o contraseña incorrectos.");
+	            return mav;
+	        }
+	    } catch (Exception e) {
+	        ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
+	        mav.addObject("error", "Error al iniciar sesión: " + e.getMessage());
+	        return mav;
+	    }
 	}
+
 
 }
