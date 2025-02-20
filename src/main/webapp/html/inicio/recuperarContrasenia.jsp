@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar">
         <div class="logo-contenedor align-items-center justify-content-center">
-            <img src="<%=request.getContextPath()%>/img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" />
+            <img src="<%=request.getContextPath()%>/img/logo/Logo-sin-fondo.png" alt="Logo" class="logo" />
             <span class="logo-text">Agrilog</span>
         </div>
         <div class="buttons-container">

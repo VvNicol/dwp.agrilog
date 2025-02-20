@@ -1,3 +1,4 @@
+//usuarioPanel.js
 $(document).ready(function() {
 	var token = localStorage.getItem("jwtToken");
 
@@ -6,7 +7,7 @@ $(document).ready(function() {
 	}
 
 	$.ajax({
-	        url: "http://localhost:8081/proyectoAgricola//html/usuario/usuarioPanel.jsp", // o /admin/panel
+	        url: "http://localhost:8081/proyectoAgricola/html/usuario/usuarioPanel.jsp", // o /admin/panel
 	        type: "GET",
 	        headers: {
 	            "Authorization": "Bearer " + token

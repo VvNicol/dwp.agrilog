@@ -16,6 +16,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class JwtFiltro extends OncePerRequestFilter {
 
@@ -26,9 +27,9 @@ public class JwtFiltro extends OncePerRequestFilter {
 		String requestURI = request.getRequestURI();
 
 		if (requestURI.startsWith("/proyectoAgricola/html/inicio/iniciarSesion")
-			|| requestURI.startsWith("/proyectoAgricola/html/inicio/registrarse")
-			|| requestURI.startsWith("/proyectoAgricola/html/inicio/favicon")
-			|| requestURI.startsWith("/proyectoAgricola/html/inicio/verificarCorreo")
+		/*	|| requestURI.startsWith("/proyectoAgricola/html/inicio/registrarse")*/
+		/*	|| requestURI.startsWith("/proyectoAgricola/favicon")*/
+		/*	|| requestURI.startsWith("/proyectoAgricola/html/inicio/verificarCorreo")*/
 			|| requestURI.startsWith("/proyectoAgricola/html")
 			|| requestURI.startsWith("/proyectoAgricola/estilos")
 			|| requestURI.startsWith("/proyectoAgricola/index")
@@ -43,35 +44,43 @@ public class JwtFiltro extends OncePerRequestFilter {
 			return;
 		}
 
-		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		HttpSession session = request.getSession(false); // No crea una nueva sesión si no existe
+	    if (session != null && session.getAttribute("usuario") != null) {
+	        // Si ya tiene sesión, permitir el acceso
+	        chain.doFilter(request, response);
+	        return;
+	    }
 
-		if (token == null || !token.startsWith("Bearer ")) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getWriter().write("Acceso denegado: Token no encontrado.");
-			return;
-		}
+	    // 🔒 Si no hay sesión, verificar el token JWT en la cabecera
+	    String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-		token = token.substring(7);
+	    if (token == null || !token.startsWith("Bearer ")) {
+	        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+	        response.getWriter().write("Acceso denegado: Token no encontrado.");
+	        return;
+	    }
 
-		try {
-			Claims claims = JwtUtil.obtenerClaimsDesdeToken(token);
-			String correo = claims.getSubject();
-			String rol = claims.get("rol", String.class);
+	    token = token.substring(7); // Eliminar "Bearer "
 
-			if (correo != null && rol != null) {
-				List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + rol));
+	    try {
+	        Claims claims = JwtUtil.obtenerClaimsDesdeToken(token);
+	        String correo = claims.getSubject();
+	        String rol = claims.get("rol", String.class);
 
-				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(correo,
-						null, authorities);
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-			}
-		} catch (Exception e) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getWriter().write("Token inválido o expirado.");
-			return;
-		}
+	        if (correo != null && rol != null) {
+	            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + rol));
 
-		chain.doFilter(request, response);
+	            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(correo,
+	                    null, authorities);
+	            SecurityContextHolder.getContext().setAuthentication(authentication);
+	        }
+	    } catch (Exception e) {
+	        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+	        response.getWriter().write("Token inválido o expirado.");
+	        return;
+	    }
+
+	    chain.doFilter(request, response);
 	}
 
 }

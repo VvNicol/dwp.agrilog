@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.servicios.InicioServicio;
+import jakarta.servlet.http.HttpSession;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @Controller
@@ -33,6 +33,12 @@ public class InicioControlador {
         return new ModelAndView("inicio/registrarse");
     }
 	
+	@GetMapping("/cerrar-sesion")
+	public ModelAndView cerrarSesion(HttpSession session) {
+	    session.invalidate();
+	    return new ModelAndView("redirect:/html/inicio/iniciarSesion.jsp");
+	}
+
 	
 	@GetMapping("/verificar-correo")
 	@ResponseBody
@@ -70,27 +76,32 @@ public class InicioControlador {
 	}
 
 	@PostMapping("/iniciar-sesion")
-	@ResponseBody
-	public ResponseEntity<Map<String, String>> iniciarSesion(@RequestBody UsuarioDTO usuario) {
-	    Map<String, String> response = new HashMap<>();
+	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia, HttpSession session) {
 	    try {
+	        UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
 	        Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
 	        if (resultado.containsKey("token")) {
-	            response.put("mensaje", "Has iniciado sesión con éxito.");
-	            response.put("token", resultado.get("token")); 
-	            response.put("rol", resultado.get("rol")); 
-	            return ResponseEntity.ok(response);
+	            // Guardar información del usuario en la sesión
+	            session.setAttribute("usuario", correo);
+	            session.setAttribute("rol", resultado.get("rol"));
+	            session.setAttribute("token", resultado.get("token")); // ✅ Guardamos el token en la sesión
+
+	            if ("ROLE_ADMIN".equals(resultado.get("rol"))) {
+	                return new ModelAndView("redirect:/html/admin/adminPanel.jsp");
+	            } else {
+	                return new ModelAndView("redirect:/html/usuario/usuarioPanel.jsp");
+	            }
 	        } else {
-	            response.put("error", "Correo o contraseña incorrectos.");
-	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+	            ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
+	            mav.addObject("error", "Correo o contraseña incorrectos.");
+	            return mav;
 	        }
 	    } catch (Exception e) {
-	    	
-	        response.put("error", "Error al iniciar sesión: " + e.getMessage());
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	        ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
+	        mav.addObject("error", "Error al iniciar sesión: " + e.getMessage());
+	        return mav;
 	    }
 	}
-
 	
 }

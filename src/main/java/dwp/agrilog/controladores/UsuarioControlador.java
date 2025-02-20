@@ -1,21 +1,25 @@
 package dwp.agrilog.controladores;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
-@RequestMapping("/usuario")
+@Controller
 public class UsuarioControlador {
 
-    @GetMapping("/panel")
-    public ResponseEntity<Map<String, String>> mostrarPanelUsuario() {
-        Map<String, String> respuesta = new HashMap<>();
-        respuesta.put("mensaje", "Bienvenido al Panel de Usuario");
-        return ResponseEntity.ok(respuesta);
+    @GetMapping("/usuario/panel")
+    public ModelAndView mostrarPanelUsuario(HttpSession session) {
+        Object usuario = session.getAttribute("usuario");
+        Object rol = session.getAttribute("rol");
+
+        if (usuario == null) {
+            return new ModelAndView("redirect:/html/inicio/iniciarSesion.jsp");
+        }
+
+        ModelAndView mav = new ModelAndView("usuarioPanel");
+        mav.addObject("usuario", usuario);
+        mav.addObject("rol", rol);
+        return mav;
     }
 }

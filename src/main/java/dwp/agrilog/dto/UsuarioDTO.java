@@ -39,6 +39,18 @@ private Long usuarioId;
 		super();
 	}
 
+	
+	/**
+	 * @param correo
+	 * @param contrasenia
+	 */
+	public UsuarioDTO(String correo, String contrasenia) {
+		super();
+		this.correo = correo;
+		this.contrasenia = contrasenia;
+	}
+
+
 	/**
 	 * @return the usuarioId
 	 */
