@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import dwp.agrilog.dto.UsuarioDTO;
+import dwp.agrilog.utilidades.JwtUtil;
 import dwp.agrilog.utilidades.Util;
 
 @Service
@@ -34,7 +35,7 @@ public class InicioServicio implements InicioInterfaz {
 		try {
 
 			String contraseniaEncriptada = this.contraseniaEncriptada.encode(usuario.getContrasenia());
-			usuario.setRol("usuario");
+			usuario.setRol("ROLE_USUARIO");
 			usuario.setContrasenia(contraseniaEncriptada);
 			usuario.setFechaRegistro(java.time.LocalDateTime.now());
 			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
@@ -102,34 +103,54 @@ public class InicioServicio implements InicioInterfaz {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	public boolean iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
-
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
 		try {
 			String apiUrlIniciarSesion = "http://localhost:7259/api/contrasenia";
-			// 1. Enviar correo a la API para obtener la contraseña
+
 			Map<String, String> request = new HashMap<>();
 			request.put("correo", usuario.getCorreo());
 
 			HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(request);
-
 			ResponseEntity<Map> respuesta = restTemplate.postForEntity(apiUrlIniciarSesion, requestEntity, Map.class);
 
-			// 2. Verificar si la API devolvió un error
 			if (respuesta.getStatusCode() != HttpStatus.OK || !respuesta.getBody().containsKey("contrasenia")) {
 				throw new Exception("Correo no encontrado o error en la API.");
 			}
 
-			// 3. Obtener la contraseña encriptada desde la API
-			String contraseniaGuardada = respuesta.getBody().get("contrasenia").toString();
+			// Extraer datos del usuario de la respuesta
+			Map<String, Object> usuarioData = respuesta.getBody();
+			String contraseniaGuardada = usuarioData.get("contrasenia").toString();
+			boolean correoValidado = (boolean) usuarioData.get("correoValidado");
+			String rol = usuarioData.get("rol").toString(); // ✅ Extraemos el rol correctamente
 
-			// 4. Comparar la contraseña encriptada con la que ingresó el usuario
-			if (!contraseniaEncriptada.matches(usuario.getContrasenia(), contraseniaGuardada)) {
-				return false; // Contraseña incorrecta
+			// Si el correo no está validado, enviamos un nuevo correo de verificación
+			if (!correoValidado) {
+				String nuevoToken = Util.generarTokenConCorreo(usuario);
+
+				HttpEntity<UsuarioDTO> actualizarRequest = new HttpEntity<>(usuario);
+				String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
+				restTemplate.postForEntity(actualizarUrl, actualizarRequest, Void.class);
+
+				correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);
+				throw new Exception("Tu correo no está validado. Se ha enviado un nuevo correo de verificación.");
 			}
 
-			return true; // Usuario autenticado
-			
+			// Verificar la contraseña
+			if (!contraseniaEncriptada.matches(usuario.getContrasenia(), contraseniaGuardada)) {
+				throw new Exception("Contraseña incorrecta.");
+			}
+
+			// Generar token con JWT
+			String token = JwtUtil.generarToken(usuario.getCorreo(), rol);
+
+			// Devolver el token y el rol en un mapa
+			Map<String, String> respuestaMap = new HashMap<>();
+			respuestaMap.put("token", token);
+			respuestaMap.put("rol", rol);
+
+			return respuestaMap; // ✅ Ahora devuelve un Map<String, String>
+
 		} catch (Exception e) {
 			throw new Exception("Error en el inicio de sesión: " + e.getMessage(), e);
 		}

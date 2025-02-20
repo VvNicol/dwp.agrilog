@@ -73,24 +73,27 @@ public class InicioControlador {
 	}
 
 	@PostMapping("/iniciar-sesion")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> iniciarSesion(@RequestBody UsuarioDTO usuario) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            boolean autenticado = inicioServicio.iniciarSesionUsuario(usuario);
-            if (autenticado) {
-                response.put("mensaje", "Has iniciado sesión con éxito.");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("error", "Correo o contraseña incorrectos.");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
-        } catch (Exception e) {
-            response.put("error", "Error al iniciar sesión: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
-    }
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> iniciarSesion(@RequestBody UsuarioDTO usuario) {
+	    Map<String, String> response = new HashMap<>();
+	    try {
+	        Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
+	        if (resultado.containsKey("token")) {
+	            response.put("mensaje", "Has iniciado sesión con éxito.");
+	            response.put("token", resultado.get("token")); 
+	            response.put("rol", resultado.get("rol")); 
+	            return ResponseEntity.ok(response);
+	        } else {
+	            response.put("error", "Correo o contraseña incorrectos.");
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+	        }
+	    } catch (Exception e) {
+	    	
+	        response.put("error", "Error al iniciar sesión: " + e.getMessage());
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	    }
+	}
 
 	
 }

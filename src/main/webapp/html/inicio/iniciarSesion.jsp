@@ -10,10 +10,12 @@
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="../../estilos/nav.css">
-<link rel="stylesheet" href="../../estilos/mainIniciarSesion.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/estilos/nav.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/estilos/mainIniciarSesion.css">
 
-<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/x-icon" href="<%=request.getContextPath()%>/favicon.ico" />
 
 
 <meta charset="UTF-8">
@@ -22,15 +24,16 @@
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="../../img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" />
-			<span class="logo-text">Agrilog</span>
+			<img src="<%=request.getContextPath()%>/img/logo/Logo-sin-fondo .png"
+				alt="Logo" class="logo" /> <span class="logo-text">Agrilog</span>
 		</div>
 
 		<div class="buttons-container">
-			<a href="../../index.jsp" class="btn btn-transparent btnNav">
-				Inicio </a> <a href="../../html/inicio/iniciarSesion.jsp"
+			<a href="<%=request.getContextPath()%>/index.jsp"
+				class="btn btn-transparent btnNav"> Inicio </a> <a
+				href="<%=request.getContextPath()%>/html/inicio/iniciarSesion.jsp"
 				class="btn btn-transparent btnNav"> Iniciar Sesión </a> <a
-				href="../../html/inicio/registrarse.jsp"
+				href="<%=request.getContextPath()%>/html/inicio/registrarse.jsp"
 				class="btn btn-transparent btnNav"> Registrarse </a>
 		</div>
 	</nav>
@@ -39,7 +42,7 @@
 
 		<div class="row contenedor">
 			<!-- Imagen de fondo -->
-			<img src="../../img/fotos/Agricultura7.jpg" alt="Fondo"
+			<img src="<%=request.getContextPath()%>/img/fotos/Agricultura7.jpg" alt="Fondo"
 				class="imagen-fondo">
 
 			<!-- Columna para el formulario de inicio de sesión -->
@@ -50,7 +53,9 @@
 					<h2 class="text-center mb-4">Iniciar Sesión</h2>
 
 					<!-- Formulario de inicio de sesión -->
-					<form id="iniciarSesionForm" action="${pageContext.request.contextPath}/../../index.jsp" method="POST" novalidate>
+					<form id="iniciarSesionForm"
+						action="${pageContext.request.contextPath}/../../index.jsp"
+						method="POST" novalidate>
 						<!-- Correo Electrónico -->
 						<div class="mb-4">
 							<label for="correo" class="form-label">Correo Electrónico</label>
@@ -78,7 +83,7 @@
 					<div class="mt-3 text-center enlaces">
 						<a href="recuperarContrasenia.html"
 							class="text-decoration-none d-block mb-2"> ¿Olvidaste tu
-							contraseña? </a> <a href="./../html/inicio/registrarse.html"
+							contraseña? </a> <a href="<%=request.getContextPath()%>/html/inicio/registrarse.html"
 							class="text-decoration-none"> ¿No tienes cuenta? Regístrate </a>
 					</div>
 					<div id="alerta-contenedor"></div>
@@ -95,8 +100,7 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-	<script
-		src="<%=request.getContextPath()%>/js/inicio/iniciarSesion.js"></script>
+	<script src="<%=request.getContextPath()%>/js/inicio/iniciarSesion.js"></script>
 
 </body>
 </html>
