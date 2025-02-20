@@ -13,7 +13,7 @@
 	crossorigin="anonymous">
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/estilos/verificarCorreo.css">
+	href="${pageContext.request.contextPath}/estilos/verificarCorreo.css">
 <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
 </head>
@@ -24,7 +24,7 @@
 			style="max-width: 500px;">
 			<h2 class="text-dark">Verificación de Correo</h2>
 			<div id="verificacion-mensaje" class="mt-3"></div>
-			<a href="<%=request.getContextPath()%>/index.jsp"
+			<a href="${pageContext.request.contextPath}/index.jsp"
 				class="btn btn-secondary mt-3">Ir al Inicio</a>
 		</div>
 	</div>
@@ -38,6 +38,6 @@
 		crossorigin="anonymous"></script>
 
 	<script
-		src="<%=request.getContextPath()%>/js/inicio/verificarCorreo.js"></script>
+		src="${pageContext.request.contextPath}/estatico/js/inicio/verificarCorreo.js"></script>
 </body>
 </html>

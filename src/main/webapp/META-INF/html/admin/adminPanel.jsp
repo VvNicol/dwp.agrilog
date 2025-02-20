@@ -12,14 +12,14 @@
 	crossorigin="anonymous">
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/estilos/nav.css">
+	href="${pageContext.request.contextPath}/estatico/estilos/nav.css">
 <link rel="icon" type="image/x-icon"
-	href="<%=request.getContextPath()%>/favicon.ico" />
+	href="${pageContext.request.contextPath}/favicon.ico" />
 </head>
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="<%=request.getContextPath()%>/img/logo/Logo-sin-fondo .png"
+			<img src="${pageContext.request.contextPath}/estatico/img/logo/Logo-sin-fondo.png"
 				alt="Logo" class="logo" /> <span class="logo-text">Agrilog</span>
 		</div>
 
@@ -43,9 +43,9 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-	<script src="<%=request.getContextPath()%>/js/seguridad/validarSesion.js"></script>
-	<script src="<%=request.getContextPath()%>/js/usuario/usuarioPanel.js"></script>
-	<script src="<%=request.getContextPath()%>/js/seguridad/proteccionRutas.js"></script>
+	<script src="${pageContext.request.contextPath}/js/seguridad/validarSesion.js"></script>
+	<script src="${pageContext.request.contextPath}/js/usuario/usuarioPanel.js"></script>
+	<script src="${pageContext.request.contextPath}/js/seguridad/proteccionRutas.js"></script>
 	
 </body>
 </html>

@@ -23,85 +23,93 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/inicio")
 public class InicioControlador {
-	
+
 	@Autowired
 	private InicioServicio inicioServicio;
-	
-	
-	@GetMapping("/registrarse")
-    public ModelAndView mostrarFormularioRegistro() {
-        return new ModelAndView("inicio/registrarse");
-    }
-	
-	@GetMapping("/cerrar-sesion")
-	public ModelAndView cerrarSesion(HttpSession session) {
-	    session.invalidate();
-	    return new ModelAndView("redirect:/html/inicio/iniciarSesion.jsp");
+
+	@GetMapping("/")
+	public ModelAndView mostrarIndex() {
+		return new ModelAndView("inicio/index");
 	}
 
-	
+	@GetMapping("/inicio/iniciar-sesion")
+	public ModelAndView mostrarLogin() {
+		return new ModelAndView("inicio/iniciarSesion");
+	}
+
+	@GetMapping("/inicio/registrarse")
+	public ModelAndView mostrarRegistro() {
+		return new ModelAndView("inicio/registrarse");
+	}
+
+	@GetMapping("/cerrar-sesion")
+	public ModelAndView cerrarSesion(HttpSession session) {
+		session.invalidate();
+		return new ModelAndView("redirect:/html/inicio/iniciarSesion.jsp");
+	}
+
 	@GetMapping("/verificar-correo")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> verificarCorreo(@RequestParam("token") String token) {
-		
-	    Map<String, String> response = new HashMap<>();
-	    try {
-	        boolean verificado = inicioServicio.verificarCorreo(token);
-	        if (verificado) {
-	            response.put("mensaje", "Correo verificado exitosamente. Ya puedes iniciar sesión.");
-	            return ResponseEntity.ok(response);
-	        } else {
-	            response.put("error", "El token es inválido o ha expirado.");
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-	        }
-	    } catch (Exception e) {
-	        response.put("error", "Error al verificar correo: " + e.getMessage());
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-	    }
+
+		Map<String, String> response = new HashMap<>();
+		try {
+			boolean verificado = inicioServicio.verificarCorreo(token);
+			if (verificado) {
+				response.put("mensaje", "Correo verificado exitosamente. Ya puedes iniciar sesión.");
+				return ResponseEntity.ok(response);
+			} else {
+				response.put("error", "El token es inválido o ha expirado.");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+			}
+		} catch (Exception e) {
+			response.put("error", "Error al verificar correo: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
 	}
 
-	
 	@PostMapping("/registrarse")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> registrar(UsuarioDTO usuario) {
-	    Map<String, String> response = new HashMap<>();
-	    try {
-	        inicioServicio.registrarUsuario(usuario);
-	        response.put("mensaje", "Usuario registrado con éxito. Verifique su correo para iniciar sesión.");
-	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	    } catch (Exception e) {
-	        response.put("error", "Error al registrar usuario: " + e.getMessage());
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-	    }
+		Map<String, String> response = new HashMap<>();
+		try {
+			inicioServicio.registrarUsuario(usuario);
+			response.put("mensaje", "Usuario registrado con éxito. Verifique su correo para iniciar sesión.");
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		} catch (Exception e) {
+			response.put("error", "Error al registrar usuario: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
 	}
 
 	@PostMapping("/iniciar-sesion")
-	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia, HttpSession session) {
-	    try {
-	        UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
-	        Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
+	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia,
+			HttpSession session) {
+		try {
+			UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
+			Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
-	        if (resultado.containsKey("token")) {
-	            // Guardar información del usuario en la sesión
-	            session.setAttribute("usuario", correo);
-	            session.setAttribute("rol", resultado.get("rol"));
-	            session.setAttribute("token", resultado.get("token")); // ✅ Guardamos el token en la sesión
+			if (resultado.containsKey("token")) {
+				// Guardar información del usuario en la sesión
+				session.setAttribute("usuario", correo);
+				session.setAttribute("rol", resultado.get("rol"));
+				session.setAttribute("token", resultado.get("token")); // ✅ Guardamos el token en la sesión
 
-	            if ("ROLE_ADMIN".equals(resultado.get("rol"))) {
-	                return new ModelAndView("redirect:/html/admin/adminPanel.jsp");
-	            } else {
-	                return new ModelAndView("redirect:/html/usuario/usuarioPanel.jsp");
-	            }
-	        } else {
-	            ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
-	            mav.addObject("error", "Correo o contraseña incorrectos.");
-	            return mav;
-	        }
-	    } catch (Exception e) {
-	        ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
-	        mav.addObject("error", "Error al iniciar sesión: " + e.getMessage());
-	        return mav;
-	    }
+				if ("ROLE_ADMIN".equals(resultado.get("rol"))) {
+					return new ModelAndView("redirect:/html/admin/adminPanel.jsp");
+				} else {
+					return new ModelAndView("redirect:/html/usuario/usuarioPanel.jsp");
+				}
+			} else {
+				ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
+				mav.addObject("error", "Correo o contraseña incorrectos.");
+				return mav;
+			}
+		} catch (Exception e) {
+			ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
+			mav.addObject("error", "Error al iniciar sesión: " + e.getMessage());
+			return mav;
+		}
 	}
-	
+
 }

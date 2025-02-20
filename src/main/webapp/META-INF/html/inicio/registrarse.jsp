@@ -7,9 +7,9 @@
     <title>Agrilog - Registrarse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/estilos/nav.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/estilos/mainRegistrarse.css">
-    <link rel="icon" type="image/x-icon" href="<%=request.getContextPath()%>/favicon.ico" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/nav.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/mainRegistrarse.css">
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico" />
 </head>
 <body>
     <nav class="navbar">
@@ -18,9 +18,9 @@
             <span class="logo-text">Agrilog</span>
         </div>
         <div class="buttons-container">
-            <a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-transparent btnNav">Inicio</a>
-            <a href="<%=request.getContextPath()%>/html/inicio/iniciarSesion.jsp" class="btn btn-transparent btnNav">Iniciar Sesión</a>
-            <a href="<%=request.getContextPath()%>/html/inicio/registrarse.jsp" class="btn btn-transparent btnNav">Registrarse</a>
+            <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-transparent btnNav">Inicio</a>
+            <a href="${pageContext.request.contextPath}/estatico/inicio/iniciarSesion.jsp" class="btn btn-transparent btnNav">Iniciar Sesión</a>
+            <a href="${pageContext.request.contextPath}/estatico/inicio/registrarse.jsp" class="btn btn-transparent btnNav">Registrarse</a>
         </div>
     </nav>
     <main>
@@ -30,13 +30,13 @@
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="<%=request.getContextPath()%>/img/fotos/Agricultura.jpg" class="d-block w-100" alt="Imagen del carrusel 1">
+                            <img src="${pageContext.request.contextPath}/estatico/img/fotos/Agricultura.jpg" class="d-block w-100" alt="Imagen del carrusel 1">
                         </div>
                         <div class="carousel-item">
-                            <img src="<%=request.getContextPath()%>/img/fotos/Agricultura2.jpg" class="d-block w-100" alt="Imagen del carrusel 2">
+                            <img src="${pageContext.request.contextPath}/estatico/img/fotos/Agricultura2.jpg" class="d-block w-100" alt="Imagen del carrusel 2">
                         </div>
                         <div class="carousel-item">
-                            <img src="<%=request.getContextPath()%>/img/fotos/Agricultura3.jpg" class="d-block w-100" alt="Imagen del carrusel 3">
+                            <img src="${pageContext.request.contextPath}/estatico/img/fotos/Agricultura3.jpg" class="d-block w-100" alt="Imagen del carrusel 3">
                         </div>
                     </div>
                 </div>
@@ -77,6 +77,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="<%= request.getContextPath() %>/js/inicio/registrarse.js"></script>
+    <script src="${pageContext.request.contextPath}/estatico/js/inicio/registrarse.js"></script>
 </body>
 </html>
