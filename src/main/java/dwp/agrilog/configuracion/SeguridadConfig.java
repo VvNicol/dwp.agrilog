@@ -46,7 +46,7 @@ public class SeguridadConfig {
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
 	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-	    resolver.setPrefix("/WEB-INF/html/");
+	    resolver.setPrefix("/WEB-INF/jsp/");
 	    resolver.setSuffix(".jsp");
 	    return resolver;
 	}

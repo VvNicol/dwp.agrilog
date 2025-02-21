@@ -20,13 +20,13 @@ public class ErrorControlador implements ErrorController {
 		if (statusCode != null) {
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
 				model.addAttribute("mensaje", "La página que buscas no existe.");
-				return "errores/error404.jsp";
+				return "errores/error404";
 			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 				model.addAttribute("mensaje", "No tienes permisos para acceder a esta página.");
-				return "errores/error403.jsp";
+				return "errores/error403";
 			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				model.addAttribute("mensaje", "Ocurrió un error inesperado. Inténtalo más tarde.");
-				return "errores/error500.jsp";
+				return "errores/error500";
 			}
 		}
 		model.addAttribute("mensaje", "Error desconocido.");

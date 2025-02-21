@@ -1,5 +1,7 @@
 package dwp.agrilog.configuracion;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,4 +21,16 @@ public class DwpConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Bean
+	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+	    return args -> {
+	        System.out.println("🔎 Rutas registradas en Spring Boot:");
+	        String[] beans = ctx.getBeanDefinitionNames();
+	        for (String bean : beans) {
+	            if (bean.contains("controlador") || bean.contains("Controlador")) {
+	                System.out.println("✅ " + bean);
+	            }
+	        }
+	    };
+	}
 }

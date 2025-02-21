@@ -73,7 +73,7 @@ public class JwtFiltro extends OncePerRequestFilter {
 
 	    // Si no hay sesión ni token válido, denegar acceso
 	    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-	    response.getWriter().write("Acceso denegado: Token no encontrado.");
+	    response.getWriter().write("Acceso denegado: no hay sesion ni token");
 	}
 
 

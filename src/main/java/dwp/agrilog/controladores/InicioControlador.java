@@ -19,8 +19,8 @@ import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.servicios.InicioServicio;
 import jakarta.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "http://localhost:8081")
 @Controller
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/inicio")
 public class InicioControlador {
 
@@ -32,20 +32,20 @@ public class InicioControlador {
 		return new ModelAndView("index");
 	}
 
-	@GetMapping("/inicio/iniciar-sesion")
+	@GetMapping("/iniciar-sesion")
 	public ModelAndView mostrarInicioSesion() {
-		return new ModelAndView("html/inicio/iniciarSesion");
+		return new ModelAndView("inicio/iniciarSesion");
 	}
 
-	@GetMapping("/inicio/registrarse")
+	@GetMapping("/registrarse")
 	public ModelAndView mostrarRegistro() {
-		return new ModelAndView("html/inicio/registrarse");
+		return new ModelAndView("inicio/registrarse");
 	}
 
 	@GetMapping("/cerrar-sesion")
 	public ModelAndView cerrarSesion(HttpSession session) {
 	    session.invalidate();
-	    return new ModelAndView("redirect:/inicio/iniciar-sesion"); // ✅ Redirección correcta
+	    return new ModelAndView("redirect:inicio/iniciar-sesion"); // ✅ Redirección correcta
 	}
 
 	@GetMapping("/verificar-correo")
