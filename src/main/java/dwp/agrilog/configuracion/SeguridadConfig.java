@@ -24,6 +24,7 @@ public class SeguridadConfig {
 	    http.csrf(csrf -> csrf.disable())
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 	        .authorizeHttpRequests(auth -> auth
+	        	.requestMatchers("/inicio/").permitAll()	
 	            .requestMatchers("/inicio/iniciar-sesion").permitAll()
 	            .requestMatchers("/inicio/registrarse").permitAll()
 	            .requestMatchers("/inicio/verificar-correo").permitAll()

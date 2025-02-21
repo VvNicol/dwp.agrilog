@@ -18,7 +18,7 @@
             <span class="logo-text">Agrilog</span>
         </div>
         <div class="buttons-container">
-            <a href="${pageContext.request.contextPath}/" class="btn btn-transparent btnNav">Inicio</a>
+            <a href="${pageContext.request.contextPath}/inicio/" class="btn btn-transparent btnNav">Inicio</a>
             <a href="${pageContext.request.contextPath}/inicio/iniciar-sesion" class="btn btn-transparent btnNav">Iniciar Sesión</a>
             <a href="${pageContext.request.contextPath}/inicio/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
         </div>

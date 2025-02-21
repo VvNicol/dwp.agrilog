@@ -28,6 +28,7 @@ public class JwtFiltro extends OncePerRequestFilter {
 
 	    // Rutas públicas que no requieren autenticación
 	    if (requestURI.startsWith("/proyectoAgricola/inicio/iniciar-sesion")
+	    		|| requestURI.startsWith("/proyectoAgricola/inicio/")
 	            || requestURI.startsWith("/proyectoAgricola/inicio/registrarse")
 	            || requestURI.startsWith("/proyectoAgricola/inicio/verificar-correo")
 	            || requestURI.startsWith("/proyectoAgricola/estilos")

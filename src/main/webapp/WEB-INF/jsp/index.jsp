@@ -22,13 +22,14 @@
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="img/logo/Logo-sin-fondo .png" alt="Logo" class="logo" /> <span
+			<img src="${pageContext.request.contextPath}/img/logo/Logo-sin-fondo.png" alt="Logo" class="logo" /> 
+			<span
 				class="logo-text">Agrilog</span>
 		</div>
 
 		<div class="buttons-container">
 
-			<a href="index.jsp" class="btn btn-transparent btnNav"> Inicio </a> <a
+			<a href="${pageContext.request.contextPath}/inicio/" class="btn btn-transparent btnNav"> Inicio </a> <a
 				href="${pageContext.request.contextPath}/inicio/iniciar-sesion"
 				class="btn btn-transparent btnNav"> Iniciar Sesión </a> <a
 				href="${pageContext.request.contextPath}/inicio/registrarse"
