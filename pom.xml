@@ -21,7 +21,19 @@
 
 			</plugin>
 		</plugins>
+	
+			<resources>
+    		<resource>
+       	 		<directory>src/main/webapp</directory>
+       	 			<targetPath>${project.build.directory}/WEB-INF</targetPath>
+       	 		<includes>
+          	  <include>**/*.jsp</include>
+       	 </includes>
+    		</resource>
+		</resources>
+		
 	</build>
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
