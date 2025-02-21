@@ -10,10 +10,10 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 
-<link rel="stylesheet" href="estilos/nav.css">
-<link rel="stylesheet" href="estilos/contenidoIndex.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/nav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/contenidoIndex.css">
 
-<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico" />
 
 
 <meta charset="UTF-8">
@@ -29,9 +29,9 @@
 		<div class="buttons-container">
 
 			<a href="index.jsp" class="btn btn-transparent btnNav"> Inicio </a> <a
-				href="html/inicio/iniciarSesion.jsp"
+				href="${pageContext.request.contextPath}/inicio/iniciar-sesion"
 				class="btn btn-transparent btnNav"> Iniciar Sesión </a> <a
-				href="html/inicio/registrarse.jsp"
+				href="${pageContext.request.contextPath}/inicio/registrarse"
 				class="btn btn-transparent btnNav"> Registrarse </a>
 
 		</div>

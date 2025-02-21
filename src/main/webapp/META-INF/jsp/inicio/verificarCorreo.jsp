@@ -38,6 +38,6 @@
 		crossorigin="anonymous"></script>
 
 	<script
-		src="${pageContext.request.contextPath}/estatico/js/inicio/verificarCorreo.js"></script>
+		src="${pageContext.request.contextPath}/js/inicio/verificarCorreo.js"></script>
 </body>
 </html>

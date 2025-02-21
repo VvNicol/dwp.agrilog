@@ -12,14 +12,14 @@
 	crossorigin="anonymous">
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/estatico/estilos/nav.css">
+	href="${pageContext.request.contextPath}/estilos/nav.css">
 <link rel="icon" type="image/x-icon"
 	href="${pageContext.request.contextPath}/favicon.ico" />
 </head>
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="${pageContext.request.contextPath}/estatico/img/logo/Logo-sin-fondo.png"
+			<img src="${pageContext.request.contextPath}/img/logo/Logo-sin-fondo.png"
 				alt="Logo" class="logo" /> <span class="logo-text">Agrilog</span>
 		</div>
 

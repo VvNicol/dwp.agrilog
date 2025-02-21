@@ -18,9 +18,9 @@
             <span class="logo-text">Agrilog</span>
         </div>
         <div class="buttons-container">
-            <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-transparent btnNav">Inicio</a>
-            <a href="${pageContext.request.contextPath}/estatico/inicio/iniciarSesion.jsp" class="btn btn-transparent btnNav">Iniciar Sesión</a>
-            <a href="${pageContext.request.contextPath}/estatico/inicio/registrarse.jsp" class="btn btn-transparent btnNav">Registrarse</a>
+            <a href="${pageContext.request.contextPath}/" class="btn btn-transparent btnNav">Inicio</a>
+            <a href="${pageContext.request.contextPath}/inicio/iniciar-sesion" class="btn btn-transparent btnNav">Iniciar Sesión</a>
+            <a href="${pageContext.request.contextPath}/inicio/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
         </div>
     </nav>
     <main>
@@ -30,13 +30,13 @@
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="${pageContext.request.contextPath}/estatico/img/fotos/Agricultura.jpg" class="d-block w-100" alt="Imagen del carrusel 1">
+                            <img src="${pageContext.request.contextPath}/img/fotos/Agricultura.jpg" class="d-block w-100" alt="Imagen del carrusel 1">
                         </div>
                         <div class="carousel-item">
-                            <img src="${pageContext.request.contextPath}/estatico/img/fotos/Agricultura2.jpg" class="d-block w-100" alt="Imagen del carrusel 2">
+                            <img src="${pageContext.request.contextPath}/img/fotos/Agricultura2.jpg" class="d-block w-100" alt="Imagen del carrusel 2">
                         </div>
                         <div class="carousel-item">
-                            <img src="${pageContext.request.contextPath}/estatico/img/fotos/Agricultura3.jpg" class="d-block w-100" alt="Imagen del carrusel 3">
+                            <img src="${pageContext.request.contextPath}/img/fotos/Agricultura3.jpg" class="d-block w-100" alt="Imagen del carrusel 3">
                         </div>
                     </div>
                 </div>
@@ -77,6 +77,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="${pageContext.request.contextPath}/estatico/js/inicio/registrarse.js"></script>
+    <script src="${pageContext.request.contextPath}/js/inicio/registrarse.js"></script>
 </body>
 </html>

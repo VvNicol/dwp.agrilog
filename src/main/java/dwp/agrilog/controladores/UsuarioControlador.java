@@ -16,6 +16,6 @@ public class UsuarioControlador {
         if (session == null || session.getAttribute("usuario") == null) {
             return new ModelAndView("redirect:/inicio/iniciar-sesion");
         }
-        return new ModelAndView("usuario/usuarioPanel"); // Carga usuarioPanel.jsp
+        return new ModelAndView("usuario/usuarioPanel"); 
     }
 }

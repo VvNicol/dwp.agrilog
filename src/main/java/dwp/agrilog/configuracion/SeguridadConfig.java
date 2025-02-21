@@ -54,7 +54,7 @@ public class SeguridadConfig {
 	@Bean
     public HttpFirewall permitirBarrasDuplicadas() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedDoubleSlash(true); // ✅ Permite "//" en las URLs
+        firewall.setAllowUrlEncodedDoubleSlash(true);
         return firewall;
     }
 

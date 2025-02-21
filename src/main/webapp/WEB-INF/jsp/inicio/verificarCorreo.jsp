@@ -14,7 +14,7 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/estilos/verificarCorreo.css">
-<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico" />
 
 </head>
 <body>
@@ -24,7 +24,7 @@
 			style="max-width: 500px;">
 			<h2 class="text-dark">Verificación de Correo</h2>
 			<div id="verificacion-mensaje" class="mt-3"></div>
-			<a href="${pageContext.request.contextPath}/index.jsp"
+			<a href="${pageContext.request.contextPath}/"
 				class="btn btn-secondary mt-3">Ir al Inicio</a>
 		</div>
 	</div>
@@ -37,7 +37,6 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 
-	<script
-		src="${pageContext.request.contextPath}/estatico/js/inicio/verificarCorreo.js"></script>
+	<script src="${pageContext.request.contextPath}/js/inicio/verificarCorreo.js"></script>
 </body>
 </html>

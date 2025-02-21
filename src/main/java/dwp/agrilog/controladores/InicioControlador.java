@@ -26,11 +26,11 @@ public class InicioControlador {
 
 	@Autowired
 	private InicioServicio inicioServicio;
-
-	@GetMapping("/principal")
-	public ModelAndView mostrarIndex() {
-		return new ModelAndView("index");
-	}
+	
+	@GetMapping("/")
+    public ModelAndView mostrarIndex() {
+        return new ModelAndView("index");
+    }
 
 	@GetMapping("/iniciar-sesion")
 	public ModelAndView mostrarInicioSesion() {
@@ -45,7 +45,7 @@ public class InicioControlador {
 	@GetMapping("/cerrar-sesion")
 	public ModelAndView cerrarSesion(HttpSession session) {
 	    session.invalidate();
-	    return new ModelAndView("redirect:inicio/iniciar-sesion"); // ✅ Redirección correcta
+	    return new ModelAndView("redirect:inicio/iniciar-sesion");
 	}
 
 	@GetMapping("/verificar-correo")
