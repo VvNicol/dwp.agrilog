@@ -7,10 +7,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.firewall.HttpFirewall;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import dwp.agrilog.seguridad.JwtFiltro;
@@ -21,19 +20,21 @@ public class SeguridadConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    http.csrf(csrf -> csrf.disable())
-	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+		 http.csrf(csrf -> csrf.disable())
+         .sessionManagement(session -> session
+             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // 🔥 Mantiene la sesión activa
+         )
 	        .authorizeHttpRequests(auth -> auth
-	        	.requestMatchers("/inicio/").permitAll()	
-	            .requestMatchers("/inicio/iniciar-sesion").permitAll()
-	            .requestMatchers("/inicio/registrarse").permitAll()
-	            .requestMatchers("/inicio/verificar-correo").permitAll()
+	        	.requestMatchers("/inicio/**").permitAll()	
 	            .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
 	            .requestMatchers("/usuario/**").hasAuthority("ROLE_USUARIO")
 	            .anyRequest().permitAll()
 	        )
 	        .addFilterBefore(new JwtFiltro(), UsernamePasswordAuthenticationFilter.class);
 
+		    SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+
+		 
 	    return http.build();
 	}
 
@@ -52,11 +53,11 @@ public class SeguridadConfig {
 	    return resolver;
 	}
 
-	@Bean
+	/*@Bean
     public HttpFirewall permitirBarrasDuplicadas() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowUrlEncodedDoubleSlash(true);
         return firewall;
-    }
+    }*/
 
 }

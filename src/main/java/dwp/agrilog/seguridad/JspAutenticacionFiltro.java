@@ -2,6 +2,9 @@ package dwp.agrilog.seguridad;
 
 import java.io.IOException;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -23,14 +26,20 @@ public class JspAutenticacionFiltro implements Filter {
 
         // Verificar si hay un usuario autenticado en la sesión
         HttpSession session = httpRequest.getSession(false);
+        Object usuario = (session != null) ? session.getAttribute("usuario") : null;
 
-        if (session == null || session.getAttribute("usuario") == null) {
-            // Si no hay usuario autenticado, redirigir a la página de inicio de sesión
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/html/inicio/iniciarSesion.jsp");
+        // También verificamos si hay un usuario autenticado en el contexto de seguridad
+        boolean tieneToken = SecurityContextHolder.getContext().getAuthentication() != null &&
+                             SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User;
+
+        if (usuario == null && !tieneToken) {
+            System.out.println("⚠️ No hay sesión ni token válido. Redirigiendo...");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/inicio/iniciar-sesion");
             return;
         }
 
         // Si hay usuario autenticado, continuar con la solicitud
+        System.out.println("✅ Usuario autenticado, permitiendo acceso.");
         chain.doFilter(request, response);
     }
 

@@ -39,43 +39,45 @@ public class JwtFiltro extends OncePerRequestFilter {
 	        return;
 	    }
 
-	    // Verificar si hay una sesión activa
+	 // 🔥 Verificar si hay una sesión activa
 	    HttpSession session = request.getSession(false);
 	    if (session != null && session.getAttribute("usuario") != null) {
-	        // Usuario autenticado mediante sesión
+	        System.out.println("✅ Usuario autenticado por sesión: " + session.getAttribute("usuario"));
 	        chain.doFilter(request, response);
 	        return;
 	    }
 
-	    // Verificar si hay un token JWT en la cabecera Authorization
+	    // 🔥 Si no hay sesión, verificar si hay un token JWT en la cabecera Authorization
 	    String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 	    if (token != null && token.startsWith("Bearer ")) {
 	        token = token.substring(7); // Remover "Bearer " del token
 	        try {
 	            Claims claims = JwtUtil.obtenerClaimsDesdeToken(token);
 	            String correo = claims.getSubject();
-	            String rol = claims.get("rol", String.class);
+	            String rol = "ROLE_" + claims.get("rol", String.class); // 🔥 Agregar ROLE_
 
 	            if (correo != null && rol != null) {
 	                List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(rol));
 	                UsernamePasswordAuthenticationToken authentication =
 	                        new UsernamePasswordAuthenticationToken(correo, null, authorities);
 	                SecurityContextHolder.getContext().setAuthentication(authentication);
+	                System.out.println("✅ Usuario autenticado por JWT: " + correo + " con rol " + rol);
 	                chain.doFilter(request, response);
 	                return;
 	            }
 	        } catch (Exception e) {
-	            // Token inválido o expirado
+	            System.out.println("❌ Token inválido: " + e.getMessage());
 	            response.setStatus(HttpStatus.UNAUTHORIZED.value());
 	            response.getWriter().write("Token inválido o expirado.");
 	            return;
 	        }
 	    }
 
-	    // Si no hay sesión ni token válido, denegar acceso
+	    // ❌ Si no hay sesión ni token válido, denegar acceso
+	    System.out.println("❌ Acceso denegado: no hay sesión ni token.");
 	    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-	    response.getWriter().write("Acceso denegado: no hay sesion ni token");
-	}
+	    response.getWriter().write("Acceso denegado: no hay sesión ni token.");
+    }
 
 
 }

@@ -1,32 +1,32 @@
-$(document).ready(function () {
-    $("#iniciarSesionForm").submit(function (event) {
-        event.preventDefault();
+document.getElementById("iniciarSesionForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Evita el envío normal del formulario
 
-        var formData = {
-            correo: $("#correo").val(),
-            contrasenia: $("#contrasenia").val()
-        };
+        let formData = new FormData(this);
+        fetch(this.action, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem("token", data.token); // 🔥 Guarda el token en localStorage
+                localStorage.setItem("usuario", data.usuario);
+                localStorage.setItem("rol", data.rol);
 
-        $.ajax({
-            url: "http://localhost:8081/proyectoAgricola/inicio/iniciar-sesion",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(formData),
-            dataType: "json",
-            success: function (response) {
-                $("#alerta-contenedor").html(
-                    '<div class="alert alert-success" role="alert">' + response.mensaje + '</div>'
-                );
-            },
-            error: function (xhr) {
-                var errorMessage = "Error al iniciar sesión.";
-                if (xhr.responseJSON && xhr.responseJSON.error) {
-                    errorMessage = xhr.responseJSON.error;
+                console.log("✅ Token guardado en localStorage:", data.token);
+                console.log("✅ Usuario:", data.usuario);
+                console.log("✅ Rol:", data.rol);
+
+                // Redirigir según el rol
+                if (data.rol === "ADMIN") {
+                    window.location.href = "/proyectoAgricola/admin/panel";
+                } else {
+                    window.location.href = "/proyectoAgricola/usuario/panel";
                 }
-                $("#alerta-contenedor").html(
-                    '<div class="alert alert-danger" role="alert">' + errorMessage + '</div>'
-                );
+            } else {
+                console.error("❌ Error en inicio de sesión:", data.error);
+                document.getElementById("mensajeError").innerText = data.error;
             }
-        });
+        })
+        .catch(error => console.error("❌ Error en la solicitud:", error));
     });
-});

@@ -35,7 +35,7 @@ public class InicioServicio implements InicioInterfaz {
 		try {
 
 			String contraseniaEncriptada = this.contraseniaEncriptada.encode(usuario.getContrasenia());
-			usuario.setRol("ROLE_USUARIO");
+			usuario.setRol("USUARIO");
 			usuario.setContrasenia(contraseniaEncriptada);
 			usuario.setFechaRegistro(java.time.LocalDateTime.now());
 			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);

@@ -1,11 +1,15 @@
 package dwp.agrilog.controladores;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,18 +89,29 @@ public class InicioControlador {
 	@PostMapping("/iniciar-sesion")
 	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia, HttpSession session) {
 	    try {
-	        UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
+	    	UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
 	        Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
 	        if (resultado.containsKey("token")) {
 	            session.setAttribute("usuario", correo);
-	            session.setAttribute("rol", resultado.get("rol"));
+	            session.setAttribute("rol", resultado.get("rol")); // 👈 Guardar solo "USUARIO" sin "ROLE_"
 	            session.setAttribute("token", resultado.get("token"));
 
-	            if ("ROLE_ADMIN".equals(resultado.get("rol"))) {
-	                return new ModelAndView("redirect:/admin/panel"); // ✅ Usar ruta servida por Spring
+	            System.out.println("✅ Sesión iniciada para: " + session.getAttribute("usuario"));
+	            System.out.println("✅ Rol en sesión: " + session.getAttribute("rol"));
+
+	            // 🔥 Agregar usuario al SecurityContextHolder
+	            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(resultado.get("rol")));
+	            UsernamePasswordAuthenticationToken authentication =
+	                    new UsernamePasswordAuthenticationToken(correo, null, authorities);
+	            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+	            System.out.println("✅ Usuario autenticado en SecurityContextHolder: " + authentication);
+
+	            if ("ADMIN".equals(resultado.get("rol"))) { // 👈 Comparar sin "ROLE_"
+	                return new ModelAndView("redirect:/admin/panel");
 	            } else {
-	                return new ModelAndView("redirect:/usuario/panel"); // ✅ Usar ruta servida por Spring
+	                return new ModelAndView("redirect:/usuario/panel");
 	            }
 	        } else {
 	            ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
@@ -109,6 +124,7 @@ public class InicioControlador {
 	        return mav;
 	    }
 	}
+
 
 
 }

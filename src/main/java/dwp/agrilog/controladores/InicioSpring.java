@@ -9,9 +9,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Import;
 
 import dwp.agrilog.configuracion.DwpConfig;
+import dwp.agrilog.configuracion.SeguridadConfig;
 
 @SpringBootApplication(scanBasePackages = "dwp.agrilog", exclude = SecurityAutoConfiguration.class)
-@Import(DwpConfig.class)
+@Import({DwpConfig.class, SeguridadConfig.class})
 @ServletComponentScan
 public class InicioSpring extends SpringBootServletInitializer {
 
