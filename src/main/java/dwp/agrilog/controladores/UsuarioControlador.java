@@ -12,37 +12,22 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/usuario")
 public class UsuarioControlador {
 
+	
 	@GetMapping("/panel")
 	public ModelAndView mostrarPanelUsuario(HttpSession session) {
 	    System.out.println("🔍 Verificando usuario en SecurityContextHolder...");
+	    var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-	    // Imprimir información de autenticación
-	    if (SecurityContextHolder.getContext().getAuthentication() != null) {
-	        System.out.println("✅ SecurityContextHolder: " + SecurityContextHolder.getContext().getAuthentication());
-	    } else {
-	        System.out.println("❌ SecurityContextHolder está vacío.");
-	    }
-
-	    // Revisar sesión normal
-	    if (session == null) {
-	        System.out.println("⚠️ No hay sesión activa.");
-	        return new ModelAndView("redirect:/inicio/iniciar-sesion");
-	    }
-
-	    Object usuario = session.getAttribute("usuario");
-	    Object rol = session.getAttribute("rol");
-
-	    System.out.println("🔍 Sesión Activa:");
-	    System.out.println("Usuario: " + usuario);
-	    System.out.println("Rol: " + rol);
-
-	    if (usuario == null) {
-	        System.out.println("⚠️ Usuario no autenticado, redirigiendo...");
+	    if (authentication == null || !authentication.isAuthenticated() || authentication.getAuthorities().isEmpty()) {
+	        System.out.println("⚠️ Usuario no autenticado o sin roles. Redirigiendo a inicio de sesión.");
 	        return new ModelAndView("redirect:/inicio/iniciar-sesion");
 	    }
 
 	    System.out.println("✅ Usuario autenticado correctamente.");
+	    System.out.println("✅ Rol en SecurityContextHolder: " + authentication.getAuthorities());
 	    return new ModelAndView("usuario/usuarioPanel");
 	}
+
+
 
 }

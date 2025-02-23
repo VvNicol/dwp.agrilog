@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.servicios.InicioServicio;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -87,44 +92,52 @@ public class InicioControlador {
 	}
 
 	@PostMapping("/iniciar-sesion")
-	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia, HttpSession session) {
+	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia, 
+	                                  HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 	    try {
-	    	UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
+	        UsuarioDTO usuario = new UsuarioDTO(correo, contrasenia);
 	        Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
 	        if (resultado.containsKey("token")) {
 	            session.setAttribute("usuario", correo);
-	            session.setAttribute("rol", resultado.get("rol")); // 👈 Guardar solo "USUARIO" sin "ROLE_"
+	            session.setAttribute("rol", resultado.get("rol"));
 	            session.setAttribute("token", resultado.get("token"));
 
-	            System.out.println("✅ Sesión iniciada para: " + session.getAttribute("usuario"));
-	            System.out.println("✅ Rol en sesión: " + session.getAttribute("rol"));
+	            System.out.println("✅ Rol asignado en sesión: " + session.getAttribute("rol"));
 
-	            // 🔥 Agregar usuario al SecurityContextHolder
 	            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(resultado.get("rol")));
 	            UsernamePasswordAuthenticationToken authentication =
 	                    new UsernamePasswordAuthenticationToken(correo, null, authorities);
-	            SecurityContextHolder.getContext().setAuthentication(authentication);
+	            
+	            SecurityContext context = SecurityContextHolder.createEmptyContext();
+	            context.setAuthentication(authentication);
+	            SecurityContextHolder.setContext(context);
 
-	            System.out.println("✅ Usuario autenticado en SecurityContextHolder: " + authentication);
+	            // 🔥 Guardar en sesión manualmente para persistencia
+	            SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+	            securityContextRepository.saveContext(context, request, response);
 
-	            if ("ADMIN".equals(resultado.get("rol"))) { // 👈 Comparar sin "ROLE_"
-	                return new ModelAndView("redirect:/admin/panel");
-	            } else {
-	                return new ModelAndView("redirect:/usuario/panel");
-	            }
+	            System.out.println("✅ Usuario autenticado en SecurityContextHolder: " + SecurityContextHolder.getContext().getAuthentication());
+
+	            return verificarYRedireccionar(resultado.get("rol"));
 	        } else {
-	            ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
-	            mav.addObject("error", "Correo o contraseña incorrectos.");
-	            return mav;
+	            return new ModelAndView("inicio/iniciarSesion").addObject("error", "Correo o contraseña incorrectos.");
 	        }
 	    } catch (Exception e) {
-	        ModelAndView mav = new ModelAndView("inicio/iniciarSesion");
-	        mav.addObject("error", "Error al iniciar sesión: " + e.getMessage());
-	        return mav;
+	        return new ModelAndView("inicio/iniciarSesion").addObject("error", "Error al iniciar sesión: " + e.getMessage());
 	    }
 	}
-
+	
+	
+	private ModelAndView verificarYRedireccionar(String rol) {
+	    if ("ADMIN".equals(rol)) {
+	        return new ModelAndView("redirect:/admin/panel");
+	    } else if ("USUARIO".equals(rol)) {
+	        return new ModelAndView("redirect:/usuario/panel");
+	    } else {
+	        return new ModelAndView("inicio/iniciarSesion").addObject("error", "Rol desconocido.");
+	    }
+	}
 
 
 }
