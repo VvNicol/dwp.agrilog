@@ -45,4 +45,3 @@ public class FiltroDebugRoles extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 }
-
