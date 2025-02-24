@@ -56,52 +56,54 @@ public class InicioServicio implements InicioInterfaz {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public boolean verificarCorreo(String token) throws Exception {
-		try {
-			String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
+	public boolean verificarCorreo(String token) {
+	    boolean verificado = false; // Control de verificación correcta
 
-			// 1. Enviar solicitud GET a la API para verificar el token
-			ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
+	    try {
+	        String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
 
-			// 2. Verificar si la API devolvió error
-			if (respuesta.getStatusCode() != HttpStatus.OK || !respuesta.getBody().containsKey("correo")) {
-				throw new Exception("Error al verificar el token: " + respuesta.getBody().get("error"));
-			}
+	        ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
 
-			// 3. Extraer el correo
-			Map<String, Object> responseBody = respuesta.getBody();
-			String correo = responseBody.get("correo").toString();
-			LocalDateTime caducidad = LocalDateTime.parse(responseBody.get("caducidad").toString());
+	        if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
+	            return false; // 🔥 Evita lanzar una excepción innecesaria
+	        }
 
-			System.out.println("✔️ Token válido. Correo: " + correo);
+	        Map<String, Object> responseBody = respuesta.getBody();
 
-			// 4. Verificar si el token ha expirado
-			if (caducidad.isBefore(LocalDateTime.now())) {
-				throw new Exception("El token ha expirado.");
-			}
+	        if (!responseBody.containsKey("correo") || !responseBody.containsKey("caducidad")) {
+	            return false;
+	        }
 
-			// 5. Crear el objeto UsuarioDTO con el correo y el campo validado
-			UsuarioDTO usuario = new UsuarioDTO();
-			usuario.setCorreo(correo);
-			usuario.setCorreoValidado(true);
+	        String correo = responseBody.get("correo").toString();
+	        LocalDateTime caducidad = LocalDateTime.parse(responseBody.get("caducidad").toString());
 
-			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
+	        if (caducidad.isBefore(LocalDateTime.now())) {
+	            return false;
+	        }
 
-			// 6. Enviar usuario a la API para actualizarlo
-			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";
-			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, request, Map.class);
+	        UsuarioDTO usuario = new UsuarioDTO();
+	        usuario.setCorreo(correo);
+	        usuario.setCorreoValidado(true);
 
-			if (validacionResponse.getStatusCode() != HttpStatus.OK
-					|| validacionResponse.getBody().containsKey("error")) {
-				throw new Exception("Error al validar el correo: " + validacionResponse.getBody().get("error"));
-			}
+	        HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
+	        String validarCorreoUrl = "http://localhost:7259/api/validar-correo";
 
-			return true;
-		} catch (Exception ex) {
+	        ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, request, Map.class);
 
-			throw new Exception("Ha ocurrido algo inesperado: " + ex.getMessage(), ex);
-		}
+	        if (validacionResponse.getStatusCode() != HttpStatus.OK || 
+	            (validacionResponse.getBody() != null && validacionResponse.getBody().containsKey("error"))) {
+	            return false;
+	        }
+
+	        verificado = true; // 🔥 Solo aquí se marca como verificado
+	    } catch (Exception ex) {
+	        return false; // 🔥 Si hay un error, simplemente devuelve false sin lanzar una excepción
+	    }
+
+	    return verificado;
 	}
+
+
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {

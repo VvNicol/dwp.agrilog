@@ -21,22 +21,23 @@
 <body>
 
 	<div class="container mt-5">
-		<div class="bg-light p-5 rounded shadow-lg text-center mx-auto"
+		<div class="bg-light p-5 rounded shadow-lg text-center mx-auto mt-2"
 			style="max-width: 500px;">
 			<h2 class="text-dark">Verificación de Correo</h2>
-			<div id="verificacion-mensaje" class="mt-3">
-				<c:if test="${not empty mensaje}">
-					<div class="alert alert-success">${mensaje}</div>
-				</c:if>
-				<c:if test="${not empty error}">
-					<div class="alert alert-danger">${error}</div>
-				</c:if>
-			</div>
+
+			<c:if test="${not empty mensaje}">
+				<div class="alert alert-success">${mensaje}</div>
+			</c:if>
+
+			<c:if test="${not empty error}">
+				<div class="alert alert-danger">${error}</div>
+			</c:if>
 
 			<a href="${pageContext.request.contextPath}/inicio/principal"
-				class="btn btn-secondary mt-3">Ir al Inicio</a>
+				class="btn btn-secondary mt-2">Ir al Inicio</a>
 		</div>
 	</div>
+
 
 
 	<script

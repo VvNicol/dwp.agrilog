@@ -59,27 +59,24 @@ public class InicioControlador {
 
 	@GetMapping("/verificar-correo")
 	public ModelAndView verificarCorreo(@RequestParam("token") String token) {
-	    ModelAndView modelAndView = new ModelAndView("inicio/verificarCorreo"); // 📌 Cargar la JSP de verificación
+	    ModelAndView modelAndView = new ModelAndView("inicio/verificarCorreo");
 
 	    try {
-	    	boolean verificado = inicioServicio.verificarCorreo(token); // 📌 Intenta verificar el correo
+	        boolean verificado = inicioServicio.verificarCorreo(token); // Llama al servicio
 
 	        if (verificado) {
-	            System.out.println("✅ Correo verificado correctamente.");
 	            modelAndView.addObject("mensaje", "Correo verificado exitosamente. Ya puedes iniciar sesión.");
 	        } else {
-	            System.out.println("❌ El token es inválido o ha expirado.");
 	            modelAndView.addObject("error", "El token es inválido o ha expirado.");
 	        }
 	    } catch (Exception e) {
-	      
-	            System.out.println("⚠️ Error en la verificación del correo: " + e.getMessage());
-	            modelAndView.addObject("error", "Error al verificar correo: " + e.getMessage());
-	        
+	        // 🔥 Asegurar que el mensaje de error solo se muestra si NO se verificó correctamente
+	        modelAndView.addObject("error", "Ha ocurrido un error inesperado. Intenta nuevamente.");
 	    }
 
-	    return modelAndView; // 📌 Retornar la vista JSP con el mensaje correspondiente
+	    return modelAndView;
 	}
+
 
 
 

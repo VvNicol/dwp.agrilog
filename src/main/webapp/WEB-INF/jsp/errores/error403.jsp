@@ -13,11 +13,16 @@
 </head>
 <body>
 
-	<div class="error-container">
-		<h1>Error 403 - Acceso Denegado</h1>
-		<p>${mensaje}</p>
-		<a href="${pageContext.request.contextPath}/inicio/principal"
-			class="btn btn-primary">Volver al Inicio</a>
+	<div class="error-container container mt-5">
+
+		<div class="bg-light p-5 rounded shadow-lg text-center mx-auto mt-2"
+			style="max-width: 500px;">
+			<h1 class="text-dark"> Error 403 - Acceso Denegado</h1>
+			<p>${mensaje}</p>
+			<a href="${pageContext.request.contextPath}/inicio/principal"
+				class="btn btn-primary">Volver al Inicio</a>
+		</div>
+
 	</div>
 
 </body>
