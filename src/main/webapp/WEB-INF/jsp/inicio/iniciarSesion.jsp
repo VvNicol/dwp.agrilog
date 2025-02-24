@@ -24,7 +24,7 @@
         </div>
 
         <div class="buttons-container">
-            <a href="<%=request.getContextPath()%>/inicio/" class="btn btn-transparent btnNav">Inicio</a>
+            <a href="<%=request.getContextPath()%>/inicio/principal" class="btn btn-transparent btnNav">Inicio</a>
             <a href="<%=request.getContextPath()%>/inicio/iniciar-sesion" class="btn btn-transparent btnNav">Iniciar Sesión</a>
             <a href="<%=request.getContextPath()%>/inicio/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
         </div>

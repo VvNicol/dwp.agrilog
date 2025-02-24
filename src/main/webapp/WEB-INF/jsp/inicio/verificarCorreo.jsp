@@ -14,7 +14,8 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/estilos/verificarCorreo.css">
-<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico" />
+<link rel="icon" type="image/x-icon"
+	href="${pageContext.request.contextPath}/favicon.ico" />
 
 </head>
 <body>
@@ -23,8 +24,16 @@
 		<div class="bg-light p-5 rounded shadow-lg text-center mx-auto"
 			style="max-width: 500px;">
 			<h2 class="text-dark">Verificación de Correo</h2>
-			<div id="verificacion-mensaje" class="mt-3"></div>
-			<a href="${pageContext.request.contextPath}/"
+			<div id="verificacion-mensaje" class="mt-3">
+				<c:if test="${not empty mensaje}">
+					<div class="alert alert-success">${mensaje}</div>
+				</c:if>
+				<c:if test="${not empty error}">
+					<div class="alert alert-danger">${error}</div>
+				</c:if>
+			</div>
+
+			<a href="${pageContext.request.contextPath}/inicio/principal"
 				class="btn btn-secondary mt-3">Ir al Inicio</a>
 		</div>
 	</div>
@@ -37,6 +46,7 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 
-	<script src="${pageContext.request.contextPath}/js/inicio/verificarCorreo.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/inicio/verificarCorreo.js"></script>
 </body>
 </html>

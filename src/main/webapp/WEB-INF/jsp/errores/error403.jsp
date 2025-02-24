@@ -16,7 +16,7 @@
 	<div class="error-container">
 		<h1>Error 403 - Acceso Denegado</h1>
 		<p>${mensaje}</p>
-		<a href="${pageContext.request.contextPath}/index.jsp"
+		<a href="${pageContext.request.contextPath}/inicio/principal"
 			class="btn btn-primary">Volver al Inicio</a>
 	</div>
 

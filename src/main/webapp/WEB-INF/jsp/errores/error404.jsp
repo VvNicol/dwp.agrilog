@@ -13,7 +13,7 @@
     <div class="error-container">
         <h1>Error 404 - Página No Encontrada</h1>
         <p>${mensaje}</p>
-        <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-primary">Volver al Inicio</a>
+        <a href="${pageContext.request.contextPath}/inicio/principal" class="btn btn-primary">Volver al Inicio</a>
     </div>
     
 </body>

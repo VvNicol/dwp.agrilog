@@ -36,9 +36,9 @@ public class InicioControlador {
 	@Autowired
 	private InicioServicio inicioServicio;
 	
-	@GetMapping("/")
+	@GetMapping("/principal")
     public ModelAndView mostrarIndex() {
-        return new ModelAndView("index");
+        return new ModelAndView("inicio/index");
     }
 
 	@GetMapping("/iniciar-sesion")
@@ -58,24 +58,30 @@ public class InicioControlador {
 	}
 
 	@GetMapping("/verificar-correo")
-	@ResponseBody
-	public ResponseEntity<Map<String, String>> verificarCorreo(@RequestParam("token") String token) {
+	public ModelAndView verificarCorreo(@RequestParam("token") String token) {
+	    ModelAndView modelAndView = new ModelAndView("inicio/verificarCorreo"); // 📌 Cargar la JSP de verificación
 
-		Map<String, String> response = new HashMap<>();
-		try {
-			boolean verificado = inicioServicio.verificarCorreo(token);
-			if (verificado) {
-				response.put("mensaje", "Correo verificado exitosamente. Ya puedes iniciar sesión.");
-				return ResponseEntity.ok(response);
-			} else {
-				response.put("error", "El token es inválido o ha expirado.");
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-			}
-		} catch (Exception e) {
-			response.put("error", "Error al verificar correo: " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-		}
+	    try {
+	    	boolean verificado = inicioServicio.verificarCorreo(token); // 📌 Intenta verificar el correo
+
+	        if (verificado) {
+	            System.out.println("✅ Correo verificado correctamente.");
+	            modelAndView.addObject("mensaje", "Correo verificado exitosamente. Ya puedes iniciar sesión.");
+	        } else {
+	            System.out.println("❌ El token es inválido o ha expirado.");
+	            modelAndView.addObject("error", "El token es inválido o ha expirado.");
+	        }
+	    } catch (Exception e) {
+	      
+	            System.out.println("⚠️ Error en la verificación del correo: " + e.getMessage());
+	            modelAndView.addObject("error", "Error al verificar correo: " + e.getMessage());
+	        
+	    }
+
+	    return modelAndView; // 📌 Retornar la vista JSP con el mensaje correspondiente
 	}
+
+
 
 	@PostMapping("/registrarse")
 	@ResponseBody
@@ -103,8 +109,6 @@ public class InicioControlador {
 	            session.setAttribute("rol", resultado.get("rol"));
 	            session.setAttribute("token", resultado.get("token"));
 
-	            System.out.println("✅ Rol asignado en sesión: " + session.getAttribute("rol"));
-
 	            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(resultado.get("rol")));
 	            UsernamePasswordAuthenticationToken authentication =
 	                    new UsernamePasswordAuthenticationToken(correo, null, authorities);
@@ -113,11 +117,8 @@ public class InicioControlador {
 	            context.setAuthentication(authentication);
 	            SecurityContextHolder.setContext(context);
 
-	            // 🔥 Guardar en sesión manualmente para persistencia
 	            SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 	            securityContextRepository.saveContext(context, request, response);
-
-	            System.out.println("✅ Usuario autenticado en SecurityContextHolder: " + SecurityContextHolder.getContext().getAuthentication());
 
 	            return verificarYRedireccionar(resultado.get("rol"));
 	        } else {

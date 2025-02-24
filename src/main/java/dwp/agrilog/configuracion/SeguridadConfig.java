@@ -21,7 +21,7 @@ public class SeguridadConfig {
 	    http
 	        .csrf(csrf -> csrf.disable()) // 🔥 Desactiva CSRF solo si no usas formularios tradicionales
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/inicio/**", "/estilos/**", "/img/**", "/js/**", "/favicon.ico").permitAll()
+	                .requestMatchers("/inicio/**", "/estilos/**", "/img/**", "/js/**", "/favicon.ico").permitAll() // ✅ Permitir acceso a la landing page
 	            .requestMatchers("/WEB-INF/jsp/inicio/**", "/WEB-INF/jsp/errores/**").permitAll() // 🔥 Permitir acceso a vistas JSP
 	            .requestMatchers("/usuario/**").hasAuthority("USUARIO")
 	            .requestMatchers("/admin/**").hasAuthority("ADMIN")
@@ -34,7 +34,7 @@ public class SeguridadConfig {
 
 	@Bean
 	public SecurityContextRepository securityContextRepository() {
-	    return new HttpSessionSecurityContextRepository(); // 🔥 Mantiene el contexto de seguridad en sesión
+	    return new HttpSessionSecurityContextRepository(); //Mantiene el contexto de seguridad en sesión
 	}
 
 	
