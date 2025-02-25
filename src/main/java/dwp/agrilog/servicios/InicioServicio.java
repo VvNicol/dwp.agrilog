@@ -28,82 +28,53 @@ public class InicioServicio implements InicioInterfaz {
 	@Autowired
 	private CorreoServicio correoServicio;
 
-	private final String apiUrl = "http://localhost:7259/api/registrarse";
-
-	@Override
-	public String registrarUsuario(UsuarioDTO usuario) throws Exception {
-		try {
-
-			String contraseniaEncriptada = this.contraseniaEncriptada.encode(usuario.getContrasenia());
-			usuario.setRol("USUARIO");
-			usuario.setContrasenia(contraseniaEncriptada);
-			usuario.setFechaRegistro(java.time.LocalDateTime.now());
-			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
-
-			String token = Util.generarTokenConCorreo(usuario);
-			ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
-
-			if (response.getStatusCode() != HttpStatus.CREATED) {
-				throw new Exception(response.getBody());
-			}
-
-			correoServicio.correoDeVerificacion(usuario.getCorreo(), token);
-			return response.getBody();
-
-		} catch (Exception ex) {
-			throw new Exception("Ha ocurrido algo inesperado: " + ex.getMessage(), ex);
-		}
-	}
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean verificarCorreo(String token) {
-	    boolean verificado = false; // Control de verificación correcta
+		boolean verificado = false; // Control de verificación correcta
 
-	    try {
-	        String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
+		try {
+			String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
 
-	        ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
+			ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
 
-	        if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
-	            return false; // 🔥 Evita lanzar una excepción innecesaria
-	        }
+			if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
+				return false; // 🔥 Evita lanzar una excepción innecesaria
+			}
 
-	        Map<String, Object> responseBody = respuesta.getBody();
+			Map<String, Object> responseBody = respuesta.getBody();
 
-	        if (!responseBody.containsKey("correo") || !responseBody.containsKey("caducidad")) {
-	            return false;
-	        }
+			if (!responseBody.containsKey("correo") || !responseBody.containsKey("caducidad")) {
+				return false;
+			}
 
-	        String correo = responseBody.get("correo").toString();
-	        LocalDateTime caducidad = LocalDateTime.parse(responseBody.get("caducidad").toString());
+			String correo = responseBody.get("correo").toString();
+			LocalDateTime caducidad = LocalDateTime.parse(responseBody.get("caducidad").toString());
 
-	        if (caducidad.isBefore(LocalDateTime.now())) {
-	            return false;
-	        }
+			if (caducidad.isBefore(LocalDateTime.now())) {
+				return false;
+			}
 
-	        UsuarioDTO usuario = new UsuarioDTO();
-	        usuario.setCorreo(correo);
-	        usuario.setCorreoValidado(true);
+			UsuarioDTO usuario = new UsuarioDTO();
+			usuario.setCorreo(correo);
+			usuario.setCorreoValidado(true);
 
-	        HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
-	        String validarCorreoUrl = "http://localhost:7259/api/validar-correo";
+			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
+			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";
 
-	        ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, request, Map.class);
+			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, request, Map.class);
 
-	        if (validacionResponse.getStatusCode() != HttpStatus.OK || 
-	            (validacionResponse.getBody() != null && validacionResponse.getBody().containsKey("error"))) {
-	            return false;
-	        }
+			if (validacionResponse.getStatusCode() != HttpStatus.OK
+					|| (validacionResponse.getBody() != null && validacionResponse.getBody().containsKey("error"))) {
+				return false;
+			}
 
-	        verificado = true; // 🔥 Solo aquí se marca como verificado
-	    } catch (Exception ex) {
-	        return false; // 🔥 Si hay un error, simplemente devuelve false sin lanzar una excepción
-	    }
+			verificado = true; // 🔥 Solo aquí se marca como verificado
+		} catch (Exception ex) {
+			return false; // 🔥 Si hay un error, simplemente devuelve false sin lanzar una excepción
+		}
 
-	    return verificado;
+		return verificado;
 	}
-
-
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
@@ -151,7 +122,7 @@ public class InicioServicio implements InicioInterfaz {
 			respuestaMap.put("token", token);
 			respuestaMap.put("rol", rol);
 
-			return respuestaMap; // ✅ Ahora devuelve un Map<String, String>
+			return respuestaMap; 
 
 		} catch (Exception e) {
 			throw new Exception("Error en el inicio de sesión: " + e.getMessage(), e);

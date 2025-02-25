@@ -26,7 +26,7 @@
         <div class="buttons-container">
             <a href="<%=request.getContextPath()%>/inicio/principal" class="btn btn-transparent btnNav">Inicio</a>
             <a href="<%=request.getContextPath()%>/inicio/iniciar-sesion" class="btn btn-transparent btnNav">Iniciar Sesión</a>
-            <a href="<%=request.getContextPath()%>/inicio/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
+            <a href="<%=request.getContextPath()%>/regis/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
         </div>
     </nav>
 
@@ -61,7 +61,7 @@
                     </c:if>
 
                     <div class="mt-3 text-center enlaces">
-                        <a href="<%=request.getContextPath()%>/inicio/recuperar-contrasenia" class="text-decoration-none d-block mb-2">¿Olvidaste tu contraseña?</a>
+                        <a href="<%=request.getContextPath()%>/form/recuperar-contrasenia" class="text-decoration-none d-block mb-2">¿Olvidaste tu contraseña?</a>
                         <a href="<%=request.getContextPath()%>/inicio/registrarse" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
                     </div>
                 </div>
