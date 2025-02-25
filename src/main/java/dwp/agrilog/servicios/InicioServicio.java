@@ -16,6 +16,12 @@ import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.utilidades.JwtUtil;
 import dwp.agrilog.utilidades.Util;
 
+/**
+ * Servicio para gestionar el inicio de sesión y la verificación de correos
+ * electrónicos.
+ * 
+ * @autor nrojlla 25022025
+ */
 @Service
 public class InicioServicio implements InicioInterfaz {
 
@@ -29,10 +35,12 @@ public class InicioServicio implements InicioInterfaz {
 	private CorreoServicio correoServicio;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public boolean verificarCorreo(String token) throws Exception{
+	public boolean verificarCorreo(String token) throws Exception {
 		boolean verificado = false; // Control de verificación correcta
 
 		try {
+
+			// 1. Llamada a la API para validar el token
 			String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
 
 			ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
@@ -43,6 +51,7 @@ public class InicioServicio implements InicioInterfaz {
 
 			Map<String, Object> responseBody = respuesta.getBody();
 
+			// 2. Verifica que la respuesta contenga los datos necesarios
 			if (!responseBody.containsKey("correo") || !responseBody.containsKey("caducidad")) {
 				return false;
 			}
@@ -50,16 +59,19 @@ public class InicioServicio implements InicioInterfaz {
 			String correo = responseBody.get("correo").toString();
 			LocalDateTime caducidad = LocalDateTime.parse(responseBody.get("caducidad").toString());
 
+			// 3. Verifica si el token ha caducado
 			if (caducidad.isBefore(LocalDateTime.now())) {
 				return false;
 			}
 
+			// 4. Actualiza el estado del usuario en la API
 			UsuarioDTO usuario = new UsuarioDTO();
 			usuario.setCorreo(correo);
 			usuario.setCorreoValidado(true);
 
 			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
-			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";
+
+			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";// llamada a la api
 
 			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, request, Map.class);
 
@@ -68,9 +80,10 @@ public class InicioServicio implements InicioInterfaz {
 				return false;
 			}
 
-			verificado = true; // 🔥 Solo aquí se marca como verificado
+			verificado = true;
 		} catch (Exception ex) {
-			return false; // 🔥 Si hay un error, simplemente devuelve false sin lanzar una excepción
+			
+			return false;
 		}
 
 		return verificado;
@@ -79,6 +92,8 @@ public class InicioServicio implements InicioInterfaz {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
 		try {
+
+			// 1. Realiza la solicitud a la API para obtener la contraseña almacenada
 			String apiUrlIniciarSesion = "http://localhost:7259/api/contrasenia";
 
 			Map<String, String> request = new HashMap<>();
@@ -91,13 +106,13 @@ public class InicioServicio implements InicioInterfaz {
 				throw new Exception("Correo no encontrado o error en la API.");
 			}
 
-			// Extraer datos del usuario de la respuesta
+			// 2. Extrae los datos del usuario de la respuesta
 			Map<String, Object> usuarioData = respuesta.getBody();
 			String contraseniaGuardada = usuarioData.get("contrasenia").toString();
 			boolean correoValidado = (boolean) usuarioData.get("correoValidado");
-			String rol = usuarioData.get("rol").toString(); // ✅ Extraemos el rol correctamente
+			String rol = usuarioData.get("rol").toString();
 
-			// Si el correo no está validado, enviamos un nuevo correo de verificación
+			// 3. Si el correo no está validado, enviamos un nuevo correo de verificación
 			if (!correoValidado) {
 				String nuevoToken = Util.generarTokenConCorreo(usuario);
 
@@ -109,20 +124,20 @@ public class InicioServicio implements InicioInterfaz {
 				throw new Exception("Tu correo no está validado. Se ha enviado un nuevo correo de verificación.");
 			}
 
-			// Verificar la contraseña
+			// 4. Verifica la contraseña ingresada con la almacenada en la base de datos
 			if (!contraseniaEncriptada.matches(usuario.getContrasenia(), contraseniaGuardada)) {
 				throw new Exception("Contraseña incorrecta.");
 			}
 
-			// Generar token con JWT
+			// 5. Genera un token de autenticación con JWT
 			String token = JwtUtil.generarToken(usuario.getCorreo(), rol);
 
-			// Devolver el token y el rol en un mapa
+			// 6. Devolver el token y el rol en un mapa
 			Map<String, String> respuestaMap = new HashMap<>();
 			respuestaMap.put("token", token);
 			respuestaMap.put("rol", rol);
 
-			return respuestaMap; 
+			return respuestaMap;
 
 		} catch (Exception e) {
 			throw new Exception("Error en el inicio de sesión: " + e.getMessage(), e);

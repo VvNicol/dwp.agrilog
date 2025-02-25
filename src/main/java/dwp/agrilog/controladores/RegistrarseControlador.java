@@ -17,19 +17,35 @@ import org.springframework.web.servlet.ModelAndView;
 import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.servicios.RegistrarseServicio;
 
+/**
+ * Controlador para gestionar el registro de nuevos usuarios.
+ * 
+ * @autor nrojlla 25022025
+ */
 @Controller
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/regis")
 public class RegistrarseControlador {
-	
+
 	@Autowired
 	private RegistrarseServicio registrarseServicio;
-	
+
+	/**
+	 * Muestra la vista del formulario de registro.
+	 *
+	 * @return Vista de registro.
+	 */
 	@GetMapping("/registrarse")
 	public ModelAndView mostrarRegistro() {
 		return new ModelAndView("inicio/registrarse");
 	}
-	
+
+	/**
+	 * Registra un nuevo usuario en el sistema.
+	 *
+	 * @param usuario Objeto DTO con los datos del usuario.
+	 * @return Respuesta con mensaje de éxito o error.
+	 */
 	@PostMapping("/registrarse")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> registrar(UsuarioDTO usuario) {
