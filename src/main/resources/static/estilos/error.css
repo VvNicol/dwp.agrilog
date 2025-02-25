@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+/* Importación de fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&family=Poppins:wght@400;600&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+h1 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    color: #dc3545;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    color: #6c757d;
+}
+
+.error-container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}

@@ -2,47 +2,53 @@ package dwp.agrilog.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO (Data Transfer Object) para representar los datos de un usuario.
+ * 
+ * @autor nrojlla 25022025
+ */
 public class UsuarioDTO {
-	
-private Long usuarioId;
-	
-	private String nombreCompleto;
-	
-	private String telefono;
-	
-	private String correo;
-	
-	private String rol;
-	
-	private String contrasenia;
-	
-	private String token;
-	
-	private byte [] imagen;
-	
-	private LocalDateTime fechaRegistro;
-	
-	private Boolean autenticacionExterna = false;
-	
-	private boolean correoValidado = false;
-	
-	private String proveedor;
-	
-	private String externoId;
-	
-	private LocalDateTime tokenExpiracionFecha;
+
+	private Long usuarioId; // Identificador único del usuario
+
+	private String nombreCompleto; // Nombre completo del usuario
+
+	private String telefono; // Número de teléfono del usuario
+
+	private String correo; // Correo electrónico del usuario
+
+	private String rol; // Rol del usuario (ej. ADMIN, USUARIO)
+
+	private String contrasenia; // Contraseña encriptada del usuario
+
+	private String token; // Token para autenticación o verificación
+
+	private byte[] imagen; // Imagen de perfil del usuario en formato binario
+
+	private LocalDateTime fechaRegistro; // Fecha y hora en que se registró el usuario
+
+	private Boolean autenticacionExterna = false; // Indica si el usuario usa autenticación externa
+
+	private boolean correoValidado = false; // Indica si el correo del usuario ha sido validado
+
+	private String proveedor; // Proveedor de autenticación externa (ej. Google, Facebook)
+
+	private String externoId; // ID del usuario en la plataforma externa
+
+	private LocalDateTime tokenExpiracionFecha; // Fecha de expiración del token de autenticación
 
 	/**
-	 * 
+	 * Constructor vacío.
 	 */
 	public UsuarioDTO() {
 		super();
 	}
 
-	
 	/**
-	 * @param correo
-	 * @param contrasenia
+	 * Constructor con parámetros básicos para inicio de sesión.
+	 * 
+	 * @param correo      Correo del usuario.
+	 * @param contrasenia Contraseña del usuario.
 	 */
 	public UsuarioDTO(String correo, String contrasenia) {
 		super();
@@ -50,7 +56,8 @@ private Long usuarioId;
 		this.contrasenia = contrasenia;
 	}
 
-
+	// Métodos Getter y Setter
+	
 	/**
 	 * @return the usuarioId
 	 */
@@ -240,6 +247,5 @@ private Long usuarioId;
 	public void setTokenExpiracionFecha(LocalDateTime tokenExpiracionFecha) {
 		this.tokenExpiracionFecha = tokenExpiracionFecha;
 	}
-	
-	
+
 }

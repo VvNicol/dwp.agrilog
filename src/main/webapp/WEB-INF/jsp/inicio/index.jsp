@@ -31,7 +31,7 @@
 			<a href="${pageContext.request.contextPath}/inicio/principal" class="btn btn-transparent btnNav"> Inicio </a> <a
 				href="${pageContext.request.contextPath}/inicio/iniciar-sesion"
 				class="btn btn-transparent btnNav"> Iniciar Sesión </a> <a
-				href="${pageContext.request.contextPath}/inicio/registrarse"
+				href="${pageContext.request.contextPath}/regis/registrarse"
 				class="btn btn-transparent btnNav"> Registrarse </a>
 
 		</div>

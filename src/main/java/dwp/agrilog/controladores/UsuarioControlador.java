@@ -8,23 +8,32 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Controlador para el usuario autenticado.
+ * 
+ * @autor nrojlla 25022025
+ */
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioControlador {
 
-	
+	/**
+	 * Muestra el panel de usuario si está autenticado.
+	 * 
+	 * @param session Sesión HTTP del usuario.
+	 * @return Vista del panel de usuario o redirección al inicio de sesión.
+	 */
 	@GetMapping("/panel")
 	public ModelAndView mostrarPanelUsuario(HttpSession session) {
-		
-	    var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-	    if (authentication == null || !authentication.isAuthenticated() || authentication.getAuthorities().isEmpty()) {
-	        return new ModelAndView("redirect:/inicio/iniciar-sesion");
-	    }
+		var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-	    return new ModelAndView("usuario/usuarioPanel");
+	    // Verifica si el usuario está autenticado y si tiene roles asignados
+		if (authentication == null || !authentication.isAuthenticated() || authentication.getAuthorities().isEmpty()) {
+			return new ModelAndView("redirect:/inicio/iniciar-sesion");
+		}
+
+		return new ModelAndView("usuario/usuarioPanel");
 	}
-
-
 
 }

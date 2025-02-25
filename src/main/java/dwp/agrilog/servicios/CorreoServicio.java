@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+/**
+ * Servicio para gestionar el envío de correos electrónicos.
+ * Implementa la interfaz CorreoInterfaz.
+ * 
+ * @autor nrojlla 25022025
+ */
 @Service
 public class CorreoServicio implements CorreoInterfaz {
 
@@ -43,8 +49,6 @@ public class CorreoServicio implements CorreoInterfaz {
 	        e.printStackTrace();
 	    }
 	}
-
-
 
 	@Override
 	public void correoRecuperacionConCodigo(String correo, int codigo) {

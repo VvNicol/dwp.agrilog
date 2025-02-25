@@ -1,14 +1,14 @@
 $(document).ready(function() {
     $("#registroForm").submit(function(event) {
-        event.preventDefault(); // Evita el envío por defecto
+        event.preventDefault(); //Evita el envío por defecto
 
-        // 🔥 Capturar los datos antes de deshabilitar los campos
+        //Capturar los datos antes de deshabilitar los campos
         var formData = $(this).serialize();
 
-        // 🔥 Deshabilitar los campos y el botón mientras se procesa la solicitud
+        //Deshabilitar los campos y el botón mientras se procesa la solicitud
         $("#registroForm input, #registroForm button").prop("disabled", true);
 
-        // 🔥 Mostrar mensaje de "Enviando... Espere"
+        //Mostrar mensaje de "Enviando... Espere"
         $("#alerta-contenedor").html(
             '<div class="alert alert-info mt-3" role="alert">Enviando... Espere</div>'
         );
@@ -16,7 +16,7 @@ $(document).ready(function() {
         $.ajax({
             url: $(this).attr("action"),
             type: $(this).attr("method"),
-            data: formData,  // ✅ Ahora usamos la variable que ya capturó los datos
+            data: formData,  // Enviamos los datos capturados
             dataType: "json",
             success: function(data) {
                 if (data.mensaje) {

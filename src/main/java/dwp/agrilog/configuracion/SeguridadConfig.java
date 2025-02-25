@@ -19,10 +19,10 @@ public class SeguridadConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
-	        .csrf(csrf -> csrf.disable()) // 🔥 Desactiva CSRF solo si no usas formularios tradicionales
+	        .csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
-	                .requestMatchers("/inicio/**", "/estilos/**", "/img/**", "/js/**", "/favicon.ico").permitAll() // ✅ Permitir acceso a la landing page
-	            .requestMatchers("/WEB-INF/jsp/inicio/**", "/WEB-INF/jsp/errores/**").permitAll() // 🔥 Permitir acceso a vistas JSP
+	            .requestMatchers("/regis/**","/form/**","/inicio/**", "/estilos/**", "/img/**", "/js/**", "/favicon.ico").permitAll() 
+	            .requestMatchers("/WEB-INF/jsp/inicio/**", "/WEB-INF/jsp/errores/**").permitAll()
 	            .requestMatchers("/usuario/**").hasAuthority("USUARIO")
 	            .requestMatchers("/admin/**").hasAuthority("ADMIN")
 	            .anyRequest().authenticated()

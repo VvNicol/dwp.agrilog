@@ -20,7 +20,7 @@
         <div class="buttons-container">
             <a href="${pageContext.request.contextPath}/inicio/principal" class="btn btn-transparent btnNav">Inicio</a>
             <a href="${pageContext.request.contextPath}/inicio/iniciar-sesion" class="btn btn-transparent btnNav">Iniciar Sesión</a>
-            <a href="${pageContext.request.contextPath}/inicio/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
+            <a href="${pageContext.request.contextPath}/regis/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
         </div>
     </nav>
     <main>
@@ -45,7 +45,7 @@
             <div class="form-container d-flex justify-content-center align-items-center">
                 <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-4 p-5 formulario bg-light rounded shadow-lg">
                     <h2 class="text-center mb-4">Registrarse</h2>
-                    <form id="registroForm" action="${pageContext.request.contextPath}/inicio/registrarse" method="POST">
+                    <form id="registroForm" action="${pageContext.request.contextPath}/regis/registrarse" method="POST">
                         <div class="mb-4">
                             <label for="nombreCompleto" class="form-label">Nombre Completo</label>
                             <input type="text" id="nombreCompleto" name="nombreCompleto" class="form-control" required>
