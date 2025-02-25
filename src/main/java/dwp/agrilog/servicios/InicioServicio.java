@@ -29,7 +29,7 @@ public class InicioServicio implements InicioInterfaz {
 	private CorreoServicio correoServicio;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public boolean verificarCorreo(String token) {
+	public boolean verificarCorreo(String token) throws Exception{
 		boolean verificado = false; // Control de verificación correcta
 
 		try {

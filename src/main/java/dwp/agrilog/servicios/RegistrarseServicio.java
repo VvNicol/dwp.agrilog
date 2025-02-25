@@ -12,7 +12,7 @@ import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.utilidades.Util;
 
 @Service
-public class RegistrarseServicio {
+public class RegistrarseServicio implements RegistrarseInterfaz {
 
 	@Autowired
 	private PasswordEncoder contraseniaEncriptada;
@@ -25,6 +25,7 @@ public class RegistrarseServicio {
 
 	private final String apiUrl = "http://localhost:7259/api/registrarse";
 
+	@Override
 	public String registrarUsuario(UsuarioDTO usuario) throws Exception {
 		try {
 
