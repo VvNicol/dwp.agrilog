@@ -2,52 +2,77 @@ let correoUsuario = "";
 
 function enviarCorreo() {
 	let correo = $("#correo").val();
+
 	if (!correo) {
 		$("#correo").addClass("is-invalid");
 		return;
 	}
 	$("#correo").removeClass("is-invalid");
 
+	correoUsuario = correo;
+
+	let datos = JSON.stringify({ correo: correo });
+
+	$("#mensaje").html('<div class="alert alert-info">Enviando...</div>');
+	$("button").prop("disabled", true);
+
 	$.ajax({
 		type: "POST",
-		url: "/codigo-enviar-correo",
+		url: "/proyectoAgricola/form/codigo-enviar-correo",
 		contentType: "application/json",
-		data: JSON.stringify({ correo: correo }),
+		data: datos,
 		success: function(response) {
-			correoUsuario = correo;
-			$("#mensaje").html('<div class="alert alert-success">' + response.mensaje + '</div>');
+			let mensaje = response.mensaje || "Código enviado correctamente.";
+			$("#mensaje").html('<div class="alert alert-success">' + mensaje + '</div>');
 			$("#seccionCorreo").hide();
 			$("#seccionCodigo").show();
 		},
 		error: function(xhr) {
-			$("#mensaje").html('<div class="alert alert-danger">' + xhr.responseJSON.mensaje + '</div>');
+			let errorMsg = "Error al enviar el código.";
+			if (xhr.responseJSON && xhr.responseJSON.error) {
+				errorMsg = xhr.responseJSON.error;
+			}
+			$("#mensaje").html('<div class="alert alert-danger">' + errorMsg + '</div>');
+		},
+		complete: function() {
+			$("button").prop("disabled", false);
 		}
 	});
 }
 
+
+
 function verificarCodigo() {
 	let codigo = $("#codigo").val();
+
 	if (!codigo || isNaN(codigo)) {
 		$("#codigo").addClass("is-invalid");
 		return;
 	}
 	$("#codigo").removeClass("is-invalid");
 
+	let datos = {
+		correo: correoUsuario,
+		codigo: codigo.toString()
+	};
+
 	$.ajax({
 		type: "POST",
-		url: "/codigo-verificar",
+		url: "/proyectoAgricola/form/codigo-verificar",
 		contentType: "application/json",
-		data: JSON.stringify({ correo: correoUsuario, codigo: codigo }),
+		data: JSON.stringify(datos),
 		success: function(response) {
 			$("#mensaje").html('<div class="alert alert-success">' + response.mensaje + '</div>');
 			$("#seccionCodigo").hide();
 			$("#seccionContrasena").show();
 		},
 		error: function(xhr) {
-			$("#mensaje").html('<div class="alert alert-danger">' + xhr.responseJSON.mensaje + '</div>');
+			$("#mensaje").html('<div class="alert alert-danger">' + xhr.responseJSON.mensaje + xhr.responseJSON.error + '</div>');
+
 		}
 	});
 }
+
 
 function cambiarContrasena() {
 	let nuevaContrasena = $("#nuevaContrasena").val();
@@ -65,19 +90,24 @@ function cambiarContrasena() {
 	}
 	$("#confirmarContrasena").removeClass("is-invalid");
 
-	$.ajax({
-		type: "POST",
-		url: "/nueva-contrasenia",
-		contentType: "application/json",
-		data: JSON.stringify({ correo: correoUsuario, nuevaContrasenia: nuevaContrasena }),
-		success: function(response) {
-			$("#mensaje").html('<div class="alert alert-success">' + response.mensaje + '</div>');
-			$("#seccionContrasena").hide();
-		},
-		error: function(xhr) {
-			$("#mensaje").html('<div class="alert alert-danger">' + xhr.responseJSON.mensaje + '</div>');
-		}
-	});
+	let datos = {
+	        correo: correoUsuario,
+	        nuevaContrasenia: nuevaContrasena
+	    };
+
+	    $.ajax({
+	        type: "POST",
+	        url: "/proyectoAgricola/form/nueva-contrasenia",
+	        contentType: "application/json",
+	        data: JSON.stringify(datos),
+	        success: function(response) {
+	            $("#mensaje").html('<div class="alert alert-success">' + response.mensaje + '</div>');
+	            $("#seccionContrasena").hide();
+	        },
+	        error: function(xhr) {
+	            $("#mensaje").html('<div class="alert alert-danger">' + xhr.responseJSON.mensaje + '</div>');
+	        }
+	    });
 }
 
 function volverAlCorreo() {

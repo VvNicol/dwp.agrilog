@@ -36,6 +36,10 @@ public class UsuarioDTO {
 	private String externoId; // ID del usuario en la plataforma externa
 
 	private LocalDateTime tokenExpiracionFecha; // Fecha de expiración del token de autenticación
+	
+	private int codigoRecuperacion = 0;
+	
+	private LocalDateTime codigoExpiracionFecha;
 
 	/**
 	 * Constructor vacío.
@@ -244,8 +248,36 @@ public class UsuarioDTO {
 		return tokenExpiracionFecha;
 	}
 
+	/**
+	 * @return the codigoRecuperacion
+	 */
+	public int getCodigoRecuperacion() {
+		return codigoRecuperacion;
+	}
+
+	/**
+	 * @param codigoRecuperacion the codigoRecuperacion to set
+	 */
+	public void setCodigoRecuperacion(int codigoRecuperacion) {
+		this.codigoRecuperacion = codigoRecuperacion;
+	}
+
 	public void setTokenExpiracionFecha(LocalDateTime tokenExpiracionFecha) {
 		this.tokenExpiracionFecha = tokenExpiracionFecha;
+	}
+
+	/**
+	 * @return the codigoExpiracionFecha
+	 */
+	public LocalDateTime getCodigoExpiracionFecha() {
+		return codigoExpiracionFecha;
+	}
+
+	/**
+	 * @param codigoExpiracionFecha the codigoExpiracionFecha to set
+	 */
+	public void setCodigoExpiracionFecha(LocalDateTime codigoExpiracionFecha) {
+		this.codigoExpiracionFecha = codigoExpiracionFecha;
 	}
 
 }
