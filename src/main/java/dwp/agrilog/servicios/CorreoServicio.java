@@ -23,13 +23,16 @@ public class CorreoServicio implements CorreoInterfaz {
 	@Override
 	public void enviarCorreo(String para, String asunto, String contenidoHtml) throws MessagingException {
 
-		MimeMessage mensaje = correoRemitente.createMimeMessage();
+		//1. Crear un mensaje de correo
+		MimeMessage mensaje = correoRemitente.createMimeMessage(); 
+		
+		//2. Utilizar un asistente para configurar el mensaje
 		MimeMessageHelper asistente = new MimeMessageHelper(mensaje, true);
-
 		asistente.setTo(para);
 		asistente.setSubject(asunto);
 		asistente.setText(contenidoHtml, true);
 
+		//3. Enviar mensaje
 		correoRemitente.send(mensaje);
 	}
 
@@ -58,7 +61,7 @@ public class CorreoServicio implements CorreoInterfaz {
 				+ "Este codigo expirara en 10 minutos";
 
 		try {
-
+			
 			enviarCorreo(correo, asunto, contenido);
 
 		} catch (MessagingException e) {

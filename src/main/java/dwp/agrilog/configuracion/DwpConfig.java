@@ -34,16 +34,4 @@ public class DwpConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	/*@Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-	    return args -> {
-	        System.out.println("🔎 Rutas registradas en Spring Boot:");
-	        String[] beans = ctx.getBeanDefinitionNames();
-	        for (String bean : beans) {
-	            if (bean.contains("controlador") || bean.contains("Controlador")) {
-	                System.out.println("✅ " + bean);
-	            }
-	        }
-	    };
-	}*/
 }

@@ -16,6 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dwp.agrilog.servicios.RecuperarContraseniaServicio;
 
+/**
+ * Controlador para gestionar la recuperacion de contrasenia.
+ * 
+ * @autor nrojlla 25022025
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/form")
@@ -24,11 +29,22 @@ public class RecuperarContraseniaControlador {
 	@Autowired
 	private RecuperarContraseniaServicio recuperarcontraseniaServicio;
 
+	/**
+	 * Muestra la vista de recuperación de contraseña.
+	 * 
+	 * @return La vista "recuperarContrasenia.jsp".
+	 */
 	@GetMapping("/recuperar-contrasenia")
 	public ModelAndView mostrarRecuperarContrasenia() {
 		return new ModelAndView("inicio/recuperarContrasenia");
 	}
 
+	/**
+	 * Envía un código de recuperación al correo del usuario.
+	 *
+	 * @param respuestaBody Contiene el correo del usuario.
+	 * @return Mensaje de éxito o error.
+	 */
 	@PostMapping("/codigo-enviar-correo")
 	public ResponseEntity<Map<String, String>> enviarCodigo(@RequestBody Map<String, String> respuestaBody) {
 
@@ -50,7 +66,13 @@ public class RecuperarContraseniaControlador {
 		}
 
 	}
-	
+
+	/**
+	 * Verifica el código de recuperación ingresado por el usuario.
+	 *
+	 * @param respuestaBody Contiene el correo y el código ingresado.
+	 * @return Mensaje de éxito o error.
+	 */
 	@PostMapping("/codigo-verificar")
 	public ResponseEntity<Map<String, String>> verificarCodigo(@RequestBody Map<String, String> respuestaBody) {
 		Map<String, String> responde = new HashMap<>();
@@ -73,6 +95,12 @@ public class RecuperarContraseniaControlador {
 
 	}
 
+	/**
+	 * Cambia la contraseña del usuario después de la verificación.
+	 *
+	 * @param respuestaBody Contiene el correo y la nueva contraseña.
+	 * @return Mensaje de éxito o error.
+	 */
 	@PostMapping("/nueva-contrasenia")
 	public ResponseEntity<Map<String, String>> cambiarConstrasenia(@RequestBody Map<String, String> respuestaBody) {
 
@@ -97,5 +125,4 @@ public class RecuperarContraseniaControlador {
 
 	}
 
-	
 }
