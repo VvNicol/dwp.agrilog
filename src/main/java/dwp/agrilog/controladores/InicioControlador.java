@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dwp.agrilog.dto.UsuarioDTO;
+import dwp.agrilog.servicios.FicheroServicio;
 import dwp.agrilog.servicios.InicioServicio;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,6 +38,9 @@ public class InicioControlador {
 	@Autowired
 	private InicioServicio inicioServicio;
 
+	@Autowired
+	private FicheroServicio ficheroServicio;
+	
 	/**
 	 * Muestra la página principal de la aplicación.
 	 *
@@ -90,8 +94,8 @@ public class InicioControlador {
 	 * @param session     Sesión HTTP del usuario.
 	 * @param request     Solicitud HTTP.
 	 * @param response    Respuesta HTTP.
-	 * @return Redirección a la vista correspondiente según el rol o mensaje de
-	 *         error.
+	 * @return Redirección a la vista según el rol o mensaje de error.
+	 * 
 	 */
 	@PostMapping("/iniciar-sesion")
 	public ModelAndView iniciarSesion(@RequestParam String correo, @RequestParam String contrasenia,
@@ -101,13 +105,15 @@ public class InicioControlador {
 			Map<String, String> resultado = inicioServicio.iniciarSesionUsuario(usuario);
 
 			if (resultado.containsKey("token")) {
-				
-	            //1. Almacena datos de sesión
+
+				// 1. Almacena datos de sesión
 				session.setAttribute("usuario", correo);
 				session.setAttribute("rol", resultado.get("rol"));
 				session.setAttribute("token", resultado.get("token"));
 
-	            //2. Configura autenticación en Spring Security
+				ficheroServicio.registrarEvento(session, "Usuario inició sesión", " ");
+				
+				// 2. Configura autenticación en Spring Security
 				List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(resultado.get("rol")));
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(correo,
 						null, authorities);
@@ -116,7 +122,7 @@ public class InicioControlador {
 				context.setAuthentication(authentication);
 				SecurityContextHolder.setContext(context);
 
-	            //3. Guarda el contexto de seguridad en la sesión
+				// 3. Guarda el contexto de seguridad en la sesión
 				SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 				securityContextRepository.saveContext(context, request, response);
 

@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Servicio para gestionar la recuperacion de contraseña 
- * Implementa la interfaz RecuperarContraseniaInterfaz.
+ * Servicio para gestionar la recuperacion de contraseña Implementa la interfaz
+ * RecuperarContraseniaInterfaz.
  * 
  * @author nrojlla04032025
  */
@@ -35,6 +35,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 	@SuppressWarnings("rawtypes")
 	public void enviarCodigoAlCorreo(String correo) throws IOException {
 
+		// 1. Verificar si el correo está registrado en la API
 		String apiBuscarCorreo = "http://localhost:7259/api/contrasenia";
 
 		Map<String, String> solicitud = new HashMap<>();
@@ -52,11 +53,12 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 			throw new RuntimeException("Correo no registrado");
 		}
 
+		// 2. Generar código de recuperación y define una fecha de expiración
 		int codigo = dwp.agrilog.utilidades.Util.generarCodigo();
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		String expiracion = LocalDateTime.now().plusMinutes(10).format(formatter);
 
+		// 3. Guardar el código en la base de datos a través de la API
 		String apiGuardarCodigo = "http://localhost:7259/api/guardar-codigo";
 
 		Map<String, String> guardarCodigo = new HashMap<>();
@@ -74,6 +76,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 			throw new RuntimeException("Error al guardar codigo" + e.getMessage());
 		}
 
+		// 4. Enviar el código al correo del usuario
 		correoServicio.correoRecuperacionConCodigo(correo, codigo);
 
 	}
@@ -81,9 +84,11 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void verificarCodigo(String correo, int codigo) throws IOException {
+
+		// 1. Obtener el código almacenado desde la API
 		String apiObtenerCodigo = "http://localhost:7259/api/obtener-codigo";
 
-		//1 Enviar la solicitud a la API para obtener el código almacenado
+		// 2 Enviar la solicitud a la API para obtener el código almacenado
 		Map<String, String> solicitud = new HashMap<>();
 		solicitud.put("correo", correo);
 
@@ -99,14 +104,14 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 			throw new RuntimeException("No se encontró un código asociado a este correo.");
 		}
 
-		//2 Extraer los datos de la respuesta
+		// 3 Extraer los datos de la respuesta
 		Map<String, Object> datos = respuesta.getBody();
 
 		if (!datos.containsKey("codigo") || !datos.containsKey("expiracion")) {
 			throw new RuntimeException("La API no devolvió los datos esperados.");
 		}
 
-		//Conversión segura del código de String a int
+		// 4 Conversión del código de String a int
 		int codigoAlmacenado;
 		try {
 			codigoAlmacenado = Integer.parseInt(datos.get("codigo").toString());
@@ -114,7 +119,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 			throw new RuntimeException("Error al convertir el código a número: " + e.getMessage());
 		}
 
-		//Conversión segura de la fecha de expiración
+		// 5 Conversión la fecha de expiración
 		LocalDateTime expiracion;
 		try {
 			expiracion = LocalDateTime.parse(datos.get("expiracion").toString());
@@ -122,12 +127,12 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 			throw new RuntimeException("Error al convertir la fecha de expiración: " + e.getMessage());
 		}
 
-		//Comparación correcta del código
+		// Comparación del código
 		if (codigo != codigoAlmacenado) {
 			throw new RuntimeException("El código ingresado es incorrecto.");
 		}
 
-		//Verificar si el código ha expirado
+		// Verificar si el código ha expirado
 		if (expiracion.isBefore(LocalDateTime.now())) {
 			throw new RuntimeException("El código ha caducado.");
 		}
@@ -135,10 +140,13 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 
 	@Override
 	public void cambiarContrasenia(String correo, String nuevaContrasenia) throws IOException {
+		// 1. Definir la API para cambiar la contraseña
 		String apiCambiarContrasenia = "http://localhost:7259/api/cambiar-contrasenia";
 
+		// 2. Encriptar la nueva contraseña antes de enviarla
 		String contraseniaEncriptada = this.contraseniaEncriptada.encode(nuevaContrasenia);
 
+		// 3. Enviar la solicitud a la API con la nueva contraseña encriptada
 		Map<String, String> solicitud = new HashMap<>();
 		solicitud.put("correo", correo);
 		solicitud.put("nuevaContrasenia", contraseniaEncriptada);

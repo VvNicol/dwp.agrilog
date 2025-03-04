@@ -37,9 +37,9 @@ public class UsuarioDTO {
 
 	private LocalDateTime tokenExpiracionFecha; // Fecha de expiración del token de autenticación
 	
-	private int codigoRecuperacion = 0;
+	private int codigoRecuperacion = 0; //Codigo de recuperacion 
 	
-	private LocalDateTime codigoExpiracionFecha;
+	private LocalDateTime codigoExpiracionFecha; // Fecha de expiracion del codigo
 
 	/**
 	 * Constructor vacío.

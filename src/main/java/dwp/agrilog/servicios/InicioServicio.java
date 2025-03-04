@@ -48,7 +48,7 @@ public class InicioServicio implements InicioInterfaz {
 			ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
 
 			if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
-				return false; // 🔥 Evita lanzar una excepción innecesaria
+				return false;
 			}
 
 			Map<String, Object> responseBody = respuesta.getBody();
@@ -71,11 +71,11 @@ public class InicioServicio implements InicioInterfaz {
 			usuario.setCorreo(correo);
 			usuario.setCorreoValidado(true);
 
-			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
+			HttpEntity<UsuarioDTO> solicitud = new HttpEntity<>(usuario);
 
 			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";// llamada a la api
 
-			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, request, Map.class);
+			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, solicitud, Map.class);
 
 			if (validacionResponse.getStatusCode() != HttpStatus.OK
 					|| (validacionResponse.getBody() != null && validacionResponse.getBody().containsKey("error"))) {
@@ -83,6 +83,7 @@ public class InicioServicio implements InicioInterfaz {
 			}
 
 			verificado = true;
+			
 		} catch (Exception ex) {
 			
 			return false;
@@ -101,8 +102,8 @@ public class InicioServicio implements InicioInterfaz {
 			Map<String, String> request = new HashMap<>();
 			request.put("correo", usuario.getCorreo());
 
-			HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(request);
-			ResponseEntity<Map> respuesta = restTemplate.postForEntity(apiUrlIniciarSesion, requestEntity, Map.class);
+			HttpEntity<Map<String, String>> solicitud = new HttpEntity<>(request);
+			ResponseEntity<Map> respuesta = restTemplate.postForEntity(apiUrlIniciarSesion, solicitud, Map.class);
 
 			if (respuesta.getStatusCode() != HttpStatus.OK || !respuesta.getBody().containsKey("contrasenia")) {
 				throw new Exception("Correo no encontrado o error en la API.");
@@ -118,9 +119,9 @@ public class InicioServicio implements InicioInterfaz {
 			if (!correoValidado) {
 				String nuevoToken = Util.generarTokenConCorreo(usuario);
 
-				HttpEntity<UsuarioDTO> actualizarRequest = new HttpEntity<>(usuario);
+				HttpEntity<UsuarioDTO> actualizarSolicitud = new HttpEntity<>(usuario);
 				String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
-				restTemplate.postForEntity(actualizarUrl, actualizarRequest, Void.class);
+				restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
 
 				correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);
 				throw new Exception("Tu correo no está validado. Se ha enviado un nuevo correo de verificación.");
