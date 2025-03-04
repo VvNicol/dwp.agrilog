@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-<<<<<<< HEAD
                                     
     
-=======
-                                
->>>>>>> prueba
     
     
     
@@ -12,12 +8,8 @@
     
     
     <wb-module deploy-name="proyectoAgricola-0.0.1-SNAPSHOT">
-<<<<<<< HEAD
                                                                         
         
-=======
-                                                                
->>>>>>> prueba
         
         
         
@@ -25,12 +17,8 @@
         
         
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
-<<<<<<< HEAD
                                                                         
         
-=======
-                                                                
->>>>>>> prueba
         
         
         
@@ -38,12 +26,8 @@
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-<<<<<<< HEAD
                                                                         
         
-=======
-                                                                
->>>>>>> prueba
         
         
         
@@ -51,12 +35,8 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-<<<<<<< HEAD
                                                                         
         
-=======
-                                                                
->>>>>>> prueba
         
         
         
@@ -64,21 +44,12 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-<<<<<<< HEAD
                                 
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
                                                                         
         
-=======
-                        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp"/>
-                                                                
->>>>>>> prueba
         
         
         
@@ -86,12 +57,8 @@
         
         
         <property name="java-output-path" value="/dwp.agrilog/build/classes"/>
-<<<<<<< HEAD
                                                                         
         
-=======
-                                                                
->>>>>>> prueba
         
         
         
@@ -99,12 +66,8 @@
         
         
         <property name="context-root" value="proyectoAgricola"/>
-<<<<<<< HEAD
                                                                     
     
-=======
-                                                            
->>>>>>> prueba
     
     
     
@@ -112,12 +75,8 @@
     
     
     </wb-module>
-<<<<<<< HEAD
                                 
 
-=======
-                            
->>>>>>> prueba
 
 
 
