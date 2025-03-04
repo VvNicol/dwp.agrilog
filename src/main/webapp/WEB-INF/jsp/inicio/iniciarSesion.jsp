@@ -62,7 +62,7 @@
 
                     <div class="mt-3 text-center enlaces">
                         <a href="<%=request.getContextPath()%>/form/recuperar-contrasenia" class="text-decoration-none d-block mb-2">¿Olvidaste tu contraseña?</a>
-                        <a href="<%=request.getContextPath()%>/inicio/registrarse" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
+                        <a href="<%=request.getContextPath()%>/regis/registrarse" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
                     </div>
                 </div>
             </div>

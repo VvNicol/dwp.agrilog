@@ -20,6 +20,8 @@ import dwp.agrilog.utilidades.Util;
  * Servicio para gestionar el inicio de sesión y la verificación de correos
  * electrónicos.
  * 
+ * Implementa la interfaz InicioInterfaz.
+ * 
  * @autor nrojlla 25022025
  */
 @Service
