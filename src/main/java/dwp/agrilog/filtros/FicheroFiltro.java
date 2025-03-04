@@ -35,7 +35,7 @@ public class FicheroFiltro implements Filter {
 	 * @param chain     Cadena de filtros que permite continuar con la solicitud.
 	 */
 	@Override
-	public void doFilter(ServletRequest solicitud, ServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest solicitud, ServletResponse respuesta, FilterChain chain)
 			throws IOException, ServletException {
 		if (solicitud instanceof HttpServletRequest) {
 			HttpServletRequest httpRequest = (HttpServletRequest) solicitud;
@@ -47,7 +47,7 @@ public class FicheroFiltro implements Filter {
 		}
 
 		// Continuar con la cadena de filtros para que la solicitud no se interrumpa
-		chain.doFilter(solicitud, response);
+		chain.doFilter(solicitud, respuesta);
 	}
 
 }
