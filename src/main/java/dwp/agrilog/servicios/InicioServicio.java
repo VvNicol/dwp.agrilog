@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import dwp.agrilog.dto.UsuarioDTO;
@@ -94,57 +96,59 @@ public class InicioServicio implements InicioInterfaz {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
-		try {
+	    try {
+	        // 1. URL de la API para obtener la contraseña del usuario
+	        String apiUrlIniciarSesion = "http://localhost:7259/api/contrasenia";
 
-			// 1. Realiza la solicitud a la API para obtener la contraseña almacenada
-			String apiUrlIniciarSesion = "http://localhost:7259/api/contrasenia";
+	        Map<String, String> request = new HashMap<>();
+	        request.put("correo", usuario.getCorreo());
 
-			Map<String, String> request = new HashMap<>();
-			request.put("correo", usuario.getCorreo());
+	        HttpEntity<Map<String, String>> solicitud = new HttpEntity<>(request);
 
-			HttpEntity<Map<String, String>> solicitud = new HttpEntity<>(request);
-			ResponseEntity<Map> respuesta = restTemplate.postForEntity(apiUrlIniciarSesion, solicitud, Map.class);
+	        // 2. Llamado a la API
+	        ResponseEntity<Map> respuesta = restTemplate.postForEntity(apiUrlIniciarSesion, solicitud, Map.class);
 
-			if (respuesta.getStatusCode() != HttpStatus.OK || !respuesta.getBody().containsKey("contrasenia")) {
-				throw new Exception("Correo no encontrado o error en la API.");
-			}
+	        if (respuesta.getStatusCode() != HttpStatus.OK || !respuesta.getBody().containsKey("contrasenia")) {
+	            throw new Exception("Correo no encontrado o error interno.");
+	        }
 
-			// 2. Extrae los datos del usuario de la respuesta
-			Map<String, Object> usuarioData = respuesta.getBody();
-			String contraseniaGuardada = usuarioData.get("contrasenia").toString();
-			boolean correoValidado = (boolean) usuarioData.get("correoValidado");
-			String rol = usuarioData.get("rol").toString();
+	        // 3. Obtener datos del usuario
+	        Map<String, Object> usuarioData = respuesta.getBody();
+	        String contraseniaGuardada = usuarioData.get("contrasenia").toString();
+	        boolean correoValidado = (boolean) usuarioData.get("correoValidado");
+	        String rol = usuarioData.get("rol").toString();
 
-			// 3. Si el correo no está validado, enviamos un nuevo correo de verificación
-			if (!correoValidado) {
-				String nuevoToken = Util.generarTokenConCorreo(usuario);
+	        // 4. Verificar si el correo está validado
+	        if (!correoValidado) {
+	            String nuevoToken = Util.generarTokenConCorreo(usuario);
+	            HttpEntity<UsuarioDTO> actualizarSolicitud = new HttpEntity<>(usuario);
+	            String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
+	            restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
 
-				HttpEntity<UsuarioDTO> actualizarSolicitud = new HttpEntity<>(usuario);
-				String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
-				restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
+	            correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);
+	            throw new Exception("Tu correo no está validado. Se ha enviado un nuevo correo de verificación.");
+	        }
 
-				correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);
-				throw new Exception("Tu correo no está validado. Se ha enviado un nuevo correo de verificación.");
-			}
+	        // 5. Verificar contraseña
+	        if (!contraseniaEncriptada.matches(usuario.getContrasenia(), contraseniaGuardada)) {
+	            throw new Exception("Contraseña incorrecta.");
+	        }
 
-			// 4. Verifica la contraseña ingresada con la almacenada en la base de datos
-			if (!contraseniaEncriptada.matches(usuario.getContrasenia(), contraseniaGuardada)) {
-				throw new Exception("Contraseña incorrecta.");
-			}
+	        // 6. Generar token JWT
+	        String token = JwtUtil.generarToken(usuario.getCorreo(), rol);
 
-			// 5. Genera un token de autenticación con JWT
-			String token = JwtUtil.generarToken(usuario.getCorreo(), rol);
+	        // 7. Devolver respuesta
+	        Map<String, String> respuestaMap = new HashMap<>();
+	        respuestaMap.put("token", token);
+	        respuestaMap.put("rol", rol);
+	        return respuestaMap;
 
-			// 6. Devolver el token y el rol en un mapa
-			Map<String, String> respuestaMap = new HashMap<>();
-			respuestaMap.put("token", token);
-			respuestaMap.put("rol", rol);
-
-			return respuestaMap;
-
-		} catch (Exception e) {
-			throw new Exception("Error en el inicio de sesión: " + e.getMessage(), e);
-		}
+	    } catch (ResourceAccessException | HttpClientErrorException e) {
+	        throw new Exception("Error interno. Por favor, intenta más tarde.");
+	    } catch (Exception e) {
+	        throw new Exception(e.getMessage(), e);
+	    }
 	}
+
 
 }

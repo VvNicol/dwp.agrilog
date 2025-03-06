@@ -11,19 +11,17 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Servicio para la gestión de usuarios por parte del administrador.
  * 
+ * Implementa la interfaz AdminInterface.
+ * 
  * @autor nrojlla 25022025
  */
 @Service
-public class AdminServicio {
+public class AdminServicio implements AdminInterface{
 
 	private final String API_URL = "http://localhost:7259/api";
 	private final RestTemplate restTemplate = new RestTemplate();
 
-	/**
-	 * Obtiene la lista de todos los usuarios desde la API.
-	 * 
-	 * @return Lista de usuarios.
-	 */
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Map<String, Object>> obtenerListaUsuarios() {
 		String url = API_URL + "/lista-usuarios";
@@ -35,11 +33,7 @@ public class AdminServicio {
 		}
 	}
 
-	/**
-	 * Envía una solicitud a la API para eliminar un usuario por su correo.
-	 * 
-	 * @param correo Correo del usuario a eliminar.
-	 */
+	
 	public void eliminarUsuario(String correo) {
 		String url = API_URL + "/eliminar-usuario?correo=" + correo;
 		try {
