@@ -1,3 +1,0 @@
-13:09:22 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_E88D6E54E176156C2A9F78B99830E2D2
-13:09:29 - Página visitada: /proyectoAgricola/regis/registrarse - Usuario: anonimo_E88D6E54E176156C2A9F78B99830E2D2
-13:09:31 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_E88D6E54E176156C2A9F78B99830E2D2
