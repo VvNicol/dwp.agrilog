@@ -1,0 +1,8 @@
+13:20:57 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:06 - Página visitada: /proyectoAgricola/regis/registrarse - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:07 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:09 - Página visitada: /proyectoAgricola/inicio/principal - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:12 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:14 - Página visitada: /proyectoAgricola/regis/registrarse - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:15 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB
+13:21:22 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_BA3FF63CB872BF7D64EA8C3D66C15ECB

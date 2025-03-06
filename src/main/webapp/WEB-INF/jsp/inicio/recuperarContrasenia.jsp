@@ -14,7 +14,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/estilos/nav.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/estilos/mainRegistrarse.css">
+	href="${pageContext.request.contextPath}/estilos/mainRecuperarContrasenia.css">
 <link rel="icon" type="image/x-icon"
 	href="${pageContext.request.contextPath}/favicon.ico" />
 </head>
@@ -36,7 +36,7 @@
 	</nav>
 	<main>
 		<div class="container mt-5 p-5">
-			<div class="row justify-content-center">
+			<div class="row justify-content-center mt-5">
 				<div class="col-12 col-md-6 bg-light rounded shadow-lg col-lg-4 p-4">
 
 					<!-- Sección de correo -->

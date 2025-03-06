@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="buttons-container">
-			<a href="#" class="btn btn-transparent btnNav"> Panel </a>
+			<a href="#" class="btn btn-activo btnNav"> Panel </a>
 			<a href="${pageContext.request.contextPath}/cerrar-sesion" class="btn btn-danger btn-sm ms-3">
 				Cerrar Sesión
 			</a>

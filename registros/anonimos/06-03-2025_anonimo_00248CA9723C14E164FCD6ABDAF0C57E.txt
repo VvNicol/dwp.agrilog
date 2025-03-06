@@ -1,0 +1,6 @@
+13:28:52 - Página visitada: /proyectoAgricola/form/recuperar-contrasenia - Usuario: anonimo_00248CA9723C14E164FCD6ABDAF0C57E
+13:31:11 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_00248CA9723C14E164FCD6ABDAF0C57E
+13:31:12 - Página visitada: /proyectoAgricola/regis/registrarse - Usuario: anonimo_00248CA9723C14E164FCD6ABDAF0C57E
+13:31:20 - Página visitada: /proyectoAgricola/inicio/principal - Usuario: anonimo_00248CA9723C14E164FCD6ABDAF0C57E
+13:31:21 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_00248CA9723C14E164FCD6ABDAF0C57E
+13:31:23 - Página visitada: /proyectoAgricola/form/recuperar-contrasenia - Usuario: anonimo_00248CA9723C14E164FCD6ABDAF0C57E

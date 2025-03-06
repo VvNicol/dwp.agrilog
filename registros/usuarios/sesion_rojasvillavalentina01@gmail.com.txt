@@ -1,0 +1,8 @@
+12:36:52 -  : Usuario inició sesión - Usuario: rojasvillavalentina01@gmail.com
+12:36:52 - Página visitada: /proyectoAgricola/admin/panel - Usuario: rojasvillavalentina01@gmail.com
+12:37:22 - Página visitada: /proyectoAgricola/cerrar-sesion - Usuario: rojasvillavalentina01@gmail.com
+13:21:23 -  : Usuario inició sesión - Usuario: rojasvillavalentina01@gmail.com
+13:21:23 - Página visitada: /proyectoAgricola/admin/panel - Usuario: rojasvillavalentina01@gmail.com
+13:23:05 - Página visitada: /proyectoAgricola/cerrar-sesion - Usuario: rojasvillavalentina01@gmail.com
+13:41:50 -  : Usuario inició sesión - Usuario: rojasvillavalentina01@gmail.com
+13:41:50 - Página visitada: /proyectoAgricola/admin/panel - Usuario: rojasvillavalentina01@gmail.com

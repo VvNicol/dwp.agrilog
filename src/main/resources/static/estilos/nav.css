@@ -61,6 +61,7 @@
     margin-right: 10px;
   }
   
+  
   .btnNav:hover {
     background-color: #4ca14f !important;
     color: white !important;
@@ -71,3 +72,10 @@
     color: #ffffff !important;
     border: none !important;
   }
+  
+  .btn-activo {
+	color: white !important;
+	background-color: #39933e!important;
+	border-radius: 8px;
+	border-color: #4CAF50 !important;
+}

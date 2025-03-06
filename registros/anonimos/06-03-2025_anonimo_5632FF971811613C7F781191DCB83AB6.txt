@@ -1,0 +1,4 @@
+13:10:54 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_5632FF971811613C7F781191DCB83AB6
+13:11:06 - Página visitada: /proyectoAgricola/regis/registrarse - Usuario: anonimo_5632FF971811613C7F781191DCB83AB6
+13:11:08 - Página visitada: /proyectoAgricola/inicio/principal - Usuario: anonimo_5632FF971811613C7F781191DCB83AB6
+13:11:08 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_5632FF971811613C7F781191DCB83AB6

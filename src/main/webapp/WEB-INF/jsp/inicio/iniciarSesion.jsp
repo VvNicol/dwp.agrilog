@@ -25,7 +25,7 @@
 
         <div class="buttons-container">
             <a href="<%=request.getContextPath()%>/inicio/principal" class="btn btn-transparent btnNav">Inicio</a>
-            <a href="<%=request.getContextPath()%>/inicio/iniciar-sesion" class="btn btn-transparent btnNav">Iniciar Sesión</a>
+            <a href="<%=request.getContextPath()%>/inicio/iniciar-sesion" class="btn btn-activo btnNav">Iniciar Sesión</a>
             <a href="<%=request.getContextPath()%>/regis/registrarse" class="btn btn-transparent btnNav">Registrarse</a>
         </div>
     </nav>
@@ -34,7 +34,7 @@
         <div class="row contenedor">
             <img src="<%=request.getContextPath()%>/img/fotos/Agricultura7.jpg" alt="Fondo" class="imagen-fondo">
 
-            <div class="col-12 col-md-10 d-flex align-items-center justify-content-center p-5">
+            <div class="col-12 col-md-10 d-flex mt-5 align-items-center margen justify-content-center p-5">
                 <div class="col-lg-8 col-md-10 col-12 p-4 formulario bg-light rounded shadow-lg">
                     <h2 class="text-center mb-4">Iniciar Sesión</h2>
 
