@@ -10,10 +10,13 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/nav.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/contenidoIndex.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/estilos/nav.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/estilos/contenidoIndex.css">
 
-<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico" />
+<link rel="icon" type="image/x-icon"
+	href="${pageContext.request.contextPath}/favicon.ico" />
 
 
 <meta charset="UTF-8">
@@ -22,13 +25,15 @@
 <body>
 	<nav class="navbar">
 		<div class="logo-contenedor align-items-center justify-content-center">
-			<img src="${pageContext.request.contextPath}/img/logo/Logo-sin-fondo.png" alt="Logo" class="logo" /> <span
-				class="logo-text">Agrilog</span>
+			<img
+				src="${pageContext.request.contextPath}/img/logo/Logo-sin-fondo.png"
+				alt="Logo" class="logo" /> <span class="logo-text">Agrilog</span>
 		</div>
 
 		<div class="buttons-container">
 
-			<a href="${pageContext.request.contextPath}/inicio/principal" class="btn btn-activo btnNav"> Inicio </a> <a
+			<a href="${pageContext.request.contextPath}/inicio/principal"
+				class="btn btn-activo btnNav"> Inicio </a> <a
 				href="${pageContext.request.contextPath}/inicio/iniciar-sesion"
 				class="btn btn-transparent btnNav"> Iniciar Sesión </a> <a
 				href="${pageContext.request.contextPath}/regis/registrarse"
@@ -36,6 +41,7 @@
 
 		</div>
 	</nav>
+
 	<main>
 		<div class="landing-container">
 			<div class="overlay">

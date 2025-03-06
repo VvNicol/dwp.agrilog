@@ -49,15 +49,16 @@ public class RegistrarseControlador {
 	@PostMapping("/registrarse")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> registrar(UsuarioDTO usuario) {
-		Map<String, String> response = new HashMap<>();
-		try {
-			registrarseServicio.registrarUsuario(usuario);
-			response.put("mensaje", "Usuario registrado con éxito. Verifique su correo para iniciar sesión.");
-			return ResponseEntity.status(HttpStatus.CREATED).body(response);
-		} catch (Exception e) {
-			response.put("error", "Error al registrar usuario: " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-		}
+	    Map<String, String> response = new HashMap<>();
+	    try {
+	        registrarseServicio.registrarUsuario(usuario);
+	        response.put("mensaje", "Usuario registrado con éxito. Verifique su correo para iniciar sesión.");
+	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	    } catch (Exception e) {
+	        response.put("error", e.getMessage());
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	    }
 	}
+
 
 }

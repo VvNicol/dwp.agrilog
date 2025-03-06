@@ -32,6 +32,7 @@
 
     <main>
         <div class="row contenedor">
+        
             <img src="<%=request.getContextPath()%>/img/fotos/Agricultura7.jpg" alt="Fondo" class="imagen-fondo">
 
             <div class="col-12 col-md-10 d-flex mt-5 align-items-center margen justify-content-center p-5">

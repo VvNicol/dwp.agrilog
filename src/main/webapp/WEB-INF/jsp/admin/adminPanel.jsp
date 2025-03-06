@@ -34,6 +34,11 @@
 		</div>
 	</nav>
 
+<main>
+
+    <img src="<%=request.getContextPath()%>/img/fotos/Agricultura7.jpg" alt="Fondo" class="imagen-fondo">
+
+
 	<div class="container mt-5">
 		<div
 			class="card border-success shadow p-4 text-center bg-light">
@@ -95,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-
+</main>
 	<!-- CONFIRMACIÓN DE ELIMINACIÓN -->
 	<script>
 		function confirmarEliminacion(correo) {

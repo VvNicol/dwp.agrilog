@@ -34,52 +34,46 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 	@Override
 	@SuppressWarnings("rawtypes")
 	public void enviarCodigoAlCorreo(String correo) throws IOException {
+	    String apiBuscarCorreo = "http://localhost:7259/api/contrasenia";
+	    Map<String, String> solicitud = new HashMap<>();
+	    solicitud.put("correo", correo);
 
-		// 1. Verificar si el correo está registrado en la API
-		String apiBuscarCorreo = "http://localhost:7259/api/contrasenia";
+	    ResponseEntity<Map> respuesta;
 
-		Map<String, String> solicitud = new HashMap<>();
-		solicitud.put("correo", correo);
+	    try {
+	        respuesta = restTemplate.postForEntity(apiBuscarCorreo, solicitud, Map.class);
+	        
+	        if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
+	            throw new RuntimeException("El correo no está registrado en nuestro sistema.");
+	        }
 
-		ResponseEntity<Map> respuesta;
+	    } catch (Exception e) {
+	        // Si la API no responde, muestra un error más amigable
+	        throw new RuntimeException("Error interno del servidor. Inténtelo más tarde.");
+	    }
 
-		try {
-			respuesta = restTemplate.postForEntity(apiBuscarCorreo, solicitud, Map.class);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
+	    // 2. Generar código de recuperación y definir la fecha de expiración
+	    int codigo = dwp.agrilog.utilidades.Util.generarCodigo();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+	    String expiracion = LocalDateTime.now().plusMinutes(10).format(formatter);
 
-		if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
-			throw new RuntimeException("Correo no registrado");
-		}
+	    // 3. Guardar el código en la base de datos a través de la API
+	    String apiGuardarCodigo = "http://localhost:7259/api/guardar-codigo";
+	    Map<String, String> guardarCodigo = new HashMap<>();
+	    guardarCodigo.put("correo", correo);
+	    guardarCodigo.put("codigo", String.valueOf(codigo));
+	    guardarCodigo.put("expiracion", expiracion);
 
-		// 2. Generar código de recuperación y define una fecha de expiración
-		int codigo = dwp.agrilog.utilidades.Util.generarCodigo();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		String expiracion = LocalDateTime.now().plusMinutes(10).format(formatter);
+	    try {
+	        restTemplate.postForEntity(apiGuardarCodigo, guardarCodigo, Void.class);
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error al guardar el código. Inténtelo más tarde.");
+	    }
 
-		// 3. Guardar el código en la base de datos a través de la API
-		String apiGuardarCodigo = "http://localhost:7259/api/guardar-codigo";
-
-		Map<String, String> guardarCodigo = new HashMap<>();
-
-		guardarCodigo.put("correo", correo);
-		guardarCodigo.put("codigo", String.valueOf(codigo));
-		guardarCodigo.put("expiracion", expiracion);
-
-		try {
-
-			restTemplate.postForEntity(apiGuardarCodigo, guardarCodigo, Void.class);
-
-		} catch (Exception e) {
-
-			throw new RuntimeException("Error al guardar codigo" + e.getMessage());
-		}
-
-		// 4. Enviar el código al correo del usuario
-		correoServicio.correoRecuperacionConCodigo(correo, codigo);
-
+	    // 4. Enviar el código al correo del usuario
+	    correoServicio.correoRecuperacionConCodigo(correo, codigo);
 	}
+
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -97,7 +91,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 		try {
 			respuesta = restTemplate.postForEntity(apiObtenerCodigo, solicitud, Map.class);
 		} catch (Exception e) {
-			throw new RuntimeException("Error al obtener el código de la API: " + e.getMessage());
+			throw new RuntimeException("Error interno del servidor. Inténtelo más tarde.");
 		}
 
 		if (respuesta.getStatusCode() != HttpStatus.OK || respuesta.getBody() == null) {
@@ -140,26 +134,24 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 
 	@Override
 	public void cambiarContrasenia(String correo, String nuevaContrasenia) throws IOException {
-		// 1. Definir la API para cambiar la contraseña
-		String apiCambiarContrasenia = "http://localhost:7259/api/cambiar-contrasenia";
+	    String apiCambiarContrasenia = "http://localhost:7259/api/cambiar-contrasenia";
 
-		// 2. Encriptar la nueva contraseña antes de enviarla
-		String contraseniaEncriptada = this.contraseniaEncriptada.encode(nuevaContrasenia);
+	    // Encriptar la nueva contraseña
+	    String contraseniaEncriptada = this.contraseniaEncriptada.encode(nuevaContrasenia);
 
-		// 3. Enviar la solicitud a la API con la nueva contraseña encriptada
-		Map<String, String> solicitud = new HashMap<>();
-		solicitud.put("correo", correo);
-		solicitud.put("nuevaContrasenia", contraseniaEncriptada);
+	    Map<String, String> solicitud = new HashMap<>();
+	    solicitud.put("correo", correo);
+	    solicitud.put("nuevaContrasenia", contraseniaEncriptada);
 
-		try {
-			ResponseEntity<Void> respuesta = restTemplate.postForEntity(apiCambiarContrasenia, solicitud, Void.class);
+	    try {
+	        ResponseEntity<Void> respuesta = restTemplate.postForEntity(apiCambiarContrasenia, solicitud, Void.class);
 
-			if (respuesta.getStatusCode() != HttpStatus.OK) {
-				throw new RuntimeException("Error al actualizar la contraseña en la API.");
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("Error al cambiar la contraseña: " + e.getMessage());
-		}
+	        if (respuesta.getStatusCode() != HttpStatus.OK) {
+	            throw new RuntimeException("No se pudo actualizar la contraseña.");
+	        }
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error interno al cambiar la contraseña. Inténtelo más tarde.");
+	    }
 	}
 
 }

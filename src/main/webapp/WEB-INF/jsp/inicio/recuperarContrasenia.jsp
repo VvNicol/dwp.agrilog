@@ -35,6 +35,10 @@
 		</div>
 	</nav>
 	<main>
+	
+	            <img src="<%=request.getContextPath()%>/img/fotos/Agricultura5.jpg" alt="Fondo" class="imagen-fondo">
+	
+	
 		<div class="container mt-5 p-5">
 			<div class="row justify-content-center mt-5">
 				<div class="col-12 col-md-6 bg-light rounded shadow-lg col-lg-4 p-4">
