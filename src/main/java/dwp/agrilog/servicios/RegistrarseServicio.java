@@ -16,6 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.utilidades.Util;
+import jakarta.mail.MessagingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Servicio para gestionar el registro de nuevos usuarios. Implementa la
@@ -34,36 +38,55 @@ public class RegistrarseServicio implements RegistrarseInterfaz {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+
+
+	// Declararlo arriba en tu clase
+	private static final Logger log = LoggerFactory.getLogger(RegistrarseServicio.class);
+
 
 	// URL de la API para registrar un nuevo usuario
 	private final String apiUrl = "http://localhost:7259/api/registrarse";
+	
 
 	@Override
 	public String registrarUsuario(UsuarioDTO usuario) throws Exception {
 		try {
 			// 1. Encripta la contraseña antes de enviarla a la API
+			
 			String contraseniaEncriptada = this.contraseniaEncriptada.encode(usuario.getContrasenia());
 			usuario.setRol("USUARIO");
 			usuario.setContrasenia(contraseniaEncriptada);
 			usuario.setFechaRegistro(java.time.LocalDateTime.now());
-
+			log.info("Encripta la contraseña antes de enviarla a la API");
+			
 			// 2. Crea la solicitud HTTP con el usuario
+			
 			HttpEntity<UsuarioDTO> request = new HttpEntity<>(usuario);
+			log.info("Crea la solicitud HTTP con el usuario: {}", request);
 
+			
 			// 3. Genera un token de verificación para el usuario
 			String token = Util.generarTokenConCorreo(usuario);
-
+			log.info("Genera un token de verificación para el usuario");
 			// 4. Envía la solicitud a la API de registro
 			ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
-
+			log.info("Envía la solicitud a la API de registro");
+			
+			
 			// 5. Si la respuesta no es 201 CREATED, extrae el mensaje de error
 			if (response.getStatusCode() != HttpStatus.CREATED) {
 				throw new Exception(obtenerMensajeError(response.getBody()));
 			}
 
+			log.info("2CORREO_CONTRASENIA: {}", System.getenv("CORREO_CONTRASENIA"));
 			// 6. Envía el correo de verificación con el token
-			correoServicio.correoDeVerificacion(usuario.getCorreo(), token);
-
+			try {
+			    correoServicio.correoDeVerificacion(usuario.getCorreo(), token);
+			    log.info("3CORREO_CONTRASENIA: {}", System.getenv("CORREO_CONTRASENIA"));
+			} catch (MessagingException e) {
+			    throw new Exception("No se pudo enviar el correo de verificación.", e);
+			}
 			// 7. Retorna la respuesta de la API
 			return response.getBody();
 

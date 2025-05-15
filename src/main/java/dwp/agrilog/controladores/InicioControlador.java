@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,6 @@ import jakarta.servlet.http.HttpSession;
  * @autor nrojlla 25022025
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/inicio")
 public class InicioControlador {
 
@@ -41,6 +39,12 @@ public class InicioControlador {
 	@Autowired
 	private FicheroServicio ficheroServicio;
 	
+	
+	@GetMapping("/")
+    public String inicio() {
+		 return "redirect:/index.jsp";
+    }
+	
 	/**
 	 * Muestra la página principal de la aplicación.
 	 *
@@ -48,7 +52,7 @@ public class InicioControlador {
 	 */
 	@GetMapping("/principal")
 	public ModelAndView mostrarIndex() {
-		return new ModelAndView("inicio/index");
+		return new ModelAndView("index");
 	}
 
 	/**

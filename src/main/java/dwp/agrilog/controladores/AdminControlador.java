@@ -44,10 +44,18 @@ public class AdminControlador {
 		}
 
 		// Obtener la lista de usuarios desde la API
-		List<Map<String, Object>> usuarios = adminServicio.obtenerListaUsuarios();
+		List<Map<String, Object>> usuarios = null;
+	    String errorUsuarios = null;
+
+	    try {
+	        usuarios = adminServicio.obtenerListaUsuarios();
+	    } catch (Exception e) {
+	        errorUsuarios = "Error al cargar los datos.";
+	    }
 
 		ModelAndView modelAndView = new ModelAndView("admin/adminPanel");
 		modelAndView.addObject("usuarios", usuarios);
+		modelAndView.addObject("errorUsuarios", errorUsuarios);
 
 		return modelAndView;
 	}

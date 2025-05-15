@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AdminServicio implements AdminInterface{
 
-	private final String API_URL = "http://localhost:7259/api";
+	private final String API_URL = "https://localhost:7259/api";
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	

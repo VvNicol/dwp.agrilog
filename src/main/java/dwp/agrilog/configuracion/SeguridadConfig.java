@@ -32,11 +32,16 @@ public class SeguridadConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
-				.requestMatchers("/regis/**", "/form/**", "/inicio/**", "/cerrar-sesion",
-						"/estilos/**", "/img/**", "/js/**","/favicon.ico")
-				.permitAll().requestMatchers("/WEB-INF/jsp/inicio/**", "/WEB-INF/jsp/errores/**").permitAll()
-				.requestMatchers("/usuario/**").hasAuthority("USUARIO").requestMatchers("/admin/**")
-				.hasAuthority("ADMIN").anyRequest().authenticated())
+				// Archivos públicos
+                .requestMatchers("/", "/index.jsp", "/principal").permitAll()
+                .requestMatchers("/jsp/**").permitAll()
+                .requestMatchers("/regis/**", "/form/**", "/inicio/**", "/cerrar-sesion").permitAll()
+                .requestMatchers("/estilos/**", "/img/**", "/js/**", "/favicon.ico").permitAll()
+                
+				// Accesos restringidos
+				.requestMatchers("/usuario/**").hasAuthority("USUARIO")
+				.requestMatchers("/admin/**").hasAuthority("ADMIN")
+				.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
 		return http.build();
@@ -75,12 +80,14 @@ public class SeguridadConfig {
 	 * 
 	 * @return InternalResourceViewResolver con la configuración de las vistas.
 	 */
+
 	@Bean
-	public InternalResourceViewResolver viewResolver() {
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/jsp/");
-		resolver.setSuffix(".jsp");
-		return resolver;
+	public InternalResourceViewResolver jspViewResolver() {
+	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+	    resolver.setPrefix("/jsp/");
+	    resolver.setSuffix(".jsp");
+	    return resolver;
 	}
+
 
 }

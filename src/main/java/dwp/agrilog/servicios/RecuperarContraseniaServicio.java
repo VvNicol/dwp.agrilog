@@ -134,7 +134,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 
 	@Override
 	public void cambiarContrasenia(String correo, String nuevaContrasenia) throws IOException {
-	    String apiCambiarContrasenia = "http://localhost:7259/api/cambiar-contrasenia";
+	    String apiCambiarContrasenia = "https://localhost:7259/api/cambiar-contrasenia";
 
 	    // Encriptar la nueva contraseña
 	    String contraseniaEncriptada = this.contraseniaEncriptada.encode(nuevaContrasenia);

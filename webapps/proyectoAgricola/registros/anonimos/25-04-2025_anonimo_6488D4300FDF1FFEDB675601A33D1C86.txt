@@ -1,0 +1,4 @@
+00:43:06 - Página visitada: /proyectoAgricola/inicio/principal - Usuario: anonimo_6488D4300FDF1FFEDB675601A33D1C86
+00:43:07 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_6488D4300FDF1FFEDB675601A33D1C86
+00:43:10 - Página visitada: /proyectoAgricola/inicio/principal - Usuario: anonimo_6488D4300FDF1FFEDB675601A33D1C86
+00:43:19 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_6488D4300FDF1FFEDB675601A33D1C86

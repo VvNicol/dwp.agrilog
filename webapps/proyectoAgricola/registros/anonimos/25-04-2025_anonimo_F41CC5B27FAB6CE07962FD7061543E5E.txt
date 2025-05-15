@@ -1,0 +1,2 @@
+00:54:49 - Página visitada: /proyectoAgricola/inicio/iniciar-sesion - Usuario: anonimo_F41CC5B27FAB6CE07962FD7061543E5E
+00:54:50 - Página visitada: /proyectoAgricola/inicio/principal - Usuario: anonimo_F41CC5B27FAB6CE07962FD7061543E5E

@@ -24,8 +24,9 @@ public interface CorreoInterfaz {
 	 *
 	 * @param correo Correo del destinatario.
 	 * @param token  Token de verificación.
+	 * @throws MessagingException 
 	 */
-	public void correoDeVerificacion(String correo, String token);
+	public void correoDeVerificacion(String correo, String token) throws MessagingException;
 
 	/**
 	 * Envía un correo de recuperación de contraseña con un código de verificación.

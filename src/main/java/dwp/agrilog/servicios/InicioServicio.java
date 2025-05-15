@@ -122,7 +122,7 @@ public class InicioServicio implements InicioInterfaz {
 	        if (!correoValidado) {
 	            String nuevoToken = Util.generarTokenConCorreo(usuario);
 	            HttpEntity<UsuarioDTO> actualizarSolicitud = new HttpEntity<>(usuario);
-	            String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
+	            String actualizarUrl = "http://localhost:8080/api/token-correo-actualizar";
 	            restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
 
 	            correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);

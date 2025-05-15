@@ -18,30 +18,34 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.2.3</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+
 
 			</plugin>
 		</plugins>
-	
+
 		<resources>
-		
-		<resource>
-            <directory>src/main/resources</directory>
-            <includes>
-                <include>**/*</include> 
-            </includes>
-        </resource>
-		
-    		<resource>
-       	 		<directory>src/main/webapp</directory>
-       	 			<targetPath>${project.build.directory}/WEB-INF</targetPath>
-       	 		<includes>
-          	  		<include>**/*.jsp</include>
-       			 </includes>
-    		</resource>
+
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+
+			<resource>
+				<directory>src/main/webapp</directory>
+				<targetPath>${project.build.directory}/WEB-INF</targetPath>
+				<includes>
+					<include>**/*.jsp</include>
+				</includes>
+			</resource>
 		</resources>
-		
+
 	</build>
-	
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -51,6 +55,17 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -104,17 +119,6 @@
 			<groupId>jakarta.servlet.jsp</groupId>
 			<artifactId>jakarta.servlet.jsp-api</artifactId>
 			<version>4.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
-			<version>3.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.servlet.jsp.jstl</groupId>
-			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 
