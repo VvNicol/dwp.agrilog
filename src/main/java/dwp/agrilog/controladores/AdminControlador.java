@@ -1,7 +1,6 @@
 package dwp.agrilog.controladores;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.servicios.AdminServicio;
 import jakarta.servlet.http.HttpSession;
 
@@ -44,7 +44,7 @@ public class AdminControlador {
 		}
 
 		// Obtener la lista de usuarios desde la API
-		List<Map<String, Object>> usuarios = null;
+		List<UsuarioDTO> usuarios = null;
 	    String errorUsuarios = null;
 
 	    try {

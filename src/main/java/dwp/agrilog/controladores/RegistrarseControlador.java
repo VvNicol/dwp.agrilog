@@ -23,7 +23,6 @@ import dwp.agrilog.servicios.RegistrarseServicio;
  * @autor nrojlla 25022025
  */
 @Controller
-//@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/regis")
 public class RegistrarseControlador {
 
@@ -55,6 +54,7 @@ public class RegistrarseControlador {
 	        response.put("mensaje", "Usuario registrado con éxito. Verifique su correo para iniciar sesión.");
 	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	        response.put("error", e.getMessage());
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	    }

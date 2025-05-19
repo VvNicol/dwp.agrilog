@@ -1,7 +1,8 @@
 package dwp.agrilog.servicios;
 
 import java.util.List;
-import java.util.Map;
+
+import dwp.agrilog.dto.UsuarioDTO;
 
 /**
  * Interfaz para la gestión de administradores.
@@ -15,7 +16,7 @@ public interface AdminInterface {
 	 * 
 	 * @return Lista de usuarios.
 	 */
-	public List<Map<String, Object>> obtenerListaUsuarios();
+	public List<UsuarioDTO> obtenerListaUsuarios();
 	
 	/**
 	 * Envía una solicitud a la API para eliminar un usuario por su correo.

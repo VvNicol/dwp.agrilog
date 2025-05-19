@@ -14,6 +14,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import dwp.agrilog.dto.TokenDto;
 import dwp.agrilog.dto.UsuarioDTO;
 import dwp.agrilog.utilidades.JwtUtil;
 import dwp.agrilog.utilidades.Util;
@@ -37,6 +38,8 @@ public class InicioServicio implements InicioInterfaz {
 
 	@Autowired
 	private CorreoServicio correoServicio;
+	
+	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean verificarCorreo(String token) throws Exception {
@@ -120,14 +123,24 @@ public class InicioServicio implements InicioInterfaz {
 
 	        // 4. Verificar si el correo está validado
 	        if (!correoValidado) {
-	            String nuevoToken = Util.generarTokenConCorreo(usuario);
-	            HttpEntity<UsuarioDTO> actualizarSolicitud = new HttpEntity<>(usuario);
-	            String actualizarUrl = "http://localhost:8080/api/token-correo-actualizar";
+	            // 1. Crear DTO con el ID del usuario
+	            TokenDto tokenDto = new TokenDto();
+	            tokenDto.setUsuarioId(usuario.getUsuarioId()); // Ahora toma el ID, no el correo
+
+	            // 2. Generar token y asignar expiración
+	            String nuevoToken = Util.generarToken(tokenDto);
+
+	            // 3. Enviar token al backend
+	            HttpEntity<TokenDto> actualizarSolicitud = new HttpEntity<>(tokenDto);
+	            String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
 	            restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
 
+	            // 4. Enviar correo (usando correo solo para el mensaje, no para la relación)
 	            correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);
+
 	            throw new Exception("Tu correo no está validado. Se ha enviado un nuevo correo de verificación.");
 	        }
+
 
 	        // 5. Verificar contraseña
 	        if (!contraseniaEncriptada.matches(usuario.getContrasenia(), contraseniaGuardada)) {
@@ -147,6 +160,7 @@ public class InicioServicio implements InicioInterfaz {
 	        throw new Exception("Error interno. Por favor, intenta más tarde.");
 	    } catch (Exception e) {
 	        throw new Exception(e.getMessage(), e);
+	        
 	    }
 	}
 

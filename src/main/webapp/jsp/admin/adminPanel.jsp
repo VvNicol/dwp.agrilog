@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, java.util.Map"%>
+<%@ page import="java.util.List"%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -34,94 +34,119 @@
 		</div>
 	</nav>
 
-<main>
+	<main>
 
-    <img src="<%=request.getContextPath()%>/img/fotos/Agricultura7.jpg" alt="Fondo" class="imagen-fondo">
+		<img src="<%=request.getContextPath()%>/img/fotos/Agricultura7.jpg"
+			alt="Fondo" class="imagen-fondo">
 
 
-	<div class="container mt-5">
-		<div
-			class="card border-success shadow p-4 text-center bg-light">
-			<h2 class="text-success">Hola admin</h2>
-			<p class="text-muted">Bienvenid@ al panel de administración.</p>
-		</div>
+		<div class="container mt-5">
+			<div class="card border-success shadow p-4 text-center bg-light">
+				<h2 class="text-success">Hola admin</h2>
+				<p class="text-muted">Bienvenid@ al panel de administración.</p>
+			</div>
 
-		<!-- 📋 LISTA DE USUARIOS -->
-		<div class="card border-success shadow p-4 text-center bg-light mt-4">
-			<h3 class="text-success">Lista de Usuarios</h3>
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead class="table-success bg-success-emphasis text-white">
-						<tr>
-							<th>Correo</th>
-							<th>Rol</th>
-							<th>Acción</th>
-						</tr>
-					</thead>
-					<tbody>
-					    <% 
-					        String errorUsuarios = (String) request.getAttribute("errorUsuarios");
-					        List<Map<String, Object>> usuarios = (List<Map<String, Object>>) request.getAttribute("usuarios");
-					        boolean primerAdminNoEliminable = true;
-					    %>
-					
-					    <% if (errorUsuarios != null) { %>
-					        <tr>
-					            <td colspan="3" class="text-center text-danger"><%= errorUsuarios %></td>
-					        </tr>
-					    <% } else if (usuarios != null && !usuarios.isEmpty()) {
-					        for (Map<String, Object> usuario : usuarios) {
-					            String correo = (String) usuario.get("correo");
-					            String rol = (String) usuario.get("rol");
-					            boolean esAdmin = "ADMIN".equals(rol);
-					
-					            if (esAdmin && primerAdminNoEliminable) {
-					                primerAdminNoEliminable = false;
-					    %>
-					        <tr class="table-light">
-					            <td><%=correo%></td>
-					            <td><%=rol%></td>
-					            <td><button class="btn btn-secondary btn-sm" disabled>No eliminable</button></td>
-					        </tr>
-					    <%  } else { %>
-					        <tr>
-					            <td><%=correo%></td>
-					            <td><%=rol%></td>
-					            <td><button class="btn btn-danger btn-sm" onclick="confirmarEliminacion('<%=correo%>')">Eliminar</button></td>
-					        </tr>
-					    <%  }} 
-					    } else { %>
-					        <tr>
-					            <td colspan="3" class="text-center text-muted">No hay usuarios registrados.</td>
-					        </tr>
-					    <% } %>
-					</tbody>
+			<!-- 📋 LISTA DE USUARIOS -->
+			<div class="card border-success shadow p-4 text-center bg-light mt-4">
+				<h3 class="text-success">Lista de Usuarios</h3>
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead class="table-success bg-success-emphasis text-white">
+							<tr>
+								<th>Correo</th>
+								<th>Rol</th>
+								<th>Acción</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%
+							String errorUsuarios = (String) request.getAttribute("errorUsuarios");
+							List<dwp.agrilog.dto.UsuarioDTO> usuarios = (List<dwp.agrilog.dto.UsuarioDTO>) request.getAttribute("usuarios");
+							boolean primerAdminNoEliminable = true;
+							%>
 
-				</table>
+							<%
+							if (errorUsuarios != null) {
+							%>
+							<tr>
+								<td colspan="3" class="text-center text-danger"><%=errorUsuarios%></td>
+							</tr>
+							<%
+							} else if (usuarios != null && !usuarios.isEmpty()) {
+							for (dwp.agrilog.dto.UsuarioDTO usuario : usuarios) {
+								String correo = usuario.getCorreo();
+								String rol = usuario.getRol();
+								boolean esAdmin = "ADMIN".equals(rol);
+
+								if (esAdmin && primerAdminNoEliminable) {
+									primerAdminNoEliminable = false;
+							%>
+							<tr class="table-light">
+								<td><%=correo%></td>
+								<td><%=rol%></td>
+								<td><button class="btn btn-secondary btn-sm" disabled>No
+										eliminable</button></td>
+							</tr>
+							<%
+							} else {
+							%>
+							<tr>
+								<td><%=correo%></td>
+								<td><%=rol%></td>
+								<td><button class="btn btn-danger btn-sm"
+										onclick="confirmarEliminacion('<%=correo%>')">Eliminar</button></td>
+							</tr>
+							<%
+							}
+							}
+							} else {
+							%>
+							<tr>
+								<td colspan="3" class="text-center text-muted">No hay
+									usuarios registrados.</td>
+							</tr>
+							<%
+							}
+							%>
+
+						</tbody>
+
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
-</main>
+	</main>
 	<!-- CONFIRMACIÓN DE ELIMINACIÓN -->
 	<script>
 		function confirmarEliminacion(correo) {
 			let confirmacion = new bootstrap.Modal(document
 					.getElementById('modalConfirmacion'));
 			document.getElementById('correoUsuario').textContent = correo;
+			document.getElementById('inputCorreoConfirmacion').value = '';
+			document.getElementById('mensajeErrorCorreo').style.display = 'none';
+
 			document.getElementById('confirmarEliminar').onclick = function() {
-				let form = document.createElement('form');
-				form.method = 'POST';
-				form.action = '${pageContext.request.contextPath}/admin/eliminar-usuario';
+				const correoEscrito = document
+						.getElementById('inputCorreoConfirmacion').value.trim();
 
-				let input = document.createElement('input');
-				input.type = 'hidden';
-				input.name = 'correo';
-				input.value = correo;
+				if (correoEscrito === correo) {
+					let form = document.createElement('form');
+					form.method = 'POST';
+					form.action = '${pageContext.request.contextPath}/admin/eliminar-usuario';
 
-				form.appendChild(input);
-				document.body.appendChild(form);
-				form.submit();
+					let input = document.createElement('input');
+					input.type = 'hidden';
+					input.name = 'correo';
+					input.value = correo;
+
+					form.appendChild(input);
+					document.body.appendChild(form);
+					form.submit();
+				} else {
+					document.getElementById('mensajeErrorCorreo').style.display = 'block';
+				}
 			};
+
 			confirmacion.show();
 		}
 	</script>
@@ -138,9 +163,15 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					¿Estás seguro de que deseas eliminar al <strong
-						id="correoUsuario"></strong>? <br> Esta acción no se puede
-					deshacer.
+					<p>
+						Estás intentando eliminar a: <strong id="correoUsuario"></strong>
+					</p>
+					<p>Por favor, escribe el correo electrónico para confirmar:</p>
+					<input type="text" class="form-control"
+						id="inputCorreoConfirmacion" placeholder="Introduce el correo">
+					<div id="mensajeErrorCorreo" class="text-danger mt-2"
+						style="display: none;">El correo no coincide. Intenta de
+						nuevo.</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
@@ -150,6 +181,7 @@
 			</div>
 		</div>
 	</div>
+
 
 
 	<script

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
-import dwp.agrilog.dto.UsuarioDTO;
+import dwp.agrilog.dto.TokenDto;
 
 /**
  * Clase de utilidades generales para generación de tokens y códigos.
@@ -20,10 +20,10 @@ public class Util {
 	 * @param usuario Objeto DTO del usuario al que se le asignará el token.
 	 * @return Token generado en formato UUID.
 	 */
-	public static String generarTokenConCorreo(UsuarioDTO usuario) {
+	public static String generarToken(TokenDto tokenUsuario) {
 		String token = UUID.randomUUID().toString();
-		usuario.setToken(token);
-		usuario.setTokenExpiracionFecha(LocalDateTime.now().plusMinutes(5));
+		tokenUsuario.setToken(token);
+		tokenUsuario.setTokenExpiracionFecha(LocalDateTime.now().plusMinutes(5));
 		return token;
 	}
 

@@ -1,12 +1,14 @@
 package dwp.agrilog.servicios;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import dwp.agrilog.dto.UsuarioDTO;
 
 /**
  * Servicio para la gestión de usuarios por parte del administrador.
@@ -18,20 +20,35 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AdminServicio implements AdminInterface{
 
-	private final String API_URL = "https://localhost:7259/api";
+	private final String API_URL = "http://localhost:7259/api";
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map<String, Object>> obtenerListaUsuarios() {
-		String url = API_URL + "/lista-usuarios";
-		try {
-			ResponseEntity<Map[]> respuesta = restTemplate.getForEntity(url, Map[].class);
-			return Arrays.asList(respuesta.getBody());
-		} catch (Exception e) {
-			throw new RuntimeException("Error al obtener la lista de usuarios: " + e.getMessage());
-		}
+	@SuppressWarnings("rawtypes")
+	public List<UsuarioDTO> obtenerListaUsuarios() {
+	    String url = API_URL + "/lista-usuarios";
+
+	    try {
+	        ResponseEntity<Map[]> respuesta = restTemplate.getForEntity(url, Map[].class);
+	        Map[] usuariosMap = respuesta.getBody();
+	      
+	        
+	        List<UsuarioDTO> usuarios = new ArrayList<>();
+	        for (Map usuario : usuariosMap) {
+	            String correo = (String) usuario.get("correo");
+	            String rol = (String) usuario.get("rol");
+
+	            usuarios.add(new UsuarioDTO(correo, rol, true));
+
+	        }
+
+	        return usuarios;
+
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error al obtener la lista de usuarios: " + e.getMessage());
+	    }
 	}
+
 
 	
 	public void eliminarUsuario(String correo) {
