@@ -48,7 +48,7 @@ public class InicioServicio implements InicioInterfaz {
 		try {
 
 			// 1. Llamada a la API para validar el token
-			String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
+			String apiUrl = "https://agrilog.nicoldev.es/api/token-correo?token=" + token;
 
 			ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
 
@@ -78,7 +78,7 @@ public class InicioServicio implements InicioInterfaz {
 
 			HttpEntity<UsuarioDTO> solicitud = new HttpEntity<>(usuario);
 
-			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";// llamada a la api
+			String validarCorreoUrl = "https://agrilog.nicoldev.es/api/validar-correo";// llamada a la api
 
 			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, solicitud, Map.class);
 
@@ -101,7 +101,7 @@ public class InicioServicio implements InicioInterfaz {
 	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
 	    try {
 	        // 1. URL de la API para obtener la contraseña del usuario
-	        String apiUrlIniciarSesion = "http://localhost:7259/api/contrasenia";
+	        String apiUrlIniciarSesion = "https://agrilog.nicoldev.es/api/contrasenia";
 
 	        Map<String, String> request = new HashMap<>();
 	        request.put("correo", usuario.getCorreo());
@@ -123,17 +123,23 @@ public class InicioServicio implements InicioInterfaz {
 
 	        // 4. Verificar si el correo está validado
 	        if (!correoValidado) {
-	            // 1. Crear DTO con el ID del usuario
-	            TokenDto tokenDto = new TokenDto();
-	            tokenDto.setUsuarioId(usuario.getUsuarioId()); // Ahora toma el ID, no el correo
+	        	// 1. Crear DTO con el ID del usuario
+	        	UsuarioDTO usuarioToken = new UsuarioDTO();
+	        	usuarioToken.setUsuarioId(Long.parseLong(usuarioData.get("id").toString()));
 
-	            // 2. Generar token y asignar expiración
-	            String nuevoToken = Util.generarToken(tokenDto);
+	        	TokenDto tokenDto = new TokenDto();
+	        	tokenDto.setUsuario(usuarioToken);
 
-	            // 3. Enviar token al backend
-	            HttpEntity<TokenDto> actualizarSolicitud = new HttpEntity<>(tokenDto);
-	            String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
-	            restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
+	        	// 2. Generar token y asignar expiración
+	        	String nuevoToken = Util.generarToken(tokenDto);
+	        	tokenDto.setToken(nuevoToken);
+	        	tokenDto.setTokenExpiracionFecha(LocalDateTime.now().plusMinutes(5));
+
+	        	// 3. Enviar token al backend
+	        	HttpEntity<TokenDto> actualizarSolicitud = new HttpEntity<>(tokenDto);
+	        	String actualizarUrl = "https://agrilog.nicoldev.es/api/token-correo-actualizar";
+	        	restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
+
 
 	            // 4. Enviar correo (usando correo solo para el mensaje, no para la relación)
 	            correoServicio.correoDeVerificacion(usuario.getCorreo(), nuevoToken);
@@ -154,6 +160,7 @@ public class InicioServicio implements InicioInterfaz {
 	        Map<String, String> respuestaMap = new HashMap<>();
 	        respuestaMap.put("token", token);
 	        respuestaMap.put("rol", rol);
+	        respuestaMap.put("id", usuarioData.get("id").toString());
 	        return respuestaMap;
 
 	    } catch (ResourceAccessException | HttpClientErrorException e) {

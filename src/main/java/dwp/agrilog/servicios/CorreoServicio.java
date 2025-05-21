@@ -38,12 +38,11 @@ public class CorreoServicio implements CorreoInterfaz {
 
 	@Override
 	public void correoDeVerificacion(String correo, String token) throws MessagingException {
-		System.out.println("1CORREO_CONTRASENIA: " + System.getenv("CORREO_CONTRASENIA"));
 
 		String asunto = "Verificación de correo :D";
 	    String contenido = "<h1>Verifica tu correo electrónico</h1>"
 	            + "<p>Haz clic en el siguiente botón para verificar tu cuenta:</p>"
-	            + "<a href=\"http://localhost:8080/inicio/verificar-correo?token=" + token + "\" "
+	            + "<a href=\"https://agrilog.nicoldev.es/inicio/verificar-correo?token=" + token + "\" "
 	            + "style=\"padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px; display: inline-block;\">"
 	            + "Verificar correo</a>"
 	            + "<p>Si no reconoces esta acción, ignora este mensaje.</p>";

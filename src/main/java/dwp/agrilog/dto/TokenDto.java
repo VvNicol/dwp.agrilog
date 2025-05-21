@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class TokenDto {
 
-	private Long usuarioId;
+	private UsuarioDTO usuario;
 	private Long tokenId;
 	private String token;
 	private LocalDateTime tokenExpiracionFecha;
@@ -18,19 +18,25 @@ public class TokenDto {
 		super();
 	}
 
-	/**
-	 * @return the usuarioId
-	 */
-	public Long getUsuarioId() {
-		return usuarioId;
-	}
+	
 
 	/**
-	 * @param usuarioId the usuarioId to set
+	 * @return the usuario
 	 */
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
+	public UsuarioDTO getUsuario() {
+		return usuario;
 	}
+
+
+
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
+	}
+
+
 
 	/**
 	 * @return the tokenId

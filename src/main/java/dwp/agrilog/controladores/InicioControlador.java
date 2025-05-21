@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dwp.agrilog.dto.UsuarioDTO;
+import dwp.agrilog.seguridad.UsuarioAutenticado;
 import dwp.agrilog.servicios.FicheroServicio;
 import dwp.agrilog.servicios.InicioServicio;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,13 +39,12 @@ public class InicioControlador {
 
 	@Autowired
 	private FicheroServicio ficheroServicio;
-	
-	
+
 	@GetMapping("/")
-    public String inicio() {
-		 return "redirect:/index.jsp";
-    }
-	
+	public String inicio() {
+		return "redirect:/index.jsp";
+	}
+
 	/**
 	 * Muestra la página principal de la aplicación.
 	 *
@@ -116,11 +116,18 @@ public class InicioControlador {
 				session.setAttribute("token", resultado.get("token"));
 
 				ficheroServicio.registrarEvento(session, "Usuario inició sesión", " ");
-				
-				// 2. Configura autenticación en Spring Security
+
+				// 2. Autenticación con UsuarioAutenticado personalizado
 				List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(resultado.get("rol")));
-				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(correo,
-						null, authorities);
+				Long id = Long.parseLong(resultado.get("id"));
+				UsuarioAutenticado usuarioAutenticado = new UsuarioAutenticado(
+					    id,
+					    correo,
+					    resultado.get("rol")
+					);
+
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+						usuarioAutenticado, null, authorities);
 
 				SecurityContext context = SecurityContextHolder.createEmptyContext();
 				context.setAuthentication(authentication);

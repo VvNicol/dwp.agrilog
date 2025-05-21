@@ -21,7 +21,6 @@ import dwp.agrilog.servicios.RecuperarContraseniaServicio;
  * @autor nrojlla 25022025
  */
 @RestController
-//@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/form")
 public class RecuperarContraseniaControlador {
 
