@@ -20,7 +20,7 @@ import dwp.agrilog.dto.UsuarioDTO;
 @Service
 public class AdminServicio implements AdminInterface{
 
-	private final String API_URL = "https://agrilog.nicoldev.es/api";
+	private final String API_URL = "http://localhost:7259/api";
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	

@@ -45,7 +45,7 @@
             <div class="form-container d-flex justify-content-center align-items-center">
                 <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-4 p-5 formulario bg-light rounded shadow-lg">
                     <h2 class="text-center mb-4">Registrarse</h2>
-                    <form id="registroForm" action="https://agrilog.nicoldev.es/regis/registrarse" method="POST">
+                    <form id="registroForm" action="http://localhost:8080/regis/registrarse" method="POST">
                         <div class="mb-4">
                             <label for="nombreCompleto" class="form-label">Nombre Completo</label>
                             <input type="text" id="nombreCompleto" name="nombreCompleto" class="form-control" required>

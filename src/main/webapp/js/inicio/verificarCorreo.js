@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     if (token) {
         $.ajax({
-            url: 'https://agrilog.nicoldev.es/inicio/verificar-correo?token=' + token,
+            url: 'http://localhost:8080inicio/verificar-correo?token=' + token,
             type: 'GET',
             dataType: 'json',
             success: function(data) {

@@ -40,6 +40,12 @@
 				<targetPath>${project.build.directory}/WEB-INF</targetPath>
 				<includes>
 					<include>**/*.jsp</include>
+					<include>**/*.css</include>
+					<include>**/*.js</include>
+					<include>**/*.png</include>
+					<include>**/*.jpg</include>
+					<include>**/*.jpeg</include>
+					<include>**/*.ico</include>
 				</includes>
 			</resource>
 		</resources>
@@ -66,7 +72,6 @@
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 			<version>3.0.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>

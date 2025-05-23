@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
  */
 public class CultivoDto {
 
+	private Long usuarioId;
 	private Long cultivoId;
-	private Long parcelaId;
+	private ParcelaDto parcelaId;
 	private String nombre;
 	private String descripcion;
 	private Integer cantidad;
@@ -23,9 +24,9 @@ public class CultivoDto {
 	public CultivoDto() {
 	}
 
-	public CultivoDto(Long parcelaId, String nombre, String descripcion, Integer cantidad,
+	public CultivoDto(ParcelaDto parcela, String nombre, String descripcion, Integer cantidad,
 			LocalDate fechaSiembra, LocalDateTime fechaRegistro) {
-		this.parcelaId = parcelaId;
+		this.parcelaId = parcela;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.cantidad = cantidad;
@@ -33,10 +34,10 @@ public class CultivoDto {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public CultivoDto(Long cultivoId, Long parcelaId, String nombre, String descripcion, Integer cantidad,
+	public CultivoDto(Long cultivoId, ParcelaDto parcela, String nombre, String descripcion, Integer cantidad,
 			LocalDate fechaSiembra, LocalDateTime fechaRegistro) {
 		this.cultivoId = cultivoId;
-		this.parcelaId = parcelaId;
+		this.parcelaId = parcela;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.cantidad = cantidad;
@@ -50,15 +51,36 @@ public class CultivoDto {
 		return cultivoId;
 	}
 
+	/**
+	 * @return the usuarioId
+	 */
+	public Long getUsuarioId() {
+		return usuarioId;
+	}
+
+	/**
+	 * @param usuarioId the usuarioId to set
+	 */
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
+	}
+
 	public void setCultivoId(Long cultivoId) {
 		this.cultivoId = cultivoId;
 	}
 
-	public Long getParcelaId() {
+
+	/**
+	 * @return the parcelaId
+	 */
+	public ParcelaDto getParcelaId() {
 		return parcelaId;
 	}
 
-	public void setParcelaId(Long parcelaId) {
+	/**
+	 * @param parcelaId the parcelaId to set
+	 */
+	public void setParcelaId(ParcelaDto parcelaId) {
 		this.parcelaId = parcelaId;
 	}
 

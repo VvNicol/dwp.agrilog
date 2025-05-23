@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Página No Encontrada</title>
+<title>404 - Página No Encontrada</title>
 
 <!-- Bootstrap -->
 <link
@@ -18,14 +18,14 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/estilos/error.css">
 </head>
-<body>
+<body class="d-flex align-items-center justify-content-center">
 
 	<div class="container text-center mt-5">
 		<div class="error-container">
 			<h1>Error 404</h1>
 			<p>${mensaje}</p>
 			<a href="${pageContext.request.contextPath}/inicio/principal"
-				class="btn btn-primary mt-3">Volver al Inicio</a>
+				class="btn btn-warning bg- mt-3">Volver al Inicio</a>
 		</div>
 	</div>
 

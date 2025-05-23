@@ -43,7 +43,7 @@ function enviarCorreo() {
 
 
 function verificarCodigo() {
-	let codigo = $("#codigo").val();
+	let codigo = $("#codigo").val().trim();
 
 	if (!codigo || isNaN(codigo)) {
 		$("#codigo").addClass("is-invalid");

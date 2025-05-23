@@ -21,6 +21,8 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             dataType: "json",
             success: function (data) {
+				console.log(data);
+
                 if (data.mensaje) {
                     $("#alerta-contenedor").html(
                         '<div class="alert alert-success mt-3" role="alert">' + data.mensaje + '</div>'

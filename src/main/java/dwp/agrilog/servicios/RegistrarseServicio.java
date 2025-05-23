@@ -37,7 +37,7 @@ public class RegistrarseServicio implements RegistrarseInterfaz {
 	private RestTemplate restTemplate;
 
 	// URL de la API para registrar un nuevo usuario
-	private final String apiUrl = "https://agrilog.nicoldev.es/api/registrarse";
+	private final String apiUrl = "http://localhost:7259/api/registrarse";
 
 	@Override
 	public String registrarUsuario(UsuarioDTO usuario) throws Exception {
@@ -66,7 +66,7 @@ public class RegistrarseServicio implements RegistrarseInterfaz {
 	        String token = Util.generarToken(tokenDto);
 
 	        HttpEntity<TokenDto> tokenRequest = new HttpEntity<>(tokenDto);
-	        String tokenUrl = "https://agrilog.nicoldev.es/api/token-correo-actualizar";
+	        String tokenUrl = "http://localhost:7259/api/token-correo-actualizar";
 	        restTemplate.postForEntity(tokenUrl, tokenRequest, Void.class);
 
 	        correoServicio.correoDeVerificacion(usuario.getCorreo(), token);

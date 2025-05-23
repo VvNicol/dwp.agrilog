@@ -34,7 +34,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 	@Override
 	@SuppressWarnings("rawtypes")
 	public void enviarCodigoAlCorreo(String correo) throws IOException {
-	    String apiBuscarCorreo = "https://agrilog.nicoldev.es/api/contrasenia";
+	    String apiBuscarCorreo = "http://localhost:7259/api/contrasenia";
 	    Map<String, String> solicitud = new HashMap<>();
 	    solicitud.put("correo", correo);
 
@@ -58,7 +58,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 	    String expiracion = LocalDateTime.now().plusMinutes(10).format(formatter);
 
 	    // 3. Guardar el código en la base de datos a través de la API
-	    String apiGuardarCodigo = "https://agrilog.nicoldev.es/api/guardar-codigo";
+	    String apiGuardarCodigo = "http://localhost:7259/api/guardar-codigo";
 	    Map<String, String> guardarCodigo = new HashMap<>();
 	    guardarCodigo.put("correo", correo);
 	    guardarCodigo.put("codigo", String.valueOf(codigo));
@@ -80,7 +80,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 	public void verificarCodigo(String correo, int codigo) throws IOException {
 
 		// 1. Obtener el código almacenado desde la API
-		String apiObtenerCodigo = "https://agrilog.nicoldev.es/api/obtener-codigo";
+		String apiObtenerCodigo = "http://localhost:7259/api/obtener-codigo";
 
 		// 2 Enviar la solicitud a la API para obtener el código almacenado
 		Map<String, String> solicitud = new HashMap<>();
@@ -134,7 +134,7 @@ public class RecuperarContraseniaServicio implements RecuperarContraseniaInterfa
 
 	@Override
 	public void cambiarContrasenia(String correo, String nuevaContrasenia) throws IOException {
-	    String apiCambiarContrasenia = "https://agrilog.nicoldev.es/api/cambiar-contrasenia";
+	    String apiCambiarContrasenia = "http://localhost:7259/api/cambiar-contrasenia";
 
 	    // Encriptar la nueva contraseña
 	    String contraseniaEncriptada = this.contraseniaEncriptada.encode(nuevaContrasenia);

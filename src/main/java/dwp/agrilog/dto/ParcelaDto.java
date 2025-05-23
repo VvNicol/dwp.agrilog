@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class ParcelaDto {
 
 	private Long parcelaId;
-	private Long usuarioId;
+	private UsuarioDTO usuarioId;
 	private String nombre;
 	private String descripcion;
 	private LocalDateTime fechaRegistro;
@@ -20,14 +20,14 @@ public class ParcelaDto {
 	public ParcelaDto() {
 	}
 
-	public ParcelaDto(Long usuarioId, String nombre, String descripcion, LocalDateTime fechaRegistro) {
+	public ParcelaDto(UsuarioDTO usuarioId, String nombre, String descripcion, LocalDateTime fechaRegistro) {
 		this.usuarioId = usuarioId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public ParcelaDto(Long parcelaId, Long usuarioId, String nombre, String descripcion,
+	public ParcelaDto(Long parcelaId, UsuarioDTO usuarioId, String nombre, String descripcion,
 			LocalDateTime fechaRegistro) {
 		this.parcelaId = parcelaId;
 		this.usuarioId = usuarioId;
@@ -36,45 +36,76 @@ public class ParcelaDto {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	// Getters y Setters
-
+	/**
+	 * @return the parcelaId
+	 */
 	public Long getParcelaId() {
 		return parcelaId;
 	}
 
+	/**
+	 * @param parcelaId the parcelaId to set
+	 */
 	public void setParcelaId(Long parcelaId) {
 		this.parcelaId = parcelaId;
 	}
 
-	public Long getUsuarioId() {
+	/**
+	 * @return the usuarioId
+	 */
+	public UsuarioDTO getUsuarioId() {
 		return usuarioId;
 	}
 
-	public void setUsuarioId(Long usuarioId) {
+	/**
+	 * @param usuarioId the usuarioId to set
+	 */
+	public void setUsuarioId(UsuarioDTO usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 
+	/**
+	 * @return the nombre
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * @param nombre the nombre to set
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * @return the descripcion
+	 */
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+	/**
+	 * @param descripcion the descripcion to set
+	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
+	/**
+	 * @return the fechaRegistro
+	 */
 	public LocalDateTime getFechaRegistro() {
 		return fechaRegistro;
 	}
 
+	/**
+	 * @param fechaRegistro the fechaRegistro to set
+	 */
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
+
+	// Getters y Setters
+
 }
