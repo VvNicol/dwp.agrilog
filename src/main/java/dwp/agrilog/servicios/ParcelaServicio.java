@@ -21,7 +21,7 @@ public class ParcelaServicio {
 	private final RestTemplate restTemplate = new RestTemplate();
 	
 	public List<ParcelaDto> obtenerParcelasPorUsuario(Long usuarioId) {
-	    String url = "http://localhost:7259/api/parcela/usuario/" + usuarioId;
+	    String url = "https://agrilog.nicoldev.es/api/parcela/usuario/" + usuarioId;
 
 	    try {
 	        ResponseEntity<ParcelaDto[]> respuesta = restTemplate.getForEntity(url, ParcelaDto[].class);
@@ -33,7 +33,7 @@ public class ParcelaServicio {
 	}
 
 	public void CrearNuevaParcela(ParcelaDto parcelaDto) throws Exception {
-		String url = "http://localhost:7259/api/parcela/crear";
+		String url = "https://agrilog.nicoldev.es/api/parcela/crear";
 
 		HttpHeaders cabeceras = new HttpHeaders();
 		cabeceras.setContentType(MediaType.APPLICATION_JSON);
@@ -62,7 +62,7 @@ public class ParcelaServicio {
 
 	@SuppressWarnings("unchecked")
 	public Long CrearNuevaParcelaYObtenerId(ParcelaDto parcelaDto) throws Exception {
-		String url = "http://localhost:7259/api/parcela/crear";
+		String url = "https://agrilog.nicoldev.es/api/parcela/crear";
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);

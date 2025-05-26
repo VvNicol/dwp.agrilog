@@ -2,6 +2,7 @@ package dwp.agrilog.controladores;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dwp.agrilog.dto.CultivoDto;
 import dwp.agrilog.dto.ParcelaDto;
@@ -33,6 +36,44 @@ public class CultivoControlador {
 
     @Autowired
     private ParcelaServicio parcelaServicio;
+    
+    @GetMapping("/parcelas")
+    @ResponseBody
+    public List<ParcelaDto> obtenerParcelasDelUsuario(@AuthenticationPrincipal UsuarioAutenticado usuario) {
+    	try {
+    		return parcelaServicio.obtenerParcelasPorUsuario(usuario.getId());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		return new ArrayList<>();
+    	}
+    }
+    
+    @PostMapping("/eliminar/{id}")
+    public String eliminarCultivo(@PathVariable Long id,
+                                  @RequestParam String confirmacionNombre,
+                                  RedirectAttributes redirect) {
+        try {
+            CultivoDto cultivo = cultivoServicio.buscarPorId(id);
+            
+            if (cultivo == null) {
+                redirect.addFlashAttribute("error", "El cultivo no existe.");
+                return "redirect:/usuario/panel";
+            }
+
+            if (!cultivo.getNombre().equalsIgnoreCase(confirmacionNombre.trim())) {
+                redirect.addFlashAttribute("error", "El nombre no coincide.");
+                return "redirect:/usuario/panel";
+            }
+
+            cultivoServicio.eliminarCultivo(id);
+            redirect.addFlashAttribute("mensaje", "Cultivo eliminado con éxito.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirect.addFlashAttribute("error", "Error al eliminar el cultivo.");
+        }
+        return "redirect:/usuario/panel";
+    }
+
     
     /**
 	 * Muestra la página de formulario de cultivo.
@@ -53,7 +94,8 @@ public class CultivoControlador {
         return modelAndView;
     }
 
-
+ 
+    
     @PostMapping("/crear")
     @ResponseBody
     public ResponseEntity<?> crearCultivo(@RequestParam Map<String, String> params,
@@ -111,6 +153,9 @@ public class CultivoControlador {
                     .body("❌ Ocurrió un problema al crear el cultivo. Inténtalo de nuevo.");
         }
     }
+
+
+    
 
 
 }

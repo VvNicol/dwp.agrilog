@@ -61,6 +61,7 @@
 						<tbody>
 							<%
 							String errorUsuarios = (String) request.getAttribute("errorUsuarios");
+							@SuppressWarnings("unchecked")
 							List<dwp.agrilog.dto.UsuarioDTO> usuarios = (List<dwp.agrilog.dto.UsuarioDTO>) request.getAttribute("usuarios");
 							boolean primerAdminNoEliminable = true;
 							%>
@@ -116,40 +117,6 @@
 			</div>
 		</div>
 	</main>
-	<!-- CONFIRMACIÓN DE ELIMINACIÓN -->
-	<script>
-		function confirmarEliminacion(correo) {
-			let confirmacion = new bootstrap.Modal(document
-					.getElementById('modalConfirmacion'));
-			document.getElementById('correoUsuario').textContent = correo;
-			document.getElementById('inputCorreoConfirmacion').value = '';
-			document.getElementById('mensajeErrorCorreo').style.display = 'none';
-
-			document.getElementById('confirmarEliminar').onclick = function() {
-				const correoEscrito = document
-						.getElementById('inputCorreoConfirmacion').value.trim();
-
-				if (correoEscrito === correo) {
-					let form = document.createElement('form');
-					form.method = 'POST';
-					form.action = '${pageContext.request.contextPath}/admin/eliminar-usuario';
-
-					let input = document.createElement('input');
-					input.type = 'hidden';
-					input.name = 'correo';
-					input.value = correo;
-
-					form.appendChild(input);
-					document.body.appendChild(form);
-					form.submit();
-				} else {
-					document.getElementById('mensajeErrorCorreo').style.display = 'block';
-				}
-			};
-
-			confirmacion.show();
-		}
-	</script>
 
 	<!-- MODAL DE CONFIRMACIÓN -->
 	<div class="modal fade" id="modalConfirmacion" tabindex="-1"
@@ -190,6 +157,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+	<script>
+		const CONTEXTO = '${pageContext.request.contextPath}';
+	</script>
+	<script src="${pageContext.request.contextPath}/js/admin/adminPanel.js"></script>
+
 
 </body>
 </html>

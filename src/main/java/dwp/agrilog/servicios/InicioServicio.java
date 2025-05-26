@@ -48,7 +48,7 @@ public class InicioServicio implements InicioInterfaz {
 		try {
 
 			// 1. Llamada a la API para validar el token
-			String apiUrl = "http://localhost:7259/api/token-correo?token=" + token;
+			String apiUrl = "https://agrilog.nicoldev.es/api/token-correo?token=" + token;
 
 			ResponseEntity<Map> respuesta = restTemplate.getForEntity(apiUrl, Map.class);
 
@@ -78,7 +78,7 @@ public class InicioServicio implements InicioInterfaz {
 
 			HttpEntity<UsuarioDTO> solicitud = new HttpEntity<>(usuario);
 
-			String validarCorreoUrl = "http://localhost:7259/api/validar-correo";// llamada a la api
+			String validarCorreoUrl = "https://agrilog.nicoldev.es/api/validar-correo";// llamada a la api
 
 			ResponseEntity<Map> validacionResponse = restTemplate.postForEntity(validarCorreoUrl, solicitud, Map.class);
 
@@ -101,7 +101,7 @@ public class InicioServicio implements InicioInterfaz {
 	public Map<String, String> iniciarSesionUsuario(UsuarioDTO usuario) throws Exception {
 	    try {
 	        // 1. URL de la API para obtener la contraseña del usuario
-	        String apiUrlIniciarSesion = "http://localhost:7259/api/contrasenia";
+	        String apiUrlIniciarSesion = "https://agrilog.nicoldev.es/api/contrasenia";
 
 	        Map<String, String> request = new HashMap<>();
 	        request.put("correo", usuario.getCorreo());
@@ -137,7 +137,7 @@ public class InicioServicio implements InicioInterfaz {
 
 	        	// 3. Enviar token al backend
 	        	HttpEntity<TokenDto> actualizarSolicitud = new HttpEntity<>(tokenDto);
-	        	String actualizarUrl = "http://localhost:7259/api/token-correo-actualizar";
+	        	String actualizarUrl = "https://agrilog.nicoldev.es/api/token-correo-actualizar";
 	        	restTemplate.postForEntity(actualizarUrl, actualizarSolicitud, Void.class);
 
 

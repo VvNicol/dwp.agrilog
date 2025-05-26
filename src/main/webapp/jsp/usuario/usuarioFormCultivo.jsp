@@ -48,14 +48,15 @@
 							<div class="mb-2">
 								<label for="nombrePlanta" class="form-label">Nombre de
 									la planta</label> <input type="text" class="form-control"
-									id="nombrePlanta" name="nombrePlanta" required minlength="2"
+									id="nombrePlanta" name="nombrePlanta"
+									placeholder="Ej: Tomate cherry" required minlength="2"
 									maxlength="100">
 							</div>
 
 							<div class="mb-2">
 								<label for="cantidad" class="form-label">Cantidad</label> <input
 									type="number" class="form-control" id="cantidad"
-									name="cantidad" min="1" required>
+									name="cantidad" placeholder="Ej. 50" min="1" required>
 							</div>
 
 							<div class="mb-2">
@@ -63,7 +64,7 @@
 									(opcional)</label>
 								<textarea class="form-control" id="descripcion"
 									name="descripcion" rows="2" maxlength="255"
-									placeholder="Máximo 255 caracteres..."></textarea>
+									placeholder="Ej: Plantado en zona norte, bajo malla sombra."></textarea>
 							</div>
 
 							<div class="mb-2">
@@ -76,7 +77,7 @@
 								<label class="form-label">Parcela <span
 									class="text-danger">*</span></label> <input type="text"
 									class="form-control mb-2" id="nuevaParcela" name="nuevaParcela"
-									placeholder="Escribe una nueva parcela"
+									placeholder="Ej: Parcela norte 1"
 									oninput="document.getElementById('parcelaExistente').disabled = this.value.trim().length > 0">
 
 								<select class="form-select" id="parcelaExistente"
@@ -87,7 +88,7 @@
 										<option value="${parcela.parcelaId}">${parcela.nombre}</option>
 									</c:forEach>
 								</select>
-								<div class="form-text text-danger d-none" id="parcelaError">⚠️
+								<div class="form-text text-danger d-none" id="parcelaError">
 									Debes seleccionar o escribir una parcela.</div>
 							</div>
 
@@ -99,6 +100,7 @@
 						</form>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -109,56 +111,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-
 	<script>
-	    $(document).ready(function () {
-	        $('#formCultivo').submit(function (e) {
-	            e.preventDefault();
-	
-	            // Verificación antes de enviar
-	            const nuevaParcela = $('#nuevaParcela').val().trim();
-	            const parcelaExistente = $('#parcelaExistente').val();
-	
-	            if (nuevaParcela === '' && parcelaExistente === '') {
-	                $('#mensajeAjax').html('<div class="alert alert-danger">❌ Debes escribir una nueva parcela o seleccionar una existente.</div>');
-	                return; // no sigue si no hay parcela válida
-	            }
-	
-	            const formData = $(this).serialize();
-	
-	            $.post('${pageContext.request.contextPath}/cultivo/crear', formData)
-	            .done(function() {
-	                $('#mensajeAjax').html('<div class="alert alert-success"> Cultivo creado correctamente.</div>');
-	                $('#formCultivo')[0].reset();
-	
-	                // Habilitamos ambos campos
-	                $('#nuevaParcela').prop('disabled', false);
-	                $('#parcelaExistente').prop('disabled', false);
-	
-	                // Recargar parcelas dinámicamente
-	                $.get('${pageContext.request.contextPath}/cultivo/parcelas', function(parcelas) {
-	                    const $select = $('#parcelaExistente');
-	                    $select.empty(); // Limpiar opciones
-	                    $select.append('<option value="">-- Seleccionar parcela existente --</option>');
-	                    parcelas.forEach(function(parcela) {
-	                        $select.append(`<option value="${parcela.parcelaId}">${parcela.nombre}</option>`);
-	                    });
-	                });
-	            })
-	
-	        });
-	
-	        // Comportamiento mutuo exclusivo entre los campos de parcela
-	        $('#nuevaParcela').on('input', function () {
-	            $('#parcelaExistente').prop('disabled', $(this).val().trim().length > 0);
-	        });
-	
-	        $('#parcelaExistente').on('change', function () {
-	            $('#nuevaParcela').prop('disabled', $(this).val() !== '');
-	        });
-	    });
+		const CONTEXTO = '${pageContext.request.contextPath}';
 	</script>
 
+	<script src="/js/usuario/usuarioFormCultivojs.js"></script>
 
 </body>
 </html>
