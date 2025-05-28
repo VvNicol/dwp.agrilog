@@ -2,6 +2,12 @@ package dwp.agrilog.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO que representa un token de verificación para el usuario
+ * 
+ * @author nrojlla
+ * @date 28/05/2025
+ */
 public class TokenDto {
 
 	private UsuarioDTO usuario;

@@ -24,9 +24,9 @@
 		</div>
 
 		<div class="buttons-container">
-			<a href="/usuario/panel" class="btn btnNav"> Panel </a> <a
+			<a href="#" class="btn btnNav btnNotificaciones">Panel</a> <a
 				href="${pageContext.request.contextPath}/cerrar-sesion"
-				class="btn btn-danger btn-sm ms-3"> Cerrar Sesión </a>
+				class="btn btn-danger btn-sm ms-3">Cerrar Sesión</a>
 		</div>
 	</nav>
 
@@ -40,23 +40,43 @@
 					<a href="${pageContext.request.contextPath}/usuario/panel"
 						class="btn btn-warning btn-sm"> ← Volver </a>
 				</div>
-				<div class="card shadow">
+				<div class="card ${modoEdicion ? 'shadow-edicion' : 'shadow-creacion'}">
 					<div class="card-body">
-						<h4 class="card-title text-center mb-4">Crear nuevo cultivo</h4>
+
+						<h4 class="card-title text-center mb-4">
+							<c:choose>
+								<c:when test="${modoEdicion}">Editar cultivo</c:when>
+								<c:otherwise>Crear nuevo cultivo</c:otherwise>
+							</c:choose>
+						</h4>
 
 						<form id="formCultivo">
+
+							<!-- Campos ocultos para modo edición -->
+							<c:if test="${modoEdicion}">
+								<input type="hidden" id="cultivoId" value="${cultivo.cultivoId}" />
+								<input type="hidden" id="modoEdicion" value="true" />
+							</c:if>
+							<c:if test="${!modoEdicion}">
+								<input type="hidden" id="modoEdicion" value="false" />
+							</c:if>
+
+							<input type="hidden" id="cultivoId" value="${cultivo.cultivoId}">
+							<input type="hidden" id="modoEdicion" value="${modoEdicion}">
+
 							<div class="mb-2">
 								<label for="nombrePlanta" class="form-label">Nombre de
 									la planta</label> <input type="text" class="form-control"
 									id="nombrePlanta" name="nombrePlanta"
 									placeholder="Ej: Tomate cherry" required minlength="2"
-									maxlength="100">
+									maxlength="100" value="${cultivo.nombre}">
 							</div>
 
 							<div class="mb-2">
 								<label for="cantidad" class="form-label">Cantidad</label> <input
 									type="number" class="form-control" id="cantidad"
-									name="cantidad" placeholder="Ej. 50" min="1" required>
+									name="cantidad" placeholder="Ej. 50" min="1" required
+									value="${cultivo.cantidad}">
 							</div>
 
 							<div class="mb-2">
@@ -64,13 +84,14 @@
 									(opcional)</label>
 								<textarea class="form-control" id="descripcion"
 									name="descripcion" rows="2" maxlength="255"
-									placeholder="Ej: Plantado en zona norte, bajo malla sombra."></textarea>
+									placeholder="Ej: Plantado en zona norte, bajo malla sombra.">${cultivo.descripcion}</textarea>
 							</div>
 
 							<div class="mb-2">
 								<label for="fechaSiembra" class="form-label">Fecha de
 									siembra</label> <input type="date" class="form-control"
-									id="fechaSiembra" name="fechaSiembra" required>
+									id="fechaSiembra" name="fechaSiembra" required
+									value="${cultivo.fechaSiembra}">
 							</div>
 
 							<div class="mb-3">
@@ -85,19 +106,29 @@
 									onchange="document.getElementById('nuevaParcela').disabled = this.value !== ''">
 									<option value="">-- Seleccionar parcela existente --</option>
 									<c:forEach var="parcela" items="${parcelas}">
-										<option value="${parcela.parcelaId}">${parcela.nombre}</option>
+										<option value="${parcela.parcelaId}"
+											<c:if test="${modoEdicion && cultivo.parcelaId.parcelaId == parcela.parcelaId}">selected</c:if>>
+											${parcela.nombre}</option>
 									</c:forEach>
 								</select>
+
 								<div class="form-text text-danger d-none" id="parcelaError">
 									Debes seleccionar o escribir una parcela.</div>
 							</div>
 
 							<div class="text-center">
-								<button type="submit" class="btn btn-success px-4">Guardar</button>
+								<button type="submit" class="btn btn-success px-4">
+									<c:choose>
+										<c:when test="${modoEdicion}">Actualizar</c:when>
+										<c:otherwise>Guardar</c:otherwise>
+									</c:choose>
+								</button>
 							</div>
 
 							<div id="mensajeAjax" class="mt-3 text-center"></div>
+
 						</form>
+
 					</div>
 				</div>
 
@@ -115,7 +146,28 @@
 		const CONTEXTO = '${pageContext.request.contextPath}';
 	</script>
 
-	<script src="/js/usuario/usuarioFormCultivojs.js"></script>
+	<c:if test="${modoEdicion}">
+		<script>
+			const CULTIVO_DATOS = {
+				id : "${cultivo.cultivoId}",
+				nombre : "${cultivo.nombre}",
+				cantidad : "${cultivo.cantidad}",
+				descripcion : `${cultivo.descripcion}`,
+				fechaSiembra : "${cultivo.fechaSiembra}",
+				parcelaId : "${cultivo.parcelaId.parcelaId}"
+			};
+			const MODO_EDICION = true;
+		</script>
+	</c:if>
+	<c:if test="${!modoEdicion}">
+		<script>
+			const MODO_EDICION = false;
+		</script>
+	</c:if>
+
+	<script
+		src="${pageContext.request.contextPath}/js/usuario/usuarioFormCultivojs.js"></script>
+
 
 </body>
 </html>

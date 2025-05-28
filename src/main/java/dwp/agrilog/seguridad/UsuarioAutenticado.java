@@ -6,8 +6,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+/**
+ * Clase que implementa UserDetails para representar al usuario autenticado en
+ * Spring Security. Utilizada para acceder a los datos del usuario actual en el
+ * contexto de seguridad.
+ * 
+ * @author nrojlla
+ * @date 28/05/2025
+ */
 public class UsuarioAutenticado implements UserDetails {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private final Long id;

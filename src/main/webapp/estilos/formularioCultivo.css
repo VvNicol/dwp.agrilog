@@ -25,3 +25,9 @@
 	display: inline-block;
 	margin-bottom: 20px;
 }
+
+select:focus, input[type="date"]:focus {
+	border-color: #5ec762 !important;
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.25) !important;
+	outline: none !important;
+}

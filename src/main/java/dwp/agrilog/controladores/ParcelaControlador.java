@@ -45,8 +45,7 @@ public class ParcelaControlador {
 	    try {
 	        UsuarioDTO usuarioDto = new UsuarioDTO();
 	        usuarioDto.setUsuarioId(usuario.getId());
-	        parcelaDto.setUsuarioId(usuarioDto); // ✅ Aquí corriges el tipo
-
+	        parcelaDto.setUsuarioId(usuarioDto); 
 	        parcelaDto.setFechaRegistro(LocalDateTime.now());
 
 	        if (parcelaDto.getDescripcion() == null) {

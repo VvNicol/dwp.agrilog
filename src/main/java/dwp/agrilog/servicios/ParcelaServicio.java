@@ -15,23 +15,32 @@ import org.springframework.web.client.RestTemplate;
 import dwp.agrilog.dto.ParcelaDto;
 import io.jsonwebtoken.lang.Arrays;
 
+/**
+ * Servicio para manejar operaciones relacionadas con parcelas. Implementa la
+ * interfaz ParcelaInterfaz.
+ * 
+ * @autor nrojlla
+ * @fecha 27/05/2025
+ */
 @Service
-public class ParcelaServicio {
+public class ParcelaServicio implements ParcelaInterfaz {
 
 	private final RestTemplate restTemplate = new RestTemplate();
-	
-	public List<ParcelaDto> obtenerParcelasPorUsuario(Long usuarioId) {
-	    String url = "https://agrilog.nicoldev.es/api/parcela/usuario/" + usuarioId;
 
-	    try {
-	        ResponseEntity<ParcelaDto[]> respuesta = restTemplate.getForEntity(url, ParcelaDto[].class);
-	        return Arrays.asList(respuesta.getBody());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        throw new RuntimeException("Error al obtener parcelas del usuario: " + e.getMessage());
-	    }
+	@Override
+	public List<ParcelaDto> obtenerParcelasPorUsuario(Long usuarioId) {
+		String url = "https://agrilog.nicoldev.es/api/parcela/usuario/" + usuarioId;
+
+		try {
+			ResponseEntity<ParcelaDto[]> respuesta = restTemplate.getForEntity(url, ParcelaDto[].class);
+			return Arrays.asList(respuesta.getBody());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Error al obtener parcelas del usuario: " + e.getMessage());
+		}
 	}
 
+	@Override
 	public void CrearNuevaParcela(ParcelaDto parcelaDto) throws Exception {
 		String url = "https://agrilog.nicoldev.es/api/parcela/crear";
 
@@ -39,12 +48,6 @@ public class ParcelaServicio {
 		cabeceras.setContentType(MediaType.APPLICATION_JSON);
 
 		HttpEntity<ParcelaDto> peticion = new HttpEntity<>(parcelaDto, cabeceras);
-
-		System.out.println("Contenido del DTO enviado a la API:");
-		System.out.println("usuarioId: " + parcelaDto.getUsuarioId());
-		System.out.println("nombre: " + parcelaDto.getNombre());
-		System.out.println("descripcion: " + parcelaDto.getDescripcion());
-		System.out.println("fechaRegistro: " + parcelaDto.getFechaRegistro());
 
 		try {
 			@SuppressWarnings("rawtypes")
@@ -60,6 +63,7 @@ public class ParcelaServicio {
 		}
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Long CrearNuevaParcelaYObtenerId(ParcelaDto parcelaDto) throws Exception {
 		String url = "https://agrilog.nicoldev.es/api/parcela/crear";

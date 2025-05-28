@@ -8,7 +8,6 @@
 	url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&family=Poppins:wght@400;600&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap')
 	;
 
-
 .navbar {
 	display: flex;
 	justify-content: center;
@@ -92,4 +91,104 @@
 	z-index: -1;
 	margin: 0px;
 	padding: 0px;
+}
+
+#btnNotificaciones.tiene-nuevas::after {
+	content: '';
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background-color: red;
+	border-radius: 50%;
+	position: absolute;
+	top: 6px;
+	right: 6px;
+}
+
+#btnNotificaciones {
+	position: relative;
+}
+
+/* Estilo general de focus en formularios */
+input:focus, textarea:focus, select:focus, input[type="date"]:focus {
+	border-color: #5ec762 !important;
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.25) !important;
+	outline: none !important;
+}
+
+/* Checkbox en verde */
+input[type="checkbox"]:checked {
+	accent-color: #5ec762;
+}
+
+input[type="checkbox"]:focus {
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.4);
+	border-color: #5ec762;
+}
+
+/* Hover en filas de tablas */
+.table-hover tbody tr:hover {
+	background-color: #e2f8e3 !important;
+}
+
+/* Focus para accesibilidad */
+tbody tr:focus-within {
+	background-color: #d0f0d1 !important;
+	outline: 2px solid #5ec762;
+}
+/* Hover sobre opciones del <select> */
+select.form-select option:hover {
+	background-color: #c8f2ca; /* Verde claro al pasar el ratón */
+}
+
+/* Si usas select con opciones visibles (como en desplegables personalizados) */
+select.form-select:focus {
+	border-color: #5ec762 !important;
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.25) !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+	filter: hue-rotate(90deg);
+	/* Cambia el color del icono al estilo verde */
+	cursor: pointer;
+}
+
+/* También cambia el borde del input date al hacer focus */
+input[type="date"]:focus {
+	border-color: #5ec762;
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.25);
+}
+
+input.form-control:hover, select.form-select:hover, input[type="date"]:hover
+	{
+	border-color: #5ec762;
+}
+
+.form-check-input:checked {
+	background-color: #5ec762;
+	border-color: #5ec762;
+}
+
+.form-check-input {
+	cursor: pointer;
+}
+
+#busquedaCorreo:focus {
+	outline: none; /* Elimina el borde azul por defecto */
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.5); /* Verde suave */
+	border-color: #5ec762;
+}
+
+input[type="checkbox"]:focus {
+	outline: none;
+	box-shadow: 0 0 0 0.2rem rgba(94, 199, 98, 0.5); /* verde suave */
+	border-color: #5ec762;
+}
+
+.shadow-creacion {
+	box-shadow: 0 0 10px rgba(94, 199, 98, 0.6); /* verde */
+}
+
+.shadow-edicion {
+	box-shadow: 0 0 10px rgba(0, 123, 255, 0.6); /* azul Bootstrap */
 }

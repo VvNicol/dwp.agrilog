@@ -11,4 +11,3 @@ function limpiarEspacios(formulario) {
 	}
 	return true; // Continúa con el envío
 }
-

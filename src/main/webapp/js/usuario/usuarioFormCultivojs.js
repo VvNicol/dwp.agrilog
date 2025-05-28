@@ -1,54 +1,68 @@
-/**
- * usuarioFormCultivojs.js
- */
-// Esperar que el DOM cargue completamente
 $(document).ready(function() {
 	const form = $('#formCultivo');
 	const mensaje = $('#mensajeAjax');
 	const nuevaParcela = $('#nuevaParcela');
 	const parcelaExistente = $('#parcelaExistente');
 
-	// Manejo del envío del formulario
+	const cultivoId = typeof CULTIVO_DATOS !== 'undefined' ? CULTIVO_DATOS.id : null;
+	const esEdicion = typeof MODO_EDICION !== 'undefined' && MODO_EDICION === true;
+
+	// Precargar datos en modo edición
+	if (esEdicion && CULTIVO_DATOS) {		
+
+		$('#nombrePlanta').val(CULTIVO_DATOS.nombre);
+		$('#cantidad').val(CULTIVO_DATOS.cantidad);
+		$('#descripcion').val(CULTIVO_DATOS.descripcion);
+		$('#fechaSiembra').val(CULTIVO_DATOS.fechaSiembra);
+
+		if (CULTIVO_DATOS.parcelaId) {
+			$('#nuevaParcela').prop('disabled', true);
+		} else {
+			$('#nuevaParcela').prop('disabled', false);
+		}
+	}
+
+
+	// Envío del formulario
 	form.submit(function(e) {
 		e.preventDefault();
 
-		// Validar si hay una parcela válida
 		const valorNueva = nuevaParcela.val().trim();
 		const valorExistente = parcelaExistente.val();
 
 		if (valorNueva === '' && valorExistente === '') {
-			mensaje.html('<div class="alert alert-danger"> Debes escribir una nueva parcela o seleccionar una existente.</div>');
+			mensaje.html('<div class="alert alert-danger">Debes escribir una nueva parcela o seleccionar una existente.</div>');
 			setTimeout(() => mensaje.empty(), 10000);
 			return;
 		}
 
-		// Capitalizar valores antes de enviar
 		capitalizarCampo("nombrePlanta");
 		capitalizarCampo("descripcion");
 		capitalizarCampo("nuevaParcela");
 
 		const formData = form.serialize();
+		const url = esEdicion
+			? CONTEXTO + "/cultivo/actualizar/" + cultivoId
+			: CONTEXTO + "/cultivo/crear";
 
-		$.post(CONTEXTO + "/cultivo/crear", formData)
-			.done(function() {
-				mensaje.html('<div class="alert alert-success"> Cultivo creado correctamente, puedes seguir creando más cultivos.</div>');
-				form[0].reset();
-				nuevaParcela.prop('disabled', false);
-				parcelaExistente.prop('disabled', false);
+		$.post(url, formData)
+			.done(function(respuesta) {
+				mensaje.html('<div class="alert alert-success">' + respuesta + '</div>');
+				if (!esEdicion) {
+					form[0].reset();
+					nuevaParcela.prop('disabled', false);
+					parcelaExistente.prop('disabled', false);
+					// Recargar las parcelas desde el backend
+					recargarParcelas();
+				}
 				setTimeout(() => mensaje.empty(), 10000);
-
-				// Recargar parcelas
-				$.get(CONTEXTO + "/cultivo/parcelas", function(parcelas) {
-					parcelaExistente.empty();
-					parcelaExistente.append('<option value="">-- Seleccionar parcela existente --</option>');
-					parcelas.forEach(function(parcela) {
-						parcelaExistente.append(`<option value="${parcela.parcelaId}">${parcela.nombre}</option>`);
-					});
-				});
+			})
+			.fail(function() {
+				mensaje.html('<div class="alert alert-danger">Error al procesar el cultivo. Inténtalo de nuevo.</div>');
 			});
 	});
 
-	// Excluir selección simultánea
+	// Alternancia entre nueva parcela y existente
 	nuevaParcela.on('input', function() {
 		parcelaExistente.prop('disabled', $(this).val().trim().length > 0);
 	});
@@ -58,7 +72,7 @@ $(document).ready(function() {
 	});
 });
 
-// Capitaliza y limpia espacios de un campo
+// Capitaliza los campos (primera letra mayúscula, resto minúscula)
 function capitalizarCampo(id) {
 	const campo = document.getElementById(id);
 	if (campo && campo.value.trim() !== "") {
@@ -67,4 +81,16 @@ function capitalizarCampo(id) {
 	}
 }
 
+// Recarga dinámica de parcelas al crear una nueva
+function recargarParcelas() {
+	$.get(CONTEXTO + "/parcela/parcelas", function(data) {
+		const select = $('#parcelaExistente');
+		select.empty();
+		select.append('<option value="">-- Seleccionar parcela existente --</option>');
+
+		data.forEach(parcela => {
+			select.append(`<option value="${parcela.parcelaId}">${parcela.nombre}</option>`);
+		});
+	});
+}
 

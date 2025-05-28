@@ -1,6 +1,42 @@
 /**
  * adminPanel.js
  */
+document.addEventListener("DOMContentLoaded", function() {
+	const inputBusqueda = document.getElementById("busquedaCorreo");
+	const chkAdmin = document.getElementById("filtroAdmin");
+	const chkUsuario = document.getElementById("filtroUsuario");
+	const filas = document.querySelectorAll("#tablaUsuarios tr");
+
+	function aplicarFiltros() {
+		const texto = inputBusqueda.value.trim().toLowerCase();
+		const mostrarAdmin = chkAdmin.checked;
+		const mostrarUsuario = chkUsuario.checked;
+
+		filas.forEach(fila => {
+			let correo = "";
+			let rol = "";
+
+			const tdCorreo = fila.querySelector(".td-correo");
+			const tdRol = fila.querySelector(".td-rol");
+
+			if (tdCorreo) correo = tdCorreo.textContent.toLowerCase();
+			if (tdRol) rol = tdRol.textContent.toUpperCase();
+
+			const coincideCorreo = correo.includes(texto);
+			const coincideRol =
+				(mostrarAdmin && rol === "ADMIN") ||
+				(mostrarUsuario && rol === "USUARIO");
+
+			fila.style.display = (coincideCorreo && coincideRol) ? "" : "none";
+		});
+	}
+
+	// Escuchas de eventos
+	inputBusqueda.addEventListener("input", aplicarFiltros);
+	chkAdmin.addEventListener("change", aplicarFiltros);
+	chkUsuario.addEventListener("change", aplicarFiltros);
+});
+
 
 function confirmarEliminacion(correo) {
 	let confirmacion = new bootstrap.Modal(document

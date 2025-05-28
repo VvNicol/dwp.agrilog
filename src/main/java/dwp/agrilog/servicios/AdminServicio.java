@@ -20,13 +20,12 @@ import dwp.agrilog.dto.UsuarioDTO;
 @Service
 public class AdminServicio implements AdminInterface{
 
-	private final String API_URL = "https://agrilog.nicoldev.es/api";
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	
 	@SuppressWarnings("rawtypes")
 	public List<UsuarioDTO> obtenerListaUsuarios() {
-	    String url = API_URL + "/lista-usuarios";
+	    String url = "https://agrilog.nicoldev.es/api/lista-usuarios";
 
 	    try {
 	        ResponseEntity<Map[]> respuesta = restTemplate.getForEntity(url, Map[].class);
@@ -48,11 +47,9 @@ public class AdminServicio implements AdminInterface{
 	        throw new RuntimeException("Error al obtener la lista de usuarios: " + e.getMessage());
 	    }
 	}
-
-
 	
 	public void eliminarUsuario(String correo) {
-		String url = API_URL + "/eliminar-usuario?correo=" + correo;
+		String url = "https://agrilog.nicoldev.es/api/eliminar-usuario?correo=" + correo;
 		try {
 			restTemplate.delete(url);
 		} catch (Exception e) {

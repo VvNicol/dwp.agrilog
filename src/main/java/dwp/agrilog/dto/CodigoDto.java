@@ -1,5 +1,11 @@
 package dwp.agrilog.dto;
 
+/**
+ * DTO que representa un código de recuperación de contraseña.
+ * 
+ * @author nrojlla
+ * @date 28/05/2025
+ */
 public class CodigoDto {
 
 	private Long usuario;
@@ -7,56 +13,63 @@ public class CodigoDto {
 	private int codigoRecuperacion = 0;
 	private String codigoExpiracionFecha;
 	private boolean codigoVerificado;
-	
+
 	/**
 	 * Constructor vacio
 	 */
 	public CodigoDto() {
 		super();
 	}
-	
+
 	/**
 	 * @return the codigoId
 	 */
 	public Long getCodigoId() {
 		return codigoId;
 	}
+
 	/**
 	 * @param codigoId the codigoId to set
 	 */
 	public void setCodigoId(Long codigoId) {
 		this.codigoId = codigoId;
 	}
+
 	/**
 	 * @return the codigoRecuperacion
 	 */
 	public int getCodigoRecuperacion() {
 		return codigoRecuperacion;
 	}
+
 	/**
 	 * @param codigoRecuperacion the codigoRecuperacion to set
 	 */
 	public void setCodigoRecuperacion(int codigoRecuperacion) {
 		this.codigoRecuperacion = codigoRecuperacion;
 	}
+
 	/**
 	 * @return the codigoExpiracionFecha
 	 */
 	public String getCodigoExpiracionFecha() {
 		return codigoExpiracionFecha;
 	}
+
 	/**
 	 * @param codigoExpiracionFecha the codigoExpiracionFecha to set
 	 */
 	public void setCodigoExpiracionFecha(String codigoExpiracionFecha) {
 		this.codigoExpiracionFecha = codigoExpiracionFecha;
 	}
+
 	/**
 	 * @return the codigoVerificado
 	 */
 	public boolean isCodigoVerificado() {
 		return codigoVerificado;
 	}
+
 	/**
 	 * @param codigoVerificado the codigoVerificado to set
 	 */
@@ -71,7 +84,5 @@ public class CodigoDto {
 	public void setUsuario(Long usuario) {
 		this.usuario = usuario;
 	}
-	
-	
 
 }

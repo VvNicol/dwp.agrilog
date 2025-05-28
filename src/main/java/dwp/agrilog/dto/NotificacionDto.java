@@ -1,6 +1,7 @@
 package dwp.agrilog.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * DTO que representa una notificación para transferencia entre la API y el DWP.
@@ -10,32 +11,39 @@ import java.time.LocalDate;
 public class NotificacionDto {
 
 	private Long notificacionId;
-	private Long cultivoId;
+	private CultivoDto cultivoId;
 	private String mensaje;
 	private int cantidad;
-	private LocalDate fechaMensaje;
+	private boolean estadoMensaje;
+	private LocalDateTime fechaMensaje;
+	private LocalDateTime fechaLectura;
+
+	public String getFechaMensajeFormateada() {
+		if (fechaMensaje == null)
+			return "";
+		return fechaMensaje.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+	}
 
 	// Constructores
 
 	public NotificacionDto() {
 	}
 
-	public NotificacionDto(Long cultivoId, String mensaje, int cantidad, LocalDate fechaMensaje) {
-		this.cultivoId = cultivoId;
-		this.mensaje = mensaje;
-		this.cantidad = cantidad;
-		this.fechaMensaje = fechaMensaje;
-	}
-
-	public NotificacionDto(Long notificacionId, Long cultivoId, String mensaje, int cantidad, LocalDate fechaMensaje) {
-		this.notificacionId = notificacionId;
-		this.cultivoId = cultivoId;
-		this.mensaje = mensaje;
-		this.cantidad = cantidad;
-		this.fechaMensaje = fechaMensaje;
-	}
-
 	// Getters y Setters
+
+	/**
+	 * @return the fechaLectura
+	 */
+	public LocalDateTime getFechaLectura() {
+		return fechaLectura;
+	}
+
+	/**
+	 * @param fechaLectura the fechaLectura to set
+	 */
+	public void setFechaLectura(LocalDateTime fechaLectura) {
+		this.fechaLectura = fechaLectura;
+	}
 
 	public Long getNotificacionId() {
 		return notificacionId;
@@ -45,11 +53,31 @@ public class NotificacionDto {
 		this.notificacionId = notificacionId;
 	}
 
-	public Long getCultivoId() {
+	/**
+	 * @return the estadoMensaje
+	 */
+	public boolean isEstadoMensaje() {
+		return estadoMensaje;
+	}
+
+	/**
+	 * @param estadoMensaje the estadoMensaje to set
+	 */
+	public void setEstadoMensaje(boolean estadoMensaje) {
+		this.estadoMensaje = estadoMensaje;
+	}
+
+	/**
+	 * @return the cultivoId
+	 */
+	public CultivoDto getCultivoId() {
 		return cultivoId;
 	}
 
-	public void setCultivoId(Long cultivoId) {
+	/**
+	 * @param cultivoId the cultivoId to set
+	 */
+	public void setCultivoId(CultivoDto cultivoId) {
 		this.cultivoId = cultivoId;
 	}
 
@@ -69,11 +97,18 @@ public class NotificacionDto {
 		this.cantidad = cantidad;
 	}
 
-	public LocalDate getFechaMensaje() {
+	/**
+	 * @return the fechaMensaje
+	 */
+	public LocalDateTime getFechaMensaje() {
 		return fechaMensaje;
 	}
 
-	public void setFechaMensaje(LocalDate fechaMensaje) {
+	/**
+	 * @param fechaMensaje the fechaMensaje to set
+	 */
+	public void setFechaMensaje(LocalDateTime fechaMensaje) {
 		this.fechaMensaje = fechaMensaje;
 	}
+
 }

@@ -15,6 +15,8 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/estilos/nav.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/estilos/panelAdmin.css">
 <link rel="icon" type="image/x-icon"
 	href="${pageContext.request.contextPath}/favicon.ico" />
 </head>
@@ -46,9 +48,27 @@
 				<p class="text-muted">Bienvenid@ al panel de administración.</p>
 			</div>
 
-			<!-- 📋 LISTA DE USUARIOS -->
+			<!-- LISTA DE USUARIOS -->
 			<div class="card border-success shadow p-4 text-center bg-light mt-4">
 				<h3 class="text-success">Lista de Usuarios</h3>
+				<!-- FILTRO DE BÚSQUEDA Y CHECKBOX -->
+				<div
+					class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+					<input type="text" id="busquedaCorreo"
+						class="form-control me-3 mb-2 w-25"
+						placeholder="Buscar por correo...">
+
+					<div>
+						<label class="form-check form-check-inline"> <input
+							type="checkbox" class="form-check-input" id="filtroUsuario"
+							checked> Usuario
+						</label> <label class="form-check form-check-inline"> <input
+							type="checkbox" class="form-check-input" id="filtroAdmin" checked>
+							Admin
+						</label>
+					</div>
+				</div>
+
 				<div class="table-responsive">
 					<table class="table table-hover">
 						<thead class="table-success bg-success-emphasis text-white">
@@ -58,7 +78,7 @@
 								<th>Acción</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="tablaUsuarios">
 							<%
 							String errorUsuarios = (String) request.getAttribute("errorUsuarios");
 							@SuppressWarnings("unchecked")
@@ -83,8 +103,8 @@
 									primerAdminNoEliminable = false;
 							%>
 							<tr class="table-light">
-								<td><%=correo%></td>
-								<td><%=rol%></td>
+								<td class="td-correo"><%=correo%></td>
+								<td class="td-rol"><%=rol%></td>
 								<td><button class="btn btn-secondary btn-sm" disabled>No
 										eliminable</button></td>
 							</tr>
@@ -92,8 +112,8 @@
 							} else {
 							%>
 							<tr>
-								<td><%=correo%></td>
-								<td><%=rol%></td>
+								<td class="td-correo"><%=correo%></td>
+								<td class="td-rol"><%=rol%></td>
 								<td><button class="btn btn-danger btn-sm"
 										onclick="confirmarEliminacion('<%=correo%>')">Eliminar</button></td>
 							</tr>
@@ -109,8 +129,8 @@
 							<%
 							}
 							%>
-
 						</tbody>
+
 
 					</table>
 				</div>
