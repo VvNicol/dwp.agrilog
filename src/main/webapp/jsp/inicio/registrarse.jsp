@@ -41,37 +41,76 @@
                     </div>
                 </div>
             </div>
-            <!-- Formulario centrado sobre el fondo -->
-            <div class="form-container d-flex justify-content-center align-items-center">
-                <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-4 p-5 formulario bg-light rounded shadow-lg">
-                    <h2 class="text-center mb-4">Registrarse</h2>
-                    <form id="registroForm" action="https://agrilog.nicoldev.es/regis/registrarse" method="POST">
-                        <div class="mb-4">
-                            <label for="nombreCompleto" class="form-label">Nombre Completo</label>
-                            <input type="text" id="nombreCompleto" name="nombreCompleto" class="form-control" required>
-                            <div class="invalid-feedback">El nombre completo es obligatorio.</div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="correo" class="form-label">Correo Electrónico</label>
-                            <input type="email" id="correo" name="correo" class="form-control" required>
-                            <div class="invalid-feedback">El correo electrónico es obligatorio y debe tener un formato válido.</div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="tel" id="telefono" name="telefono" class="form-control" inputmode="numeric" pattern="^[0-9]+$" required>
-                            <div class="invalid-feedback">El teléfono es obligatorio y debe contener solo números.</div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="contrasenia" class="form-label">Contraseña</label>
-                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" required>
-                            <div class="invalid-feedback">La contraseña es obligatoria y debe tener al menos 6 caracteres.</div>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 mt-4">Registrarse</button>
-                        <!-- Contenedor para mensajes -->
-                        <div id="alerta-contenedor"></div>
-                    </form>
-                </div>
-            </div>
+			<!-- Formulario centrado sobre el fondo -->
+			<div class="form-container d-flex justify-content-center align-items-center">
+			    <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-4 p-5 formulario bg-light rounded shadow-lg">
+			        <h2 class="text-center mb-4">Registrarse</h2>
+			        <form id="registroForm" action="https://agrilog.nicoldev.es/regis/registrarse" method="POST">
+			            
+			            <div class="mb-4">
+			                <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+			                <input 
+			                    type="text" 
+			                    id="nombreCompleto" 
+			                    name="nombreCompleto" 
+			                    class="form-control" 
+			                    required 
+			                    minlength="3" 
+			                    maxlength="50"
+			                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"
+			                    title="Solo letras y espacios. Mínimo 3 caracteres.">
+			                <div class="invalid-feedback">Ingresa un nombre válido entre 3 y 100 caracteres.</div>
+			            </div>
+			
+			            <div class="mb-4">
+			                <label for="correo" class="form-label">Correo Electrónico</label>
+			                <input 
+			                    type="email" 
+			                    id="correo" 
+			                    name="correo" 
+			                    class="form-control" 
+			                    required 
+			                    maxlength="50">
+			                <div class="invalid-feedback">Correo obligatorio y debe tener formato válido.</div>
+			            </div>
+			
+			            <div class="mb-4">
+			                <label for="telefono" class="form-label">Teléfono</label>
+			                <input 
+			                    type="tel" 
+			                    id="telefono" 
+			                    name="telefono" 
+			                    class="form-control" 
+			                    required 
+			                    inputmode="numeric" 
+			                    pattern="^[0-9]{9}$" 
+			                    maxlength="9"
+			                    title="Debe contener 9 dígitos.">
+			                <div class="invalid-feedback">Debe contener exactamente 9 números.</div>
+			            </div>
+			
+			            <div class="mb-4">
+			                <label for="contrasenia" class="form-label">Contraseña</label>
+			                <input 
+			                    type="password" 
+			                    id="contrasenia" 
+			                    name="contrasenia" 
+			                    class="form-control" 
+			                    required 
+			                    minlength="6" 
+			                    maxlength="50"
+			                    title="Debe tener entre 6 y 100 caracteres.">
+			                <div class="invalid-feedback">La contraseña debe tener entre 6 y 100 caracteres.</div>
+			            </div>
+			
+			            <button type="submit" class="btn btn-primary w-100 mt-4">Registrarse</button>
+			            
+			            <!-- Contenedor para mensajes -->
+			            <div id="alerta-contenedor"></div>
+			        </form>
+			    </div>
+			</div>
+
         </div>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

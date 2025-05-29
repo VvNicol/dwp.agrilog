@@ -178,9 +178,14 @@
 															<p>
 																Para confirmar, escribe el nombre de la planta: <strong>${cultivo.nombre}</strong>
 															</p>
-															<input type="text" class="form-control input-focus-rojo"
-																name="confirmacionNombre"
-																placeholder="Nombre de la planta" required>
+															<input type="text"
+																	class="form-control input-focus-rojo"
+																	name="confirmacionNombre"
+																	placeholder="Nombre de la planta"
+																	required
+																	minlength="2"
+																	maxlength="50"
+																	title="Debe coincidir exactamente con el nombre de la planta.">
 														</div>
 
 														<div class="modal-footer">

@@ -55,7 +55,7 @@ public class RegistrarseControlador {
 	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
-	        response.put("error", e.getMessage());
+	        response.put("error", "Correo no registrado");
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	    }
 	}

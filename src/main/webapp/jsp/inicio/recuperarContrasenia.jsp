@@ -42,75 +42,87 @@
 		<div class="container mt-5 p-5">
 			<div class="row justify-content-center mt-5">
 				<div class="col-12 col-md-6 bg-light rounded shadow-lg col-lg-4 p-4">
-
+				
 					<!-- Sección de correo -->
 					<div id="seccionCorreo">
 						<h4 class="mb-3 text-center">Recuperación de Contraseña</h4>
 						<form id="formCorreo">
 							<div class="mb-4">
-								<label for="correo" class="form-label">Ingresa tu correo
-									electrónico:</label> <input type="email" id="correo"
-									class="form-control" required>
-								<div class="invalid-feedback">El correo electrónico es
-									obligatorio o no es válido.</div>
+								<label for="correo" class="form-label">Ingresa tu correo electrónico:</label>
+								<input 
+								type="email" 
+								id="correo" 
+								class="form-control" 
+								required maxlength="50">
+								<div class="invalid-feedback">El correo electrónico es obligatorio o no es válido.</div>
 							</div>
-
 							<button type="button" class="btn w-100 text-white"
 								style="background-color: #5ec762;" onclick="enviarCorreo()">
 								Enviar Correo</button>
 						</form>
 					</div>
-
+				
 					<!-- Sección de código -->
 					<div id="seccionCodigo" style="display: none;">
 						<h4 class="mb-3 text-center">Verificación de Código</h4>
 						<form id="formCodigo">
 							<div class="mb-4">
-								<label for="codigo" class="form-label">Código</label> <input
-									type="text" id="codigo" class="form-control" required>
-								<div class="invalid-feedback">Solo se permiten números en
-									este campo.</div>
+								<label for="codigo" class="form-label">Código</label>
+								<input 
+									type="text" 
+									id="codigo" 
+									class="form-control" 
+									required 
+									inputmode="numeric" 
+									pattern="^\d{6}$" 
+									minlength="6" 
+									maxlength="6"
+									title="Debe contener exactamente 6 números">
+								<div class="invalid-feedback">Debe contener exactamente 6 números.</div>
 							</div>
-
+				
 							<button type="button" class="btn w-100 text-white"
 								style="background-color: #5ec762;" onclick="verificarCodigo()">
 								Verificar Código</button>
-
+				
 							<button type="button" class="btn btn-secondary w-100 mt-2"
-								onclick="volverAlCorreo()">Volver</button>
+								onclick="volverAlCorreo()"> Volver</button>
 						</form>
 					</div>
-
+				
 					<!-- Sección de nueva contraseña -->
 					<div id="seccionContrasena" style="display: none;">
 						<h4 class="mb-3 text-center">Nueva Contraseña</h4>
 						<form id="formNuevaContrasena">
 							<div class="mb-4">
-								<label for="nuevaContrasena" class="form-label">Nueva
-									Contraseña</label> <input type="password" id="nuevaContrasena"
-									class="form-control" required minlength="6">
-								<div class="invalid-feedback">La contraseña debe tener al
-									menos 6 caracteres.</div>
+								<label for="nuevaContrasena" class="form-label">Nueva Contraseña</label>
+								<input 
+								type="password" 
+								id="nuevaContrasena" 
+								class="form-control" 
+								required 
+								minlength="6" 
+								maxlength="50">
+								<div class="invalid-feedback">La contraseña debe tener al menos 6 caracteres.</div>
 							</div>
-
+				
 							<div class="mb-4">
-								<label for="confirmarContrasena" class="form-label">Confirmar
-									Contraseña</label> <input type="password" id="confirmarContrasena"
-									class="form-control" required>
-								<div class="invalid-feedback">Las contraseñas no
-									coinciden.</div>
+								<label for="confirmarContrasena" class="form-label">Confirmar Contraseña</label>
+								<input type="password" id="confirmarContrasena" class="form-control" required>
+								<div class="invalid-feedback">Las contraseñas no coinciden.</div>
 							</div>
-
+				
 							<button type="button" class="btn w-100 text-white"
 								style="background-color: #5ec762;" onclick="cambiarContrasena()">
 								Enviar</button>
 						</form>
 					</div>
-
+				
 					<!-- Mensajes -->
 					<div id="mensaje" class="mt-3 text-center"></div>
-
+				
 				</div>
+
 			</div>
 		</div>
 	</main>

@@ -39,22 +39,39 @@
                 <div class="col-lg-8 col-md-10 col-12 p-4 formulario bg-light rounded shadow-lg">
                     <h2 class="text-center mb-4">Iniciar Sesión</h2>
 
-                    <!-- Formulario de inicio de sesión -->
-                    <form id="iniciarSesionForm" action="${pageContext.request.contextPath}/inicio/iniciar-sesion" method="POST" novalidate>
-                        <div class="mb-4">
-                            <label for="correo" class="form-label">Correo Electrónico</label>
-                            <input type="email" id="correo" name="correo" class="form-control" required>
-                            <div class="invalid-feedback">El correo electrónico es obligatorio.</div>
-                        </div>
+                   <!-- Formulario de inicio de sesión -->
+					<form id="iniciarSesionForm" action="${pageContext.request.contextPath}/inicio/iniciar-sesion" method="POST" novalidate>
+					    
+					    <div class="mb-4">
+					        <label for="correo" class="form-label">Correo Electrónico</label>
+					        <input 
+					            type="email" 
+					            id="correo" 
+					            name="correo" 
+					            class="form-control" 
+					            required 
+					            maxlength="50"
+					            title="Introduce un correo válido (máximo 100 caracteres)">
+					        <div class="invalid-feedback">El correo electrónico es obligatorio y debe tener un formato válido.</div>
+					    </div>
+					
+					    <div class="mb-4">
+					        <label for="contrasenia" class="form-label">Contraseña</label>
+					        <input 
+					            type="password" 
+					            id="contrasenia" 
+					            name="contrasenia" 
+					            class="form-control" 
+					            required 
+					            minlength="6" 
+					            maxlength="50"
+					            title="La contraseña debe tener entre 6 y 100 caracteres">
+					        <div class="invalid-feedback">La contraseña debe tener entre 6 y 100 caracteres.</div>
+					    </div>
+					
+					    <button type="submit" class="btn btn-primary w-100 mt-4">Iniciar Sesión</button>
+					</form>
 
-                        <div class="mb-4">
-                            <label for="contrasenia" class="form-label">Contraseña</label>
-                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" required>
-                            <div class="invalid-feedback">La contraseña es obligatoria.</div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 mt-4">Iniciar Sesión</button>
-                    </form>
 
                     <!-- Mensajes de error -->
                     <c:if test="${not empty error}">

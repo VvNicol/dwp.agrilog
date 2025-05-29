@@ -1,7 +1,7 @@
 /**
  * adminPanel.js
  */
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 	const inputBusqueda = document.getElementById("busquedaCorreo");
 	const chkAdmin = document.getElementById("filtroAdmin");
 	const chkUsuario = document.getElementById("filtroUsuario");
@@ -35,19 +35,42 @@ document.addEventListener("DOMContentLoaded", function() {
 	inputBusqueda.addEventListener("input", aplicarFiltros);
 	chkAdmin.addEventListener("change", aplicarFiltros);
 	chkUsuario.addEventListener("change", aplicarFiltros);
+
+	// Verificar existencia de logs
+	filas.forEach(fila => {
+		const tdCorreo = fila.querySelector(".td-correo");
+		if (tdCorreo) {
+			const correo = tdCorreo.textContent.trim();
+			const btn = document.getElementById("btnLog_" + correo);
+			
+			if (btn) {
+				fetch(CONTEXTO + "/admin/existe-log?correo=" + encodeURIComponent(correo))
+					.then(res => res.json())
+					.then(existe => {
+						if (!existe) {
+							btn.classList.add("disabled");
+							btn.textContent = "Sin log";
+							btn.removeAttribute("href");
+							btn.removeAttribute("download");
+							btn.setAttribute("title", "El usuario aún no ha generado un log.");
+						}
+					})
+					.catch(err => {
+						console.error("Error al verificar existencia del log:", err);
+					});
+			}
+		}
+	});
 });
 
-
 function confirmarEliminacion(correo) {
-	let confirmacion = new bootstrap.Modal(document
-		.getElementById('modalConfirmacion'));
+	let confirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
 	document.getElementById('correoUsuario').textContent = correo;
 	document.getElementById('inputCorreoConfirmacion').value = '';
 	document.getElementById('mensajeErrorCorreo').style.display = 'none';
 
-	document.getElementById('confirmarEliminar').onclick = function() {
-		const correoEscrito = document
-			.getElementById('inputCorreoConfirmacion').value.trim();
+	document.getElementById('confirmarEliminar').onclick = function () {
+		const correoEscrito = document.getElementById('inputCorreoConfirmacion').value.trim();
 
 		if (correoEscrito === correo) {
 			let form = document.createElement('form');

@@ -55,8 +55,8 @@
 				<div
 					class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
 					<input type="text" id="busquedaCorreo"
-						class="form-control me-3 mb-2 w-25"
-						placeholder="Buscar por correo...">
+						class="form-control me-3 mb-2 w-25 input-focus-rojo" minlength="1"
+						maxlength="50" placeholder="Buscar por correo...">
 
 					<div>
 						<label class="form-check form-check-inline"> <input
@@ -114,14 +114,25 @@
 							<tr>
 								<td class="td-correo"><%=correo%></td>
 								<td class="td-rol"><%=rol%></td>
-								<td><button class="btn btn-danger btn-sm"
-										onclick="confirmarEliminacion('<%=correo%>')">Eliminar</button></td>
-							</tr>
-							<%
-							}
-							}
-							} else {
-							%>
+								<td
+									class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+									<a id="btnLog_<%=correo%>" 
+									   href="<%=request.getContextPath()%>/admin/descargar-log?correo=<%=correo%>" 
+									   class="btn btn-outline-primary btn-sm"
+									   download>
+									   Descargar log
+									</a>
+
+									<button class="btn btn-danger btn-sm"
+										onclick="confirmarEliminacion('<%=correo%>')">Eliminar</button>
+								</td>
+
+								<%
+								}
+								}
+								} else {
+								%>
+							
 							<tr>
 								<td colspan="3" class="text-center text-muted">No hay
 									usuarios registrados.</td>
@@ -155,7 +166,8 @@
 					</p>
 					<p>Por favor, escribe el correo electrónico para confirmar:</p>
 					<input type="text" class="form-control"
-						id="inputCorreoConfirmacion" placeholder="Introduce el correo">
+						id="inputCorreoConfirmacion" minlength="1" maxlength="50"
+						placeholder="Introduce el correo" required>
 					<div id="mensajeErrorCorreo" class="text-danger mt-2"
 						style="display: none;">El correo no coincide. Intenta de
 						nuevo.</div>

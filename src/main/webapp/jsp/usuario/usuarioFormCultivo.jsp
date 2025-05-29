@@ -52,82 +52,114 @@
 
 						<form id="formCultivo">
 
-							<!-- Campos ocultos para modo edición -->
-							<c:if test="${modoEdicion}">
-								<input type="hidden" id="cultivoId" value="${cultivo.cultivoId}" />
-								<input type="hidden" id="modoEdicion" value="true" />
-							</c:if>
-							<c:if test="${!modoEdicion}">
-								<input type="hidden" id="modoEdicion" value="false" />
-							</c:if>
+					    <!-- Campos ocultos para modo edición -->
+					    <c:if test="${modoEdicion}">
+					        <input type="hidden" id="cultivoId" value="${cultivo.cultivoId}" />
+					        <input type="hidden" id="modoEdicion" value="true" />
+					    </c:if>
+					    <c:if test="${!modoEdicion}">
+					        <input type="hidden" id="modoEdicion" value="false" />
+					    </c:if>
+					
+					    <div class="mb-2">
+					        <label for="nombrePlanta" class="form-label">Nombre de la planta</label>
+					        <input
+					            type="text"
+					            class="form-control"
+					            id="nombrePlanta"
+					            name="nombrePlanta"
+					            placeholder="Ej: Tomate cherry"
+					            required
+					            minlength="2"
+					            maxlength="50"
+					            value="${cultivo.nombre}"
+					            title="Debe tener entre 2 y 100 caracteres.">
+					    </div>
+					
+					   <div class="mb-2">
+						    <label for="cantidad" class="form-label">Cantidad</label>
+						    <input
+						        type="number"
+						        class="form-control"
+						        id="cantidad"
+						        name="cantidad"
+						        placeholder="Ej. 50"
+						        min="1"
+						        max="100000"
+						        required
+						        oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);"
+						        value="${cultivo.cantidad}"
+						        title="Debe ser un número entre 1 y 100000.">
+						</div>
 
-							<input type="hidden" id="cultivoId" value="${cultivo.cultivoId}">
-							<input type="hidden" id="modoEdicion" value="${modoEdicion}">
-
-							<div class="mb-2">
-								<label for="nombrePlanta" class="form-label">Nombre de
-									la planta</label> <input type="text" class="form-control"
-									id="nombrePlanta" name="nombrePlanta"
-									placeholder="Ej: Tomate cherry" required minlength="2"
-									maxlength="100" value="${cultivo.nombre}">
-							</div>
-
-							<div class="mb-2">
-								<label for="cantidad" class="form-label">Cantidad</label> <input
-									type="number" class="form-control" id="cantidad"
-									name="cantidad" placeholder="Ej. 50" min="1" required
-									value="${cultivo.cantidad}">
-							</div>
-
-							<div class="mb-2">
-								<label for="descripcion" class="form-label">Descripción
-									(opcional)</label>
-								<textarea class="form-control" id="descripcion"
-									name="descripcion" rows="2" maxlength="255"
-									placeholder="Ej: Plantado en zona norte, bajo malla sombra.">${cultivo.descripcion}</textarea>
-							</div>
-
-							<div class="mb-2">
-								<label for="fechaSiembra" class="form-label">Fecha de
-									siembra</label> <input type="date" class="form-control"
-									id="fechaSiembra" name="fechaSiembra" required
-									value="${cultivo.fechaSiembra}">
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Parcela <span
-									class="text-danger">*</span></label> <input type="text"
-									class="form-control mb-2" id="nuevaParcela" name="nuevaParcela"
-									placeholder="Ej: Parcela norte 1"
-									oninput="document.getElementById('parcelaExistente').disabled = this.value.trim().length > 0">
-
-								<select class="form-select" id="parcelaExistente"
-									name="parcelaExistente"
-									onchange="document.getElementById('nuevaParcela').disabled = this.value !== ''">
-									<option value="">-- Seleccionar parcela existente --</option>
-									<c:forEach var="parcela" items="${parcelas}">
-										<option value="${parcela.parcelaId}"
-											<c:if test="${modoEdicion && cultivo.parcelaId.parcelaId == parcela.parcelaId}">selected</c:if>>
-											${parcela.nombre}</option>
-									</c:forEach>
-								</select>
-
-								<div class="form-text text-danger d-none" id="parcelaError">
-									Debes seleccionar o escribir una parcela.</div>
-							</div>
-
-							<div class="text-center">
-								<button type="submit" class="btn btn-success px-4">
-									<c:choose>
-										<c:when test="${modoEdicion}">Actualizar</c:when>
-										<c:otherwise>Guardar</c:otherwise>
-									</c:choose>
-								</button>
-							</div>
-
-							<div id="mensajeAjax" class="mt-3 text-center"></div>
-
-						</form>
+					
+					    <div class="mb-2">
+					        <label for="descripcion" class="form-label">Descripción (opcional)</label>
+					        <textarea
+					            class="form-control"
+					            id="descripcion"
+					            name="descripcion"
+					            rows="2"
+					            maxlength="255"
+					            placeholder="Ej: Plantado en zona norte, bajo malla sombra.">${cultivo.descripcion}</textarea>
+					    </div>
+					
+					    <div class="mb-2">
+					        <label for="fechaSiembra" class="form-label">Fecha de siembra</label>
+					        <input
+					            type="date"
+					            class="form-control"
+					            id="fechaSiembra"
+					            name="fechaSiembra"
+					            required
+					            value="${cultivo.fechaSiembra}"
+					            title="Selecciona una fecha válida.">
+					    </div>
+					
+					    <div class="mb-3">
+					        <label class="form-label">Parcela <span class="text-danger">*</span></label>
+					
+					        <input
+					            type="text"
+					            class="form-control mb-2"
+					            id="nuevaParcela"
+					            name="nuevaParcela"
+					            placeholder="Ej: Parcela norte 1"
+					            minlength="1"
+					            maxlength="50"
+					            oninput="document.getElementById('parcelaExistente').disabled = this.value.trim().length > 0">
+					
+					        <select
+					            class="form-select"
+					            id="parcelaExistente"
+					            name="parcelaExistente"
+					            onchange="document.getElementById('nuevaParcela').disabled = this.value !== ''">
+					            <option value="">-- Seleccionar parcela existente --</option>
+					            <c:forEach var="parcela" items="${parcelas}">
+					                <option value="${parcela.parcelaId}"
+					                    <c:if test="${modoEdicion && cultivo.parcelaId.parcelaId == parcela.parcelaId}">selected</c:if>>
+					                    ${parcela.nombre}
+					                </option>
+					            </c:forEach>
+					        </select>
+					
+					        <div class="form-text text-danger d-none" id="parcelaError">
+					            Debes seleccionar o escribir una parcela.
+					        </div>
+					    </div>
+					
+					    <div class="text-center">
+					        <button type="submit" class="btn btn-success px-4">
+					            <c:choose>
+					                <c:when test="${modoEdicion}">Actualizar</c:when>
+					                <c:otherwise>Guardar</c:otherwise>
+					            </c:choose>
+					        </button>
+					    </div>
+					
+					    <div id="mensajeAjax" class="mt-3 text-center"></div>
+					
+					</form>
 
 					</div>
 				</div>

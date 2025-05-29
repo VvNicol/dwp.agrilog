@@ -142,8 +142,9 @@ public class InicioControlador {
 				return new ModelAndView("inicio/iniciarSesion").addObject("error", "Correo o contraseña incorrectos.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ModelAndView("inicio/iniciarSesion").addObject("error",
-					"Error al iniciar sesión: " + e.getMessage());
+					"Error al iniciar sesión: usuario no registrado");
 		}
 	}
 

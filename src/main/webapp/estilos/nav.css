@@ -192,3 +192,8 @@ input[type="checkbox"]:focus {
 .shadow-edicion {
 	box-shadow: 0 0 10px rgba(0, 123, 255, 0.6); /* azul Bootstrap */
 }
+.input-focus-rojo:focus {
+	border-color: #dc3545 !important; /* rojo Bootstrap */
+	box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+	outline: none;
+}
