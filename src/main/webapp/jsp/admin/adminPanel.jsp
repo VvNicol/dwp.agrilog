@@ -105,8 +105,15 @@
 							<tr class="table-light">
 								<td class="td-correo"><%=correo%></td>
 								<td class="td-rol"><%=rol%></td>
-								<td><button class="btn btn-secondary btn-sm" disabled>No
-										eliminable</button></td>
+								<td
+									class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+									<a
+									href="<%=request.getContextPath()%>/admin/descargar-log?correo=<%=correo%>"
+									class="btn btn-outline-primary btn-sm" download>Descargar
+										log</a>
+								<button class="btn btn-secondary btn-sm" disabled>No
+										eliminable</button>
+								</td>
 							</tr>
 							<%
 							} else {
@@ -116,23 +123,19 @@
 								<td class="td-rol"><%=rol%></td>
 								<td
 									class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-									<a id="btnLog_<%=correo%>" 
-									   href="<%=request.getContextPath()%>/admin/descargar-log?correo=<%=correo%>" 
-									   class="btn btn-outline-primary btn-sm"
-									   download>
-									   Descargar log
-									</a>
-
+									<a
+									href="<%=request.getContextPath()%>/admin/descargar-log?correo=<%=correo%>"
+									class="btn btn-outline-primary btn-sm" download>Descargar
+										log</a>
 									<button class="btn btn-danger btn-sm"
 										onclick="confirmarEliminacion('<%=correo%>')">Eliminar</button>
 								</td>
-
-								<%
-								}
-								}
-								} else {
-								%>
-							
+							</tr>
+							<%
+							}
+							}
+							} else {
+							%>
 							<tr>
 								<td colspan="3" class="text-center text-muted">No hay
 									usuarios registrados.</td>
